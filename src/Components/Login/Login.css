@@ -3,15 +3,14 @@
   height: 100vh;
   justify-content: center;
   align-items: center;
-  background: white;
+  background: #f0f2f5;
 }
 .login-form {
-  padding: 40px;
-  border-style: solid;
-  border-radius: 5px;
-  border-width: 1px;
-  border-color: #e0e0e0;
-  min-width: 400px;
+  border-radius: 10px;
+  width: 384px;
+  padding: 35px;
+  background: white;
+  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.05); 
 }
 .custom-button {
   font-weight: bold;
@@ -59,3 +58,13 @@
 .ant-spin-spinning {
   color: #e0e0e0;
 }
+.ant-col .ant-col-24 .col-login {
+  background-color: blue;
+}
+/* div.layout-login{ 
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+} */

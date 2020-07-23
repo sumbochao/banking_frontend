@@ -13,25 +13,25 @@ import {
 } from '@ant-design/icons';
 
 const MenuLeft = () => {
-  const userInfo = JSON.parse(localStorage.getItem('tokens')).admin;
+  const menu = JSON.parse(localStorage.getItem('tokens')).type;
   const [key, setKey] = useState(1);
   const [role, setRole] = useState(0);
   const handleClick = e => {
     setKey(e.key);
   };
   const configRole = () => {
-    switch(userInfo.type){
-      case 'User':
+    switch(menu){
+      case 'user':
         setRole(1);
         break;
-      case 'Employee':
+      case 'employee':
         setRole(2);
         break;
-      case 'Admin':
+      case 'admin':
         setRole(3);
         break;
       default:
-        setRole(0);
+        setRole(3);
     }
   };
   useEffect(() => {
@@ -71,7 +71,7 @@ const MenuLeft = () => {
 
   const MenuUser=()=>{
     return (
-      <Menu
+      <Menu 
       className="ant-menu"
       mode="inline"
       onClick={handleClick}

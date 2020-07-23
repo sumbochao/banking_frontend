@@ -1,19 +1,6 @@
-const hostURL = 'https://adminapi.extalk.net';
+const hostURL = 'https://api.monca.me';
 
-// const localURL = 'http://localhost:8080';
+// const localURL = 'http://localhost:5000';
 
-const hostClientURL = 'https://api.extalk.net';
-// const localClientURL = 'http://localhost:8000';
-// eslint-disable-next-line import/no-mutable-exports
-// let URL = '';
-// let CLIENTURL = '';
-
-// if (process.env.NODE_ENV === 'development') {
-//   URL = localURL;
-//   CLIENTURL = localClientURL;
-// } else {
-//   URL = hostURL;
-//   CLIENTURL = hostClientURL;
-// }
-const PROURL = {hostURL, hostClientURL};
+const PROURL = {hostURL};
 export default PROURL;

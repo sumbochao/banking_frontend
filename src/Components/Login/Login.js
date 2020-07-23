@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Layout, Row, Col, Form, Input, Button } from 'antd';
+import {  Col, Form, Input, Button } from 'antd';
 import Swal from 'sweetalert2';
 import { login } from '../../Reducers/Actions';
 import { useAuth } from '../Routes/Context';
 
 import './Login.css';
-
-const { Content } = Layout;
 
 const Login = () => {
   const [isLoading, setLoading] = useState(false);
@@ -26,31 +24,31 @@ const Login = () => {
   };
 
   return (
-    <Layout className="site-layout">
-      <Content>
-        <Row>
+        <div className="layout-login">
           <Col className="col-login" span={24} style={{ display: 'flex' }}>
             <Form className="login-form" name="basic" onFinish={loginClick}>
               <div style={{ textAlign: 'center', marginBottom: 50 }}>
-                <img alt="" src="extalk_logo.png" style={{ width: '150px' }} />
-
+                <img alt="" src="bankicon.png" style={{ width: '150px' }} />
                 <h3
                   style={{
                     fontWeight: 'bold',
-                    marginBottom: 10,
+                    marginBottom: 10, 
                     color: 'rgba(0, 0, 0, 0.8)'
                   }}
                 >
-                  Đăng nhập vào Admin Panel
+                  Đăng nhập vào Hệ thống Monca Banking
                 </h3>
               </div>
               <Form.Item
                 name="username"
-                rules={[{ required: true, message: 'Trống' }]}
+                rules={[{ required: true, message: 'Vui lòng nhập email' }]}
               >
                 <Input
                   name="username"
                   placeholder="Email"
+                  style={{
+                      borderRadius: 25,
+                  }}
                   prefix={
                     <MailOutlined
                       type="lock"
@@ -61,11 +59,14 @@ const Login = () => {
               </Form.Item>
               <Form.Item
                 name="password"
-                rules={[{ required: true, message: 'Trống' }]}
+                rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
               >
                 <Input.Password
                   name="password"
                   placeholder="Password"
+                  style={{
+                      borderRadius: 25,
+                  }}
                   prefix={
                     <LockOutlined
                       type="lock"
@@ -74,7 +75,6 @@ const Login = () => {
                   }
                 />
               </Form.Item>
-
               <Form.Item>
                 <Button
                   className="custom-button"
@@ -88,9 +88,7 @@ const Login = () => {
               </Form.Item>
             </Form>
           </Col>
-        </Row>
-      </Content>
-    </Layout>
+        </div>
   );
 };
 

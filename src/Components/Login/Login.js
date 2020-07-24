@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import {  Col, Form, Input, Button, message, Row } from 'antd';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import ReCAPTCHA from 'react-grecaptcha';
 import { useAuth } from '../Routes/Context';
 
 import './Login.css';
-import { login } from './action';
+import { login, loginEmployee } from './action';
 
 // eslint-disable-next-line no-unused-vars
 const Login = (props) => {
   const [isLoading, setLoading] = useState(false);
-  const [isEmployee, setEmployee] = useState(false);
-  const { setAuthTokens } = useAuth();
+  const {isEmployee} = props;
+  const { authTokens,setAuthTokens } = useAuth();
   const loginFinish = res => {
     if (res.accessToken) {
       setAuthTokens(res); 
@@ -23,7 +23,12 @@ const Login = (props) => {
   };
   const loginClick = val => {
     setLoading(!isLoading);
-    login(val.username, val.password, loginFinish);
+    if(isEmployee){
+      loginEmployee(val.username, val.password, loginFinish);
+    } else {
+      login(val.username, val.password, loginFinish);
+    }
+   
   };
 
   const callback =  ()=> {};
@@ -32,6 +37,7 @@ const Login = (props) => {
     message.success("Hệ thống đã gửi mã OTP để quý khách đổi mật khẩu");
   };
 
+  if (authTokens.accessToken) return <Redirect to="/dashboard" />;
   return (
         <div className="layout-login">
           <Col className="col-login" span={24} style={{ display: 'flex' }}>

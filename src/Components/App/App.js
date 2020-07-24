@@ -35,10 +35,10 @@ function App() {
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <Router>
         <Switch>
-          <Route exact path="/login">
-            {!authTokens ? <Login /> : <Redirect to="/" />}
+          <Route exact path="/">
+            {!authTokens ? <Welcome /> : <Redirect to="/dashboard" />}
           </Route>
-          <PublicRoute 
+          <Route 
              exact
             path="/welcome"
             render={() => <Welcome />}
@@ -48,11 +48,16 @@ function App() {
             path="/login"
             render={() => <Login/>}
           />
-          <PrivateRoute
+           <PublicRoute 
+             exact
+            path="/login-employee"
+            render={() => <Login isEmployee/>}
+          />
+          {/* <PrivateRoute
             exact
             path="/"
             render={() => <AdminLayout Child={<Dashboard />} />}
-          />
+          /> */}
           <PrivateRoute
             exact
             path="/dashboard"

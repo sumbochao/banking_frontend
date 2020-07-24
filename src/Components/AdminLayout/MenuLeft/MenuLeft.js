@@ -79,7 +79,7 @@ const MenuLeft = () => {
       selectedKeys={[key]}
     >
       <Menu.Item key="1">
-        <Link to="/">
+        <Link to="/dashboard">
           <HomeOutlined />
           <span>Dashboard</span>
         </Link>
@@ -122,7 +122,7 @@ const MenuLeft = () => {
         selectedKeys={[key]}
       >
         <Menu.Item key="8">
-          <Link to="/employee">
+          <Link to="/dashboard">
             <MailOutlined />
             <span>Dashboard</span>
           </Link>

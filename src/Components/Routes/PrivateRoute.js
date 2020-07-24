@@ -20,7 +20,7 @@ export const PrivateRoute = ({ component: Component, render, ...rest }) => {
             <Component {...props} />
           )
         ) : (
-          <Redirect to="/login" />
+          <Redirect to="/welcome" />
         );
       }}
     />

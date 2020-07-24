@@ -34,6 +34,7 @@ const MenuLeft = () => {
         setRole(3);
     }
   };
+  
   useEffect(() => {
     configRole();
     switch (window.location.pathname) {
@@ -67,6 +68,7 @@ const MenuLeft = () => {
       default:
         setKey('1');
     }
+    // eslint-disable-next-line
   }, []);
 
   const MenuUser=()=>{

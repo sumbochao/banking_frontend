@@ -170,7 +170,7 @@ const MenuLeft = () => {
   };
   return (
    // eslint-disable-next-line no-nested-ternary
-   role === 0 ? MenuUser() : (role === 1 ? MenuEmployee() : MenuAdmin())
+   role === 1 ? MenuUser() : (role === 2 ? MenuEmployee() : MenuAdmin())
    // MenuAdmin()
   );
 };

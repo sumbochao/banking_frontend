@@ -14,6 +14,8 @@ import { AdminManagement } from '../AdminManagement';
 import { PrivateRoute } from '../Routes/PrivateRoute';
 import { PaymentManagement } from '../PaymentManagement';
 import './App.css';
+import { PublicRoute } from '../Routes/PublicRoute';
+import Welcome from '../WelCome/Welcome';
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -36,6 +38,16 @@ function App() {
           <Route exact path="/login">
             {!authTokens ? <Login /> : <Redirect to="/" />}
           </Route>
+          <PublicRoute 
+             exact
+            path="/welcome"
+            render={() => <Welcome />}
+          />
+           <PublicRoute 
+             exact
+            path="/login"
+            render={() => <Login/>}
+          />
           <PrivateRoute
             exact
             path="/"
@@ -43,7 +55,7 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/employee"
+            path="/dashboard"
             render={() => <AdminLayout Child={<Dashboard />} />}
           />
           <PrivateRoute
@@ -54,12 +66,12 @@ function App() {
           <PrivateRoute
             exact
             path="/lich-su-nguoi-dung"
-            render={() => <AdminLayout Child={<AdminLayout />} />}
+            render={() => <AdminLayout Child={<AdminManagement />} />}
           />
           <PrivateRoute
             exact
             path="/nhac-no"
-            render={() => <AdminLayout Child={<AdminLayout />} />}
+            render={() => <AdminLayout Child={<AdminManagement />} />}
           />
           <PrivateRoute
             exact

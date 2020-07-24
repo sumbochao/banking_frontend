@@ -1,6 +1,6 @@
-const hostURL = 'https://api.monca.me';
+// const hostURL = 'https://api.monca.me';
 
-// const localURL = 'http://localhost:5000';
+const localURL = 'http://localhost:5000/v1';
 
-const PROURL = {hostURL};
-export default PROURL;
+const URL = localURL;
+export default URL;

@@ -14,6 +14,7 @@ import { AdminManagement } from '../AdminManagement';
 import { PrivateRoute } from '../Routes/PrivateRoute';
 import { PaymentManagement } from '../PaymentManagement';
 import './App.css';
+import './app.scss';
 import { PublicRoute } from '../Routes/PublicRoute';
 import Welcome from '../WelCome/Welcome';
 

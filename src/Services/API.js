@@ -9,6 +9,8 @@ const API = {
   LOGIN_EMPLOYEE: `${URL}/auth/admin-login`,
   // refresh token
   REFRESH_TOKEN: `${URL}/auth/refresh-token`,
+  // get all account
+  GET_ALL_ACCOUNT: `${URL}/payments/all`
 };
 
 export default API;

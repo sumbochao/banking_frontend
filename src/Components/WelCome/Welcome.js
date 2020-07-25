@@ -1,9 +1,36 @@
-import React from 'react';
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/sort-comp */
+/* eslint-disable react/state-in-constructor */
+import React, { Component } from 'react';
+import Navigation from './navigation';
+import Header from './header';
+import Services from './services';
+import Contact from './contact';
+import JsonData from './data.json';
 
-export default function Welcome() {
-  return (
-    <div>
-      <p>AAAAAAAAAAAAAAAAAAAAAAAAAA</p>
-    </div>
-  );
+class Welcome extends Component {
+  state = {
+    landingPageData: {},
+  }
+
+  getlandingPageData() {
+    this.setState({landingPageData : JsonData});
+  }
+
+  componentDidMount() {
+    this.getlandingPageData();
+  }
+
+  render() {
+    return (
+      <div>
+        <Navigation />
+        <Header data={this.state.landingPageData.Header} />
+        <Services data={this.state.landingPageData.Services} />
+        {/* <Team data={this.state.landingPageData.Team} /> */}
+        <Contact data={this.state.landingPageData.Contact} />
+      </div>
+    );
+  }
 }
+export default Welcome;

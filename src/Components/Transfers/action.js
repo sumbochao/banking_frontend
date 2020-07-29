@@ -41,3 +41,28 @@ export const getAllReceivers = (token) => {
     },
   })
 }
+
+export const sendCustomerOTP = (token) => {
+  return fetch(API.SEND_OTP, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+  })
+}
+
+export const verifyCustomerOTP = (token, code) => {
+  return fetch(API.VERIFY_OTP, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({
+      code: code
+    })
+  })
+}

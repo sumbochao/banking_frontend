@@ -7,6 +7,9 @@ const API = {
   LOGIN: `${URL}/auth/login`,
   GET_ALL_PARTNERS: `${URL}/partner/get-partners`,
   GET_ALL_RECEIVER: `${URL}/receivers`,
+  SEND_OTP: `${URL}/OTP/send`,
+  VERIFY_OTP: `${URL}/OTP/verify`,
+
   // employee
   LOGIN_EMPLOYEE: `${URL}/auth/admin-login`,
   // refresh token
@@ -18,6 +21,10 @@ const API = {
   // Transaction history
   // customer
   CUSTOMER_TRANSACTION: `${URL}/customers/history`,
+  // employee one + admin
+
+  // employee all + admin
+
   // employee + admin : one
   TRANSACTION_HISTORY: `${URL}/employees/history/customer`,
   // admin : all

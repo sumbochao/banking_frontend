@@ -8,7 +8,6 @@ import { getAllCustomerTransactionSelf } from './action';
 import './UserHistory.css';
 import { useAuth } from '../Routes/Context';
 import ReceiverTransaction from './ReceiverTransaction/ReceiverTransaction';
-import { PaymentTransaction } from './PaymentTransaction';
 import PaymentTransaction from './PaymentTransaction/PaymentTransaction';
 import DebtReminderPaymentTransaction from './DebtReminderPaymentTransaction/DebtReminderTransaction';
 import BeDebtReminderPaymentTransaction from './BeDebtReminderPaymentTransaction/BeDebtReminderPaymentTransaction';

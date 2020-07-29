@@ -65,9 +65,9 @@ const TransactionHistory = () => {
     };
 
     const findTransactionClick = values => {
-        Swal.fire("Thông báo", "Value = " + values.account, "info");
+        // Swal.fire("Thông báo", "Value = " + values.account, "info");
         setAccountNumber(values.account);
-        getCustomerTransactionForEmployee(authTokens.accessToken, accountNumber, getComplete);
+        getCustomerTransactionForEmployee(authTokens.accessToken, values.account, getComplete);
     };
 
     return (

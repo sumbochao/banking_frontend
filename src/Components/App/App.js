@@ -22,6 +22,7 @@ import { PublicRoute } from '../Routes/PublicRoute';
 import Welcome from '../WelCome/Welcome';
 import { getRefreshToken } from './action';
 import { UserHistory } from '../LichSuNguoiDung';
+import { TransactionHistory } from '../LichSuGiaoDich';
 
 
 function App() {
@@ -124,7 +125,7 @@ function App() {
           <PrivateRoute
             exact
             path="/lich-su-giao-dich"
-            render={() => <AdminLayout Child={<PaymentManagement />} />}
+            render={() => <AdminLayout Child={<TransactionHistory />} />}
           />
           <PrivateRoute
             exact

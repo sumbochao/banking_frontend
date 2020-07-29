@@ -10,6 +10,7 @@ import { useAuth } from '../Routes/Context';
 import ReceiverTransaction from './ReceiverTransaction/ReceiverTransaction';
 import { PaymentTransaction } from './PaymentTransaction';
 import DebtReminderPaymentTransaction from './DebtReminderPaymentTransaction/DebtReminderTransaction';
+import BeDebtReminderPaymentTransaction from './BeDebtReminderPaymentTransaction/BeDebtReminderPaymentTransaction';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -58,7 +59,7 @@ const UserHistory = () => {
                     </Title>
                 </Col>
             </Row>
-            <Tabs style={{ width: '100%', backgroundColor: '#FFFFFF', padding: '16px' }} defaultActiveKey="3">
+            <Tabs style={{ width: '100%', backgroundColor: '#FFFFFF', padding: '16px' }} defaultActiveKey="1">
                 <TabPane tab="Giao dịch nhận tiền" key="1">
                     {<ReceiverTransaction receiverTransactionArray={receiverTransaction} />}
                 </TabPane>
@@ -67,6 +68,9 @@ const UserHistory = () => {
                 </TabPane>
                 <TabPane tab="Giao dịch thanh toán nhắc nợ" key="3">
                     {<DebtReminderPaymentTransaction debtReminderPaymentTransactionArray={debtReminderPaymentTransaction} />}
+                </TabPane>
+                <TabPane tab="Giao dịch thanh toán nhắc nợ" key="4">
+                    {<BeDebtReminderPaymentTransaction beDebtReminderPaymentTransactionArray={beDebtReminderPaymentTransaction} />}
                 </TabPane>
             </Tabs>
         </Content>

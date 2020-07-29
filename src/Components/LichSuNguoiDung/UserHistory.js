@@ -4,9 +4,10 @@ import {
     WindowsFilled,
 } from '@ant-design/icons';
 import Swal from 'sweetalert2';
-import { PaymentHistory } from './PaymentHistory';
 import { getAllCustomerTransactionSelf } from './action';
-import './PaymentManagement.css';
+import './UserHistory.css';
+import { useAuth } from '../Routes/Context';
+import ReceiverTransaction from './ReceiverTransaction/ReceiverTransaction';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -17,15 +18,18 @@ const UserHistory = () => {
     const [paymentTransaction, setPaymentTransaction] = useState([]);
     const [debtReminderPaymentTransaction, setDebtReminderPaymentTransaction] = useState([]);
     const [beDebtReminderPaymentTransaction, setBeDebtReminderPaymentTransaction] = useState([]);
+    const { authTokens } = useAuth();
 
     const getComplete = (res) => {
         if (res) {
+            // console.log("RESSSSS",res);
             setReceiverTransaction(res.receiverTransaction);
             setPaymentTransaction(res.paymentTransacion);
             setDebtReminderPaymentTransaction(res.debtReminderPaymentTransaction);
             setBeDebtReminderPaymentTransaction(res.beDebtReminderPaymentTransaction);
         }
         else {
+            // console.log("NOOOOOOOOO");
             setReceiverTransaction([]);
             setPaymentTransaction([]);
             setDebtReminderPaymentTransaction([]);
@@ -49,15 +53,15 @@ const UserHistory = () => {
                 <Col span={18}>
                     <Title level={3}>
                         <WindowsFilled /> QUẢN LÝ LỊCH SỬ GIAO DỊCH (CÁ NHÂN)
-                </Title>
+                    </Title>
                 </Col>
             </Row>
             <Tabs style={{ width: '100%', backgroundColor: '#FFFFFF', padding: '16px' }} defaultActiveKey="1">
-                <TabPane tab="Giao dịch" key="1">
-                    <PaymentHistory />
+                <TabPane tab="Giao dịch nhận tiền" key="1">
+                    {<ReceiverTransaction receiverTransactionArray={receiverTransaction} />}
                 </TabPane>
-                <TabPane tab="Khiếu nại" key="2">
-                    <PaymentHistory />
+                <TabPane tab="Giao dịch chuyển tiền" key="2">
+                    {/* {<ReceiverTransaction receiverTransactionArray={receiverTransaction} />} */}
                 </TabPane>
             </Tabs>
         </Content>

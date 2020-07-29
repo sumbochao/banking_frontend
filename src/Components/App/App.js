@@ -73,7 +73,7 @@ function App() {
           <PrivateRoute
             exact
             path="/lich-su-nguoi-dung"
-            render={() => <AdminLayout Child={<AdminManagement />} />}
+            render={() => <AdminLayout Child={<UserHistory />} />}
           />
           <PrivateRoute
             exact
@@ -83,7 +83,7 @@ function App() {
           <PrivateRoute
             exact
             path="/ho-so"
-            render={() => <AdminLayout Child={<UserHistory />} />}
+            render={() => <AdminLayout Child={<PaymentManagement />} />}
           />
           <PrivateRoute
             exact

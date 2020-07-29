@@ -5,6 +5,8 @@ const API = {
   // authentication
   // customer
   LOGIN: `${URL}/auth/login`,
+  GET_ALL_PARTNERS: `${URL}/partner/get-partners`,
+  GET_ALL_RECEIVER: `${URL}/receivers`,
   // employee
   LOGIN_EMPLOYEE: `${URL}/auth/admin-login`,
   // refresh token

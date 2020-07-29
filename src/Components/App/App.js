@@ -15,6 +15,7 @@ import { Dashboard } from '../Dashboard';
 import { AdminManagement } from '../AdminManagement';
 import { PrivateRoute } from '../Routes/PrivateRoute';
 import { PaymentManagement } from '../PaymentManagement';
+import { Transfers } from '../Transfers';
 import './App.css';
 import './app.scss';
 import { PublicRoute } from '../Routes/PublicRoute';
@@ -99,7 +100,7 @@ function App() {
           <PrivateRoute
             exact
             path="/chuyen-tien"
-            render={() => <AdminLayout Child={<AdminManagement />} />}
+            render={() => <AdminLayout Child={<Transfers />} />}
           />
           <PrivateRoute
             exact

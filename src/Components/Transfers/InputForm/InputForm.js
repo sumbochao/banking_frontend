@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { getAllPartners, transferToPartner, getAllReceivers } from '../action';
+import { getAllPartners, transferToPartner, getAllReceivers, sendCustomerOTP, verifyCustomerOTP } from '../action';
 import { useAuth } from '../../Routes/Context';
 import {
   Form,
@@ -20,6 +20,25 @@ const { Content } = Layout;
 const { Option } = Select;
 const { TabPane } = Tabs;
 const { TextArea } = Input;
+
+const initialState = {
+  partner: '',
+  to_number: '',
+  amount: '',
+  type_fee: '',
+  description: '',
+  
+}
+
+function reducer(state, action) {
+  switch (action.type) {
+      case "GET_DATA":
+          return {...state, partner: action.partner, to_number: action.to_number, amount: action.amount, type_fee: action.type_fee, description: action.description}
+      default:
+          throw new Error();
+  }
+}
+
 export default function InputForm() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -29,6 +48,9 @@ export default function InputForm() {
   const { authTokens } = useAuth();
   const [isTransaction, setTransaction] = useState();
   const [modelVisible, setModelVisible] = useState(false);
+  const [otp, setOTP] = useState('');
+  const [verify, setVerify] = useState('none');
+  const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     getAllPartners(authTokens.accessToken)
       .then(response => response.json())
@@ -42,45 +64,70 @@ export default function InputForm() {
         setLoading(false);
       });
   }, []);
-  let partner = '0';
+
   const clickSubmitForm = val => {
     setModelVisible(true);
-    console.log(val);
-    // let stk = '';
-    // if (type === '2') {
-    //   stk = val.to_number;
-    // } else {
-    //   stk = val.to_number_2;
-    // }
-    // partner = val.partner;
-    // setTransaction(true);
-    // transferToPartner(
-    //   authTokens.accessToken,
-    //   val.partner,
-    //   stk,
-    //   val.amount,
-    //   val.description,
-    //   val.type_fee
-    // )
-    //   .then(respone => respone.json())
-    //   .then(res => {
-    //     setStatus(res);
-    //   })
-    //   .catch(err => console.log(err))
-    //   .finally(() => {
-    //     setTransaction(false)
-    //   })
+    sendCustomerOTP(authTokens.accessToken)
+    let stk = '';
+    if (type === '1') {
+      stk = val.to_number;
+    } else {
+      stk = val.to_number_2;
+    }
     
+    dispatch({type: "GET_DATA", partner: val.partner, to_number: stk, amount: val.amount, type_fee: val.type_fee, description: val.description})
+
   };
 
+  const clickVerifyOTP = val =>
+  {
+    verifyCustomerOTP(authTokens.accessToken, val.otp)
+    .then(respone => respone.json())
+    .then(res => {
+      setVerify(res.status)
+    })
+    .catch(err => console.log(err))
+  }
+
+  useEffect(() => {
+    if(verify === 'success')
+    {
+      setModelVisible(false)
+      setTransaction(true);
+      
+      transferToPartner(
+        authTokens.accessToken,
+        state.partner,
+        state.to_number,
+        state.amount,
+        state.description,
+        state.type_fee
+      )
+        .then(respone => respone.json())
+        .then(res => {
+          setStatus(res);
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          setTransaction(false)
+        })
+    }
+  }, [verify])
+
+
   const onOkModel = () =>
+  {
+    sendCustomerOTP(authTokens.accessToken)
+  }
+
+  const onCancelModel = () =>
   {
     setModelVisible(false)
   }
 
   useEffect(()=>{
     if (isTransaction === false) {
-      if (partner === '3') {
+      if (state.partner === '3') {
         if (status.status === 1) {
           return alert('Giao dịch thành công!');
         } else {
@@ -225,9 +272,14 @@ export default function InputForm() {
           title="Kiểm tra mã OTP trong email của bạn để xác nhận giao dịch"
           visible={modelVisible}
           onOk={onOkModel}
+          onCancel={onCancelModel}
+          okType = 'danger'
+          okText = 'Gửi lại'
+          cancelText = 'Quay lại'
         >
           <Form
           name="otp_form"
+          onFinish = {clickVerifyOTP}
           labelCol={{
             span: 6
           }}
@@ -244,6 +296,19 @@ export default function InputForm() {
             >
                <Input name="otp" type = "number" placeholder = "Nhập mã OTP được gửi qua email" style={{ marginTop: 20 }}></Input>
             </Form.Item>
+            {(verify === "fail") ? (
+              <p style = {{color: 'red'}}>OTP không chính xác hoặc hết hạn</p>
+            ): (<></>)}
+            <Form.Item
+          wrapperCol={{
+            span: 4,
+            push: 6
+          }}
+        >
+          <Button type="primary" htmlType="submit" loading={isTransaction}>
+            Xác nhận
+          </Button>
+        </Form.Item>
           </Form>
         </Modal>
     </>

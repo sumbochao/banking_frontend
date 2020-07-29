@@ -7,6 +7,9 @@ const API = {
   LOGIN: `${URL}/auth/login`,
   GET_ALL_PARTNERS: `${URL}/partner/get-partners`,
   GET_ALL_RECEIVER: `${URL}/receivers`,
+  SEND_OTP: `${URL}/OTP/send`,
+  VERIFY_OTP: `${URL}/OTP/verify`,
+
   // employee
   LOGIN_EMPLOYEE: `${URL}/auth/admin-login`,
   // refresh token

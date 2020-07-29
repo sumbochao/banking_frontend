@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import jwtDecode  from 'jwt-decode';
+// import axios from 'axios';
 import {
   BrowserRouter as Router,
   Switch,
@@ -17,9 +19,11 @@ import './App.css';
 import './app.scss';
 import { PublicRoute } from '../Routes/PublicRoute';
 import Welcome from '../WelCome/Welcome';
+import { getRefreshToken } from './action';
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
+  // const [isRefresh, setRefresh ] = useState(false);
   if (localStorage.getItem('tokens') && authTokens === '') {
     try {
       setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
@@ -31,6 +35,31 @@ function App() {
     localStorage.setItem('tokens', JSON.stringify(data));
     setAuthTokens(data);
   };
+
+
+  const cbNewAccessToken =(res) =>{
+      setAuthTokens({accessToken: res.accessToken,refreshToken: authTokens.refreshToken, userData:authTokens.userData,type: authTokens.type});
+      localStorage.setItem('tokens', JSON.stringify({accessToken: res.accessToken,refreshToken: authTokens.refreshToken, userData:authTokens.userData,type: authTokens.type}));
+  };
+  const isAuthenticated = () => {
+      
+      if (authTokens?.accessToken && jwtDecode(authTokens?.accessToken).exp > Date.now() / 1000) {
+        return;
+      } 
+      // if token is expired try to refresh
+      const refreshToken = authTokens?.refreshToken;
+      if(refreshToken) {
+        getRefreshToken(refreshToken, cbNewAccessToken);
+      }
+    };
+
+  useEffect(() => {
+    const autoRefreshToken = setInterval(()=>{
+      isAuthenticated();
+      console.log("a");
+    },1000*60*18);
+    return () => clearInterval(autoRefreshToken);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>

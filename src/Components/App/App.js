@@ -18,6 +18,7 @@ import './app.scss';
 import { PublicRoute } from '../Routes/PublicRoute';
 import Welcome from '../WelCome/Welcome';
 import { UserHistory } from '../LichSuNguoiDung';
+import { TransactionHistory } from '../LichSuGiaoDich';
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -93,7 +94,7 @@ function App() {
           <PrivateRoute
             exact
             path="/lich-su-giao-dich"
-            render={() => <AdminLayout Child={<PaymentManagement />} />}
+            render={() => <AdminLayout Child={<TransactionHistory />} />}
           />
           <PrivateRoute
             exact

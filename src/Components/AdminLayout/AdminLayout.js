@@ -19,12 +19,11 @@ const AdminLayout = props => {
   const { setAuthTokens } = useAuth();
   const logOut = () => {
     setAuthTokens(false);
-    localStorage.removeItem('extalkAdminTokens');
+    localStorage.removeItem('tokens');
   };
 
   const menu = (
     <Menu>
-      <Menu.Item>Hồ sơ</Menu.Item>
       <Menu.Item onClick={logOut}>Đăng xuất</Menu.Item>
     </Menu>
   );

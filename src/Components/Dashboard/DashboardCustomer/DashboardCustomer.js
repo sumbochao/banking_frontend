@@ -28,6 +28,7 @@ const DashboardCustomer = () => {
   useEffect(() => {
     getAllAccount(authTokens.accessToken, getComplete);
   }, [authTokens.accessToken]);
+
   const isSmallScreen = useMediaQuery({ query: '(max-width: 600px)' });
 
   return (
@@ -54,17 +55,22 @@ const DashboardCustomer = () => {
               {` Tài khoản tiết kiệm`}
             </Title>
             {
+              saveAccount?.length === 0 ? (
+                <Title level={4}>
+                  {` Chưa có tài khoản tiết kiệm`}
+                </Title>
+              ):(
               saveAccount.map((item)=>{
                 return (
                   <CardInfobox key= {item.accountNumber}  
-                              name = {name}
-                              number = {item.accountNumber}  
-                              balance={item?.balance} 
-                              expiresMonth={item.createdAt}
-                              accountName="Tài khoản tiết kiệm"  
-                              />
+                      name = {name}
+                      number = {item.accountNumber}  
+                      balance={item?.balance} 
+                      expiresMonth={item.createdAt}
+                      accountName="Tài khoản tiết kiệm"  
+                  />
                 );
-              })
+              }))
             }
           </Card>
         </Col>

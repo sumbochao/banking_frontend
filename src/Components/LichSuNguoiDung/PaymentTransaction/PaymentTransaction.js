@@ -159,7 +159,7 @@ const PaymentTransaction = props => {
             ...getColumnSearchProps('id'),
         },
         {
-            title: 'STK',
+            title: 'Số tài khoản',
             dataIndex: 'accountNumber',
             key: 'accountNumber',
             ...getColumnSearchProps('accountNumber'),
@@ -189,7 +189,7 @@ const PaymentTransaction = props => {
             ...getColumnSearchProps('type'),
         },
         {
-            title: 'Ngày tạo GD',
+            title: 'Ngày tạo giao dịch',
             dataIndex: 'createdAt',
             key: 'createdAt',
             width: 150,
@@ -220,12 +220,12 @@ const PaymentTransaction = props => {
                 expandedRowRender: record => (
                     <Descriptions title="Chi tiết">
                         <Descriptions.Item label="ID">{record.id}</Descriptions.Item>
-                        <Descriptions.Item label="STK">{record.accountNumber}</Descriptions.Item>
+                        <Descriptions.Item label="Số tài khoản">{record.accountNumber}</Descriptions.Item>
                         <Descriptions.Item label="Chuyển đến">{record.receiverNumber}</Descriptions.Item>
                         <Descriptions.Item label="Số tiền">{record.amount}</Descriptions.Item>
                         <Descriptions.Item label="Nội dung">{record.description}</Descriptions.Item>
                         <Descriptions.Item label="Loại giao dịch">{record.type}</Descriptions.Item>
-                        <Descriptions.Item label="Ngày tạo GD">{new Date(record.createdAt).toLocaleString('en-GB')}</Descriptions.Item>
+                        <Descriptions.Item label="Ngày tạo giao dịch">{new Date(record.createdAt).toLocaleString('en-GB')}</Descriptions.Item>
                     </Descriptions>
                 ),
                 rowExpandable: record => record.name !== 'Not Expandable',

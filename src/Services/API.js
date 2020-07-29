@@ -25,6 +25,10 @@ const API = {
 
   // employee all + admin
 
+  // employee + admin : one
+  TRANSACTION_HISTORY: `${URL}/employees/history/customer`,
+  // admin : all
+
   // admin (foreign)
 
 };

@@ -232,7 +232,7 @@ const PaymentTransaction = props => {
             }}
             pagination={{
                 hideOnSinglePage: true,
-                total: 10 ,//paymentTransactionArray.length ,
+                total: paymentTransactionArray.length,
                 pageSize,
                 onShowSizeChange,
                 current: currentPage,

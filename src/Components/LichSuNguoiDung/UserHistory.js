@@ -8,6 +8,7 @@ import { getAllCustomerTransactionSelf } from './action';
 import './UserHistory.css';
 import { useAuth } from '../Routes/Context';
 import ReceiverTransaction from './ReceiverTransaction/ReceiverTransaction';
+import { PaymentTransaction } from './PaymentTransaction';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -24,7 +25,7 @@ const UserHistory = () => {
         if (res) {
             // console.log("RESSSSS",res);
             setReceiverTransaction(res.receiverTransaction);
-            setPaymentTransaction(res.paymentTransacion);
+            setPaymentTransaction(res.paymentTransaction);
             setDebtReminderPaymentTransaction(res.debtReminderPaymentTransaction);
             setBeDebtReminderPaymentTransaction(res.beDebtReminderPaymentTransaction);
         }
@@ -56,12 +57,12 @@ const UserHistory = () => {
                     </Title>
                 </Col>
             </Row>
-            <Tabs style={{ width: '100%', backgroundColor: '#FFFFFF', padding: '16px' }} defaultActiveKey="1">
+            <Tabs style={{ width: '100%', backgroundColor: '#FFFFFF', padding: '16px' }} defaultActiveKey="2">
                 <TabPane tab="Giao dịch nhận tiền" key="1">
                     {<ReceiverTransaction receiverTransactionArray={receiverTransaction} />}
                 </TabPane>
                 <TabPane tab="Giao dịch chuyển tiền" key="2">
-                    {/* {<ReceiverTransaction receiverTransactionArray={receiverTransaction} />} */}
+                    {<PaymentTransaction paymentTransactionArray={paymentTransaction} />}
                 </TabPane>
             </Tabs>
         </Content>

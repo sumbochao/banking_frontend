@@ -1,5 +1,5 @@
 import URL from './URL';
- 
+
 
 const API = {
   // authentication
@@ -11,6 +11,19 @@ const API = {
   LOGIN_EMPLOYEE: `${URL}/auth/admin-login`,
   // refresh token
   REFRESH_TOKEN: `${URL}/auth/refresh-token`,
+  // get all account
+  GET_ALL_ACCOUNT: `${URL}/payments/all`,
+
+
+  // Transaction history
+  // customer
+  CUSTOMER_TRANSACTION: `${URL}/customers/history`,
+  // employee one + admin
+
+  // employee all + admin
+
+  // admin (foreign)
+
 };
 
 export default API;

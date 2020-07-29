@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import jwtDecode  from 'jwt-decode';
+// import axios from 'axios';
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,11 +17,16 @@ import { PrivateRoute } from '../Routes/PrivateRoute';
 import { PaymentManagement } from '../PaymentManagement';
 import { Transfers } from '../Transfers';
 import './App.css';
+import './app.scss';
 import { PublicRoute } from '../Routes/PublicRoute';
 import Welcome from '../WelCome/Welcome';
+import { getRefreshToken } from './action';
+import { UserHistory } from '../LichSuNguoiDung';
+
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
+  // const [isRefresh, setRefresh ] = useState(false);
   if (localStorage.getItem('tokens') && authTokens === '') {
     try {
       setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
@@ -32,6 +39,31 @@ function App() {
     setAuthTokens(data);
   };
 
+
+  const cbNewAccessToken =(res) =>{
+      setAuthTokens({accessToken: res.accessToken,refreshToken: authTokens.refreshToken, userData:authTokens.userData,type: authTokens.type});
+      localStorage.setItem('tokens', JSON.stringify({accessToken: res.accessToken,refreshToken: authTokens.refreshToken, userData:authTokens.userData,type: authTokens.type}));
+  };
+  const isAuthenticated = () => {
+      
+      if (authTokens?.accessToken && jwtDecode(authTokens?.accessToken).exp > Date.now() / 1000) {
+        return;
+      } 
+      // if token is expired try to refresh
+      const refreshToken = authTokens?.refreshToken;
+      if(refreshToken) {
+        getRefreshToken(refreshToken, cbNewAccessToken);
+      }
+    };
+
+  useEffect(() => {
+    const autoRefreshToken = setInterval(()=>{
+      isAuthenticated();
+      console.log("a");
+    },1000*60*18);
+    return () => clearInterval(autoRefreshToken);
+  }, []);
+
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <Router>
@@ -39,20 +71,20 @@ function App() {
           <Route exact path="/">
             {!authTokens ? <Welcome /> : <Redirect to="/dashboard" />}
           </Route>
-          <Route 
-             exact
+          <Route
+            exact
             path="/welcome"
             render={() => <Welcome />}
           />
-           <PublicRoute 
-             exact
+          <PublicRoute
+            exact
             path="/login"
-            render={() => <Login/>}
+            render={() => <Login />}
           />
-           <PublicRoute 
-             exact
+          <PublicRoute
+            exact
             path="/login-employee"
-            render={() => <Login isEmployee/>}
+            render={() => <Login isEmployee />}
           />
           {/* <PrivateRoute
             exact
@@ -72,7 +104,7 @@ function App() {
           <PrivateRoute
             exact
             path="/lich-su-nguoi-dung"
-            render={() => <AdminLayout Child={<AdminManagement />} />}
+            render={() => <AdminLayout Child={<UserHistory />} />}
           />
           <PrivateRoute
             exact
@@ -82,7 +114,7 @@ function App() {
           <PrivateRoute
             exact
             path="/ho-so"
-            render={() => <AdminLayout Child={<AdminManagement />} />}
+            render={() => <AdminLayout Child={<PaymentManagement />} />}
           />
           <PrivateRoute
             exact

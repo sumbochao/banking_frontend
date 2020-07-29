@@ -23,7 +23,6 @@ export const login = (email, password, callBack) => {
     });
 };
 export const loginEmployee = (email, password, callBack) => {
-  console.log('a',email, password);
   return fetch(API.LOGIN_EMPLOYEE, {
     method: 'POST',
     body: `email=${email}&password=${password}`,

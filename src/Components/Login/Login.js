@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import {  Col, Form, Input, Button, message, Row } from 'antd';
 import {Link, Redirect} from 'react-router-dom';
-import ReCAPTCHA from 'react-grecaptcha';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { useAuth } from '../Routes/Context';
 
 import './Login.css';
@@ -30,9 +30,6 @@ const Login = (props) => {
     }
    
   };
-
-  const callback =  ()=> {};
-  const expiredCallback =  ()=> {};
   const handleForgotPasswordClick = () =>{
     message.success("Hệ thống đã gửi mã OTP để quý khách đổi mật khẩu");
   };
@@ -91,11 +88,11 @@ const Login = (props) => {
                   }
                 />
               </Form.Item>
-              <Form.Item>
+              <Form.Item  name="recaptcha"
+                rules={[{ required: true, message: 'Captcha không đúng' }]}
+              >
                 <ReCAPTCHA
                       sitekey="6LefHbUZAAAAALh8oMYUOqZbSjSHAugla1527pN0"
-                      callback={callback}
-                      expiredCallback={expiredCallback}
                       locale="en"
                   />
               </Form.Item>

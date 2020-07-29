@@ -17,6 +17,7 @@ import './App.css';
 import './app.scss';
 import { PublicRoute } from '../Routes/PublicRoute';
 import Welcome from '../WelCome/Welcome';
+import { UserHistory } from '../LichSuNguoiDung';
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -39,20 +40,20 @@ function App() {
           <Route exact path="/">
             {!authTokens ? <Welcome /> : <Redirect to="/dashboard" />}
           </Route>
-          <Route 
-             exact
+          <Route
+            exact
             path="/welcome"
             render={() => <Welcome />}
           />
-           <PublicRoute 
-             exact
+          <PublicRoute
+            exact
             path="/login"
-            render={() => <Login/>}
+            render={() => <Login />}
           />
-           <PublicRoute 
-             exact
+          <PublicRoute
+            exact
             path="/login-employee"
-            render={() => <Login isEmployee/>}
+            render={() => <Login isEmployee />}
           />
           {/* <PrivateRoute
             exact
@@ -72,7 +73,7 @@ function App() {
           <PrivateRoute
             exact
             path="/lich-su-nguoi-dung"
-            render={() => <AdminLayout Child={<AdminManagement />} />}
+            render={() => <AdminLayout Child={<UserHistory />} />}
           />
           <PrivateRoute
             exact
@@ -82,7 +83,7 @@ function App() {
           <PrivateRoute
             exact
             path="/ho-so"
-            render={() => <AdminLayout Child={<AdminManagement />} />}
+            render={() => <AdminLayout Child={<PaymentManagement />} />}
           />
           <PrivateRoute
             exact

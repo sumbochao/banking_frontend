@@ -9,6 +9,7 @@ import './UserHistory.css';
 import { useAuth } from '../Routes/Context';
 import ReceiverTransaction from './ReceiverTransaction/ReceiverTransaction';
 import { PaymentTransaction } from './PaymentTransaction';
+import DebtReminderPaymentTransaction from './DebtReminderPaymentTransaction/DebtReminderTransaction';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -57,12 +58,15 @@ const UserHistory = () => {
                     </Title>
                 </Col>
             </Row>
-            <Tabs style={{ width: '100%', backgroundColor: '#FFFFFF', padding: '16px' }} defaultActiveKey="2">
+            <Tabs style={{ width: '100%', backgroundColor: '#FFFFFF', padding: '16px' }} defaultActiveKey="3">
                 <TabPane tab="Giao dịch nhận tiền" key="1">
                     {<ReceiverTransaction receiverTransactionArray={receiverTransaction} />}
                 </TabPane>
                 <TabPane tab="Giao dịch chuyển tiền" key="2">
                     {<PaymentTransaction paymentTransactionArray={paymentTransaction} />}
+                </TabPane>
+                <TabPane tab="Giao dịch thanh toán nhắc nợ" key="3">
+                    {<DebtReminderPaymentTransaction debtReminderPaymentTransactionArray={debtReminderPaymentTransaction} />}
                 </TabPane>
             </Tabs>
         </Content>

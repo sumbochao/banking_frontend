@@ -4,6 +4,8 @@ import { WindowsFilled } from '@ant-design/icons';
 import { ForeignBanks } from './ForeignBanks';
 import { InputForm } from './InputForm';
 
+
+
 const { Content } = Layout;
 const { Title } = Typography;
 const { TabPane } = Tabs;

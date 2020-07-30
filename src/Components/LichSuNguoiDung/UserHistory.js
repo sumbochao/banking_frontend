@@ -69,7 +69,7 @@ const UserHistory = () => {
                 <TabPane tab="Giao dịch thanh toán nhắc nợ" key="3">
                     {<DebtReminderPaymentTransaction debtReminderPaymentTransactionArray={debtReminderPaymentTransaction} />}
                 </TabPane>
-                <TabPane tab="Giao dịch thanh toán nhắc nợ" key="4">
+                <TabPane tab="Giao dịch được thanh toán nhắc nợ" key="4">
                     {<BeDebtReminderPaymentTransaction beDebtReminderPaymentTransactionArray={beDebtReminderPaymentTransaction} />}
                 </TabPane>
             </Tabs>

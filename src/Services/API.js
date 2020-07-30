@@ -9,6 +9,7 @@ const API = {
   GET_ALL_RECEIVER: `${URL}/receivers`,
   SEND_OTP: `${URL}/OTP/send`,
   VERIFY_OTP: `${URL}/OTP/verify`,
+  TRANSFER_IN_LOCAL: `${URL}/payments/payment-account/pay`,
 
   // employee
   LOGIN_EMPLOYEE: `${URL}/auth/admin-login`,

@@ -19,9 +19,9 @@
   height: 40px;
 }
 
-.custom-button span {
+/* .custom-button span {
   padding: 5px;
-}
+} */
 .custom-button:hover {
   font-weight: bold;
   background-color: #f55d3e;

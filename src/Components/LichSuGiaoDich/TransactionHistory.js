@@ -15,7 +15,6 @@ import BeDebtReminderPaymentTransaction from '../LichSuNguoiDung/BeDebtReminderP
 const { Content } = Layout;
 const { Title } = Typography;
 const { TabPane } = Tabs;
-const { Option } = Select;
 
 const TransactionHistory = () => {
     const [receiverTransaction, setReceiverTransaction] = useState([]);

@@ -17,7 +17,7 @@ export const getCustomerTransactionForEmployee = (token, accountnumber, callBack
                 callBack(res.data);
             } else {
                 // Swal.fire('Response status', res.status, 'error');
-                Swal.fire('Response err', res.err, 'error');
+                res.err === "account number is not exists." ? Swal.fire("Lỗi!", "Tài khoản không tồn tại.", "error") : Swal.fire('Response err', res.err, 'error');
                 callBack(false);
             }
         })

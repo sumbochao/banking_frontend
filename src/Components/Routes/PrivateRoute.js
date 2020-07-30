@@ -4,6 +4,8 @@
 
 import React, { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import jwtDecode  from 'jwt-decode';
+import { message } from 'antd';
 import { useAuth } from './Context';
 import { getRefreshToken } from '../App/action';
 
@@ -26,15 +28,19 @@ export const PrivateRoute = ({ component: Component, render, ...rest }) => {
       // } 
       // if token is expired try to refresh
       const refreshToken = authTokens?.refreshToken;
-      if(refreshToken) {
+       if (refreshToken && jwtDecode(refreshToken).exp > Date.now() / 1000) {
         getRefreshToken(refreshToken, cbNewAccessToken);
+      } else {
+        message.error("Hết phiên đăng nhập, vui lòng đăng nhập lại để tiếp tục");
+        setAuthTokens(false);
+        localStorage.removeItem('tokens');
       }
     };
 
   useEffect(() => {
     const autoRefreshToken = setInterval(()=>{
       isAuthenticated();
-    },1000*60*18);
+    },1000*60*25);
     return () => clearInterval(autoRefreshToken);
   }, []);
 

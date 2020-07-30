@@ -155,6 +155,12 @@ const MenuLeft = () => {
       defaultSelectedKeys={['9']}
       selectedKeys={[key]}
     >
+     <Menu.Item key="8">
+          <Link to="/dashboard">
+            <MailOutlined />
+            <span>Dashboard</span>
+          </Link>
+        </Menu.Item>
       <Menu.Item key="9">
           <Link to="/danh-sach-giao-dich">
             <AuditOutlined />

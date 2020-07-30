@@ -115,7 +115,7 @@ const RechargeAccount = () => {
                         defaultValue={100000}
                         min={50000}
                         max={10000000000}
-                    // formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        formatter={value => `${value}`.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} //https://blog.abelotech.com/posts/number-currency-formatting-javascript/
                     />
                 </Form.Item>
                 <Form.Item {...tailLayout}>

@@ -27,7 +27,6 @@ class Welcome extends Component {
         <Navigation />
         <Header data={this.state.landingPageData.Header} />
         <Services data={this.state.landingPageData.Services} />
-        {/* <Team data={this.state.landingPageData.Team} /> */}
         <Contact data={this.state.landingPageData.Contact} />
       </div>
     );

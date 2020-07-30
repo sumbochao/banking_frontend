@@ -39,12 +39,12 @@ const Login = (props) => {
         <div className="layout-login">
           <Col className="col-login" span={24} style={{ display: 'flex' }}>
             <Form className="login-form" name="basic" onFinish={loginClick}>
-              <div style={{ textAlign: 'center', marginBottom: 50 }}>
-                <img alt="" src="bankicon.png" style={{ width: '150px' }} />
+              <div style={{ textAlign: 'center', marginBottom: 50}}>
+                <img alt="" src="bankicon.png" style={{ width: '100px' }} />
                 <h3
                   style={{
                     fontWeight: 'bold',
-                    marginBottom: 10, 
+                    marginBottom: 5, 
                     color: 'rgba(0, 0, 0, 0.8)'
                   }}
                 > {!isEmployee? "Đăng nhập vào Hệ thống Monca Banking" : "Đăng nhập dành cho nhân viên"}
@@ -60,6 +60,7 @@ const Login = (props) => {
                   placeholder="Email"
                   style={{
                       borderRadius: 25,
+                      borderWidth: 2,
                   }}
                   prefix={
                     <MailOutlined
@@ -79,6 +80,7 @@ const Login = (props) => {
                   placeholder="Password"
                   style={{
                       borderRadius: 25,
+                      borderWidth: 2,
                   }}
                   prefix={
                     <LockOutlined
@@ -96,44 +98,36 @@ const Login = (props) => {
                       locale="en"
                   />
               </Form.Item>
-                <Row style={{ marginTop: 20 }} justify = "space-around">
-                <Col>
-                {!isEmployee ? (
-                  <div>
-                  <p
-                    style={{
-                    fontSize: '12px',
-                      }}>
-                     Quên mật khẩu?
-                  </p>
-                  <Link
-                    to="/forgot"
-                    style={{
-                      fontSize: '15px',
-                      color: '#F55D3E',
-                      fontWeight: 'bold'
-                    }}
-                    onClick={handleForgotPasswordClick}
+                  <Row justify = "space-between" align="middle">
+                    {!isEmployee ? (
+                      <Col style={{height: '40px'}}>
+                      <Link
+                        to="/forgot"
+                        style={{
+                          fontSize: '15px',
+                          color: '#F55D3E',
+                          fontWeight: 'bold', 
+                        }}
+                        onClick={handleForgotPasswordClick}
+                      >
+                        Quên mật khẩu ?
+                      </Link>
+                      </Col>
+                    ) : (' ')}
+               <Col>
+                  <Form.Item>
+                    <Button
+                    className="custom-button"
+                    type="primary"
+                    htmlType="submit"
+                    loading={isLoading}
                   >
-                    Lấy lại mật khẩu
-                  </Link>
-                  </div>
-                ) : (' ')}
-            </Col>
-            <Col>
-            <Form.Item>
-                <Button
-                  className="custom-button"
-                  type="primary"
-                  htmlType="submit"
-                  loading={isLoading}
-                >
-                  Đăng nhập
-                </Button>
-            </Form.Item>
-            </Col>
-            </Row>
-          </Form>
+                    Đăng nhập
+                    </Button>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Form>
           </Col>
         </div>
   );

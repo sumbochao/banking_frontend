@@ -66,3 +66,20 @@ export const verifyCustomerOTP = (token, code) => {
     })
   })
 }
+
+export const transferInLocal = (token, to_number, amount, description) =>{
+  return fetch(API.TRANSFER_IN_LOCAL, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({
+      receivernumber: to_number,
+      amount: Number(amount),
+      description: description,
+    })
+  })
+
+}

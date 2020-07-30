@@ -32,9 +32,11 @@ export default function Transfers() {
           defaultActiveKey="1"
           size = "large"
         >
-          <TabPane tab="Nội bộ" key="1"></TabPane>
+          <TabPane tab="Nội bộ" key="1">
+            <InputForm bank = "1"/>
+          </TabPane>
           <TabPane tab="Liên ngân hàng" key="2">
-            <InputForm />
+            <InputForm bank = "2"/>
           </TabPane>
         </Tabs>
       </Content>

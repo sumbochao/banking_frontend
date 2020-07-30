@@ -23,6 +23,7 @@ import Welcome from '../WelCome/Welcome';
 // import { getRefreshToken } from './action';
 import { UserHistory } from '../LichSuNguoiDung';
 import { TransactionHistory } from '../LichSuGiaoDich';
+import { RechargeAccount } from "../NapTien";
 
 
 function App() {
@@ -94,7 +95,7 @@ function App() {
           <PrivateRoute
             exact
             path="/nap-tien"
-            render={() => <AdminLayout Child={<PaymentManagement />} />}
+            render={() => <AdminLayout Child={<RechargeAccount />} />}
           />
           <PrivateRoute
             exact

@@ -27,6 +27,10 @@ const API = {
 
   // admin (foreign)
 
+
+  // Payment
+  RECHARGE_ACCOUNT: `${URL}/payments/add-money`,
+
 };
 
 export default API;

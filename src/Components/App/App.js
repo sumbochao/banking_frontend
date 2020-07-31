@@ -112,6 +112,16 @@ function App() {
             path="/quan-ly-admin"
             render={() => <AdminLayout Child={<AdminManagement />} />}
           />
+          <PrivateRoute
+            exact
+            path="/tao-tai-khoan-nguoi-dung"
+            render={() => <AdminLayout Child={<AdminManagement />} />}
+          />
+          <PrivateRoute
+            exact
+            path="/tao-tai-khoan-tiet-kiem"
+            render={() => <AdminLayout Child={<AdminManagement />} />}
+          />
         </Switch>
       </Router>
     </AuthContext.Provider>

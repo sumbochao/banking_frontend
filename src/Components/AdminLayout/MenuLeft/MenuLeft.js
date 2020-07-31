@@ -9,7 +9,10 @@ import {
   NodeIndexOutlined,
   AuditOutlined,
   TransactionOutlined,
-  TeamOutlined
+  TeamOutlined,
+  UserAddOutlined,
+  DashboardOutlined,
+  ContainerOutlined
 } from '@ant-design/icons';
 
 const MenuLeft = () => {
@@ -20,7 +23,7 @@ const MenuLeft = () => {
     setKey(e.key);
   };
   const configRole = () => {
-    switch(menu){
+    switch (menu) {
       case 'user':
         setRole(1);
         break;
@@ -34,7 +37,7 @@ const MenuLeft = () => {
         setRole(3);
     }
   };
-  
+
   useEffect(() => {
     configRole();
     switch (window.location.pathname) {
@@ -65,56 +68,63 @@ const MenuLeft = () => {
       case '/employee':
         setKey('8');
         break;
+      // key add thêm, sợ trùng nên đánh key vần 2x (từ 20,21,22,...)
+      case '/tao-tai-khoan-nguoi-dung':
+        setKey('20');
+        break;
+      case '/tao-tai-khoan-tiet-kiem':
+        setKey('21');
+        break;
       default:
         setKey('1');
     }
     // eslint-disable-next-line
   }, []);
 
-  const MenuUser=()=>{
+  const MenuUser = () => {
     return (
-      <Menu 
-      className="ant-menu"
-      mode="inline"
-      onClick={handleClick}
-      defaultSelectedKeys={['1']}
-      selectedKeys={[key]}
-    >
-      <Menu.Item key="1">
-        <Link to="/dashboard">
-          <HomeOutlined />
-          <span>Dashboard</span>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="2">
-        <Link to="/chuyen-tien">
-          <TransactionOutlined />
-          <span>Chuyển Tiền</span>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="3">
-        <Link to="/lich-su-nguoi-dung">
-          <HistoryOutlined />
-          <span>Lịch sử giao dịch</span>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="4">
-        <Link to="/nhac-no">
-          <NodeIndexOutlined />
-          <span>Quản Lý nhắc nợ</span>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="5">
-        <Link to="/ho-so">
-          <UserOutlined />
-          <span>Hồ sơ</span>
-        </Link>
-      </Menu.Item>
-    </Menu>
+      <Menu
+        className="ant-menu"
+        mode="inline"
+        onClick={handleClick}
+        defaultSelectedKeys={['1']}
+        selectedKeys={[key]}
+      >
+        <Menu.Item key="1">
+          <Link to="/dashboard">
+            <HomeOutlined />
+            <span>Dashboard</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="2">
+          <Link to="/chuyen-tien">
+            <TransactionOutlined />
+            <span>Chuyển Tiền</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="3">
+          <Link to="/lich-su-nguoi-dung">
+            <HistoryOutlined />
+            <span>Lịch sử giao dịch</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="4">
+          <Link to="/nhac-no">
+            <NodeIndexOutlined />
+            <span>Quản Lý nhắc nợ</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="5">
+          <Link to="/ho-so">
+            <UserOutlined />
+            <span>Hồ sơ</span>
+          </Link>
+        </Menu.Item>
+      </Menu>
     );
   };
 
-  const MenuEmployee=()=>{
+  const MenuEmployee = () => {
     return (
       <Menu
         className="ant-menu"
@@ -125,8 +135,20 @@ const MenuLeft = () => {
       >
         <Menu.Item key="8">
           <Link to="/dashboard">
-            <MailOutlined />
+            <DashboardOutlined />
             <span>Dashboard</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="20">
+          <Link to="/tao-tai-khoan-nguoi-dung">
+            <UserAddOutlined />
+            <span>Tạo người dùng</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="21">
+          <Link to="/tao-tai-khoan-tiet-kiem">
+            <ContainerOutlined />
+            <span>Mở tài khoản tiết kiệm</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="6">
@@ -144,42 +166,42 @@ const MenuLeft = () => {
       </Menu>
     );
   };
-  
 
-  const MenuAdmin=()=>{
+
+  const MenuAdmin = () => {
     return (
       <Menu
-      className="ant-menu"
-      mode="inline"
-      onClick={handleClick}
-      defaultSelectedKeys={['9']}
-      selectedKeys={[key]}
-    >
-     <Menu.Item key="8">
+        className="ant-menu"
+        mode="inline"
+        onClick={handleClick}
+        defaultSelectedKeys={['9']}
+        selectedKeys={[key]}
+      >
+        <Menu.Item key="8">
           <Link to="/dashboard">
-            <MailOutlined />
+            <DashboardOutlined />
             <span>Dashboard</span>
           </Link>
         </Menu.Item>
-      <Menu.Item key="9">
+        <Menu.Item key="9">
           <Link to="/danh-sach-giao-dich">
             <AuditOutlined />
             <span>Danh sách giao dịch</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="10">
-        <Link to="/quan-ly-admin">
-          <TeamOutlined />
-          <span>Quản lí admin </span>
-        </Link>
-      </Menu.Item>
-    </Menu>
+          <Link to="/quan-ly-admin">
+            <TeamOutlined />
+            <span>Quản lí admin </span>
+          </Link>
+        </Menu.Item>
+      </Menu>
     );
   };
   return (
-   // eslint-disable-next-line no-nested-ternary
-   role === 1 ? MenuUser() : (role === 2 ? MenuEmployee() : MenuAdmin())
-   // MenuAdmin()
+    // eslint-disable-next-line no-nested-ternary
+    role === 1 ? MenuUser() : (role === 2 ? MenuEmployee() : MenuAdmin())
+    // MenuAdmin()
   );
 };
 

@@ -24,7 +24,7 @@ import Welcome from '../WelCome/Welcome';
 import { UserHistory } from '../LichSuNguoiDung';
 import { TransactionHistory } from '../LichSuGiaoDich';
 import { RechargeAccount } from "../NapTien";
-
+import { CreateSaveAccount } from "../TaoTaiKhoanTietKiem";
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -111,6 +111,16 @@ function App() {
             exact
             path="/quan-ly-admin"
             render={() => <AdminLayout Child={<AdminManagement />} />}
+          />
+          <PrivateRoute
+            exact
+            path="/tao-tai-khoan-nguoi-dung"
+            render={() => <AdminLayout Child={<AdminManagement />} />}
+          />
+          <PrivateRoute
+            exact
+            path="/tao-tai-khoan-tiet-kiem"
+            render={() => <AdminLayout Child={<CreateSaveAccount />} />}
           />
         </Switch>
       </Router>

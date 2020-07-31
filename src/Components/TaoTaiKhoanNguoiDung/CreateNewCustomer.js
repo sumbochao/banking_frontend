@@ -128,10 +128,8 @@ const CreateNewCustomer = () => {
                     label="Số điện thoại : "
                     name="phonenumber"
                 >
-                    <InputNumber
+                    <Input
                         style={{ marginTop: 15, width: '50%', borderColor: '#fb2609' }}
-                        min={100000}
-                        max={100000000000000}
                     />
                 </Form.Item>
                 <Form.Item {...tailLayout}>

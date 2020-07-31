@@ -25,6 +25,7 @@ import { UserHistory } from '../LichSuNguoiDung';
 import { TransactionHistory } from '../LichSuGiaoDich';
 import { RechargeAccount } from "../NapTien";
 import { CreateSaveAccount } from "../TaoTaiKhoanTietKiem";
+import { CreateNewCustomer } from "../TaoTaiKhoanNguoiDung";
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -115,7 +116,7 @@ function App() {
           <PrivateRoute
             exact
             path="/tao-tai-khoan-nguoi-dung"
-            render={() => <AdminLayout Child={<AdminManagement />} />}
+            render={() => <AdminLayout Child={<CreateNewCustomer />} />}
           />
           <PrivateRoute
             exact

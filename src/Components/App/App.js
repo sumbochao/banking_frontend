@@ -24,7 +24,7 @@ import Welcome from '../WelCome/Welcome';
 import { UserHistory } from '../LichSuNguoiDung';
 import { TransactionHistory } from '../LichSuGiaoDich';
 import { RechargeAccount } from "../NapTien";
-
+import { CreateSaveAccount } from "../TaoTaiKhoanTietKiem";
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -120,7 +120,7 @@ function App() {
           <PrivateRoute
             exact
             path="/tao-tai-khoan-tiet-kiem"
-            render={() => <AdminLayout Child={<AdminManagement />} />}
+            render={() => <AdminLayout Child={<CreateSaveAccount />} />}
           />
         </Switch>
       </Router>

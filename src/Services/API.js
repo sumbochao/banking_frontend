@@ -31,6 +31,7 @@ const API = {
 
   // Payment
   RECHARGE_ACCOUNT: `${URL}/payments/add-money`,
+  CREATE_NEW_SAVE_ACCOUNT: `${URL}/payments/save-account`,
 
 };
 

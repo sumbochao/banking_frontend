@@ -26,6 +26,7 @@ import { TransactionHistory } from '../LichSuGiaoDich';
 import { RechargeAccount } from "../NapTien";
 import { CreateSaveAccount } from "../TaoTaiKhoanTietKiem";
 import { CreateNewCustomer } from "../TaoTaiKhoanNguoiDung";
+import { Receivers } from '../Receivers';
 import { TransactionList } from '../DanhSachGiaoDich';
 
 function App() {
@@ -78,6 +79,11 @@ function App() {
             exact
             path="/chuyen-tien"
             render={() => <AdminLayout Child={<Transfers />} />}
+          />
+           <PrivateRoute
+            exact
+            path="/danh-sach-nguoi-nhan"
+            render={() => <AdminLayout Child={<Receivers />} />}
           />
           <PrivateRoute
             exact

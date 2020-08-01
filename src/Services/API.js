@@ -24,9 +24,10 @@ const API = {
   CUSTOMER_TRANSACTION: `${URL}/customers/history`,
   // employee + admin : one
   TRANSACTION_HISTORY: `${URL}/employees/history/customer`,
-  // admin : all
-
-  // admin (foreign)
+  // admin : (foreign one)
+  FOREIGN_ONE: `${URL}/employees/history/foreign/one`,
+  // admin : (foreign all)
+  FOREIGN_ALL: `${URL}/employees/history/foreign/all`,
 
 
   // Payment

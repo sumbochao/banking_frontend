@@ -23,6 +23,7 @@ const TransactionHistory = () => {
     const [beDebtReminderPaymentTransaction, setBeDebtReminderPaymentTransaction] = useState([]);
     const { authTokens } = useAuth();
     const [accountNumber, setAccountNumber] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const getComplete = (res) => {
         if (res) {
@@ -65,8 +66,10 @@ const TransactionHistory = () => {
 
     const findTransactionClick = values => {
         // Swal.fire("Thông báo", "Value = " + values.account, "info");
+        setIsLoading(true);
         setAccountNumber(values.account);
         getCustomerTransactionForEmployee(authTokens.accessToken, values.account, getComplete);
+        setIsLoading(false);
     };
 
     return (
@@ -102,7 +105,7 @@ const TransactionHistory = () => {
                     <Input style={{ marginTop: 15, width: '50%', borderColor: '#fb2609' }} />
                 </Form.Item>
                 <Form.Item {...tailLayout}>
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit" loading={isLoading}>
                         Tra cứu
                     </Button>
                 </Form.Item>

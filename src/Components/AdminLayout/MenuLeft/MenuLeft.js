@@ -12,7 +12,8 @@ import {
   TeamOutlined,
   UserAddOutlined,
   DashboardOutlined,
-  ContainerOutlined
+  ContainerOutlined,
+  UserSwitchOutlined
 } from '@ant-design/icons';
 
 const MenuLeft = () => {
@@ -115,6 +116,12 @@ const MenuLeft = () => {
           </Link>
         </Menu.Item>
         <Menu.Item key="5">
+          <Link to="/danh-sach-nguoi-nhan">
+            <UserSwitchOutlined />
+            <span>Danh sách người nhận</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="6">
           <Link to="/ho-so">
             <UserOutlined />
             <span>Hồ sơ</span>

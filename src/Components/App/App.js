@@ -27,6 +27,7 @@ import { RechargeAccount } from "../NapTien";
 import { CreateSaveAccount } from "../TaoTaiKhoanTietKiem";
 import { CreateNewCustomer } from "../TaoTaiKhoanNguoiDung";
 import { Receivers } from '../Receivers';
+import { TransactionList } from '../DanhSachGiaoDich';
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -112,7 +113,7 @@ function App() {
           <PrivateRoute
             exact
             path="/danh-sach-giao-dich"
-            render={() => <AdminLayout Child={<PaymentManagement />} />}
+            render={() => <AdminLayout Child={<TransactionList />} />}
           />
           <PrivateRoute
             exact

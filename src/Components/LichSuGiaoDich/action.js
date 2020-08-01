@@ -14,6 +14,7 @@ export const getCustomerTransactionForEmployee = (token, accountnumber, callBack
         .then(res => {
 
             if (res.status === "success") {
+                Swal.fire('Thành công', "Tra cứu thành công", 'success');
                 callBack(res.data);
             } else {
                 // Swal.fire('Response status', res.status, 'error');

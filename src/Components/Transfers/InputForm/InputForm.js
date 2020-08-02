@@ -33,7 +33,8 @@ const initialState = {
   to_number: '',
   amount: '',
   type_fee: '',
-  description: ''
+  description: '',
+  type_transaction: '',
 };
 
 function reducer(state, action) {
@@ -45,7 +46,8 @@ function reducer(state, action) {
         to_number: action.to_number,
         amount: action.amount,
         type_fee: action.type_fee,
-        description: action.description
+        description: action.description,
+        type_transaction: action.type_transaction
       };
     default:
       throw new Error();
@@ -63,12 +65,12 @@ export default function InputForm(props) {
   const [modelVisible, setModelVisible] = useState(false);
   const [successVisible, setSuccessVisible] = useState();
   const [failVisible, setFailVisible] = useState();
+  const [typeFeeVisible, setTypeFeeVisible] = useState();
   const [otp, setOTP] = useState('');
   const [verify, setVerify] = useState('none');
   const [state, dispatch] = useReducer(reducer, initialState);
   const [err, setErr] = useState('');
 
-  console.log(props);
   useEffect(() => {
     if (props.bank === '2') {
       getAllPartners(authTokens.accessToken)
@@ -86,30 +88,36 @@ export default function InputForm(props) {
   }, []);
 
   const clickSubmitForm = val => {
+    if(type === '0')
+    {
+      setTypeFeeVisible(true)
+    }else{
     setModelVisible(true);
     sendCustomerOTP(authTokens.accessToken);
     let stk = '';
-    if (type === '1') {
-      stk = val.to_number;
-    } else {
-      stk = val.to_number_2;
-    }
-    if (props.bank === '2') {
-      dispatch({
-        type: 'GET_DATA',
-        partner: val.partner,
-        to_number: stk,
-        amount: val.amount,
-        type_fee: val.type_fee,
-        description: val.description
-      });
-    } else {
-      dispatch({
-        type: 'GET_DATA',
-        to_number: stk,
-        amount: val.amount,
-        description: val.description
-      });
+      if (type === '1') {
+        stk = val.to_number;
+      } else {
+        stk = val.to_number_2;
+      }
+      if (props.bank === '2') {
+        dispatch({
+          type: 'GET_DATA',
+          partner: val.partner,
+          to_number: stk,
+          amount: val.amount,
+          type_fee: val.type_fee,
+          description: val.description
+        });
+      } else {
+        dispatch({
+          type: 'GET_DATA',
+          to_number: stk,
+          amount: val.amount,
+          description: val.description,
+          type_transaction: val.type_transaction
+        });
+      }
     }
   };
 
@@ -148,7 +156,8 @@ export default function InputForm(props) {
           authTokens.accessToken,
           state.to_number,
           state.amount,
-          state.description
+          state.description,
+          state.type_transaction
         )
           .then(respone => respone.json())
           .then(res => {
@@ -174,6 +183,9 @@ export default function InputForm(props) {
   };
   const onFailModel = () => {
     setFailVisible(false);
+  };
+  const onTypeFeeModel = () => {
+    setTypeFeeVisible(false);
   };
   useEffect(() => {
     if (isTransaction === false) {
@@ -241,16 +253,29 @@ export default function InputForm(props) {
             )}
           </Form.Item>
         ) : (
-          <></>
+          <Form.Item
+            label="Loại giao dịch"
+            name="type_transaction"
+            rules={[
+              { required: true, message: 'Vui lòng chọn loại giao dịch' }
+            ]}
+          >
+            <Radio.Group style={{ marginTop: 20 }} name="type_transaction">
+              <Radio.Button value="NOI BO">Chuyển khoảng nội bộ</Radio.Button>
+              <Radio.Button value="THANH TOAN NHAC NO">Thanh toán nhắc nợ</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
         )}
         <Form.Item
           label="Cách nhập người nhận"
           name="type_receiver"
-          rules={[{ required: true, message: 'Vui lòng chọn một' }]}
+          rules={[
+            { required: true, message: 'Vui lòng chọn cách nhập số tài khoản' }
+          ]}
         >
           <Select
             name="type_receiver"
-            defaultValue="0"
+            defaultValue='0'
             onChange={value => setType(value)}
             style={{ marginTop: 20 }}
           >
@@ -309,7 +334,6 @@ export default function InputForm(props) {
         </Form.Item>
         {props.bank === '2' ? (
           <Form.Item
-            name="radio-button"
             label="Phương thức trả phí"
             name="type_fee"
             rules={[
@@ -406,6 +430,17 @@ export default function InputForm(props) {
         ]}
       >
         <Result status="error" title="Giao dịch thất bại. Kiểm tra lại." subTitle = {err}/>,
+      </Modal>
+      <Modal
+        title=""
+        visible={typeFeeVisible}
+        footer={[
+          <Button key="danger" onClick={onTypeFeeModel}>
+            Xác nhận
+          </Button>
+        ]}
+      >
+        <Result status="error" title="Vui lòng chọn cách nhập số tài khoản."/>,
       </Modal>
     </>
   );

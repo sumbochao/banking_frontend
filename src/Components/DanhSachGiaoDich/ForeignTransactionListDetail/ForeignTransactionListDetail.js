@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input, Button, DatePicker, Descriptions } from 'antd';
+import { Table, Input, Button, DatePicker, Descriptions, Statistic, Layout } from 'antd';
 import Highlighter from 'react-highlight-words';
 import {
     SearchOutlined,
 } from '@ant-design/icons';
 import './ForeignTransactionListDetail.css';
+
+const { Content } = Layout;
 
 const ForeignTransactionListDetail = props => {
     const [isFetching, setIsFetching] = useState(true);
@@ -14,7 +16,7 @@ const ForeignTransactionListDetail = props => {
     const [searchedColumn, setSearchedColumn] = useState('');
     const [filteredInfo, setFilteredInfo] = useState(null);
 
-    const { transactionList } = props;
+    const { transactionList, total } = props;
 
     useEffect(() => {
         setIsFetching(false);
@@ -208,37 +210,40 @@ const ForeignTransactionListDetail = props => {
     };
 
     return (
-        <Table
-            columns={columns}
-            rowKey="id"
-            dataSource={transactionList}
-            loading={isFetching}
-            scroll={{ x: true }}
-            onChange={handleChange}
-            expandable={{
-                expandedRowRender: record => (
-                    <Descriptions title="Chi tiết">
-                        <Descriptions.Item label="ID">{record.id}</Descriptions.Item>
-                        <Descriptions.Item label="STK chuyển">{record.accountNumber}</Descriptions.Item>
-                        <Descriptions.Item label="STK nhận">{record.receiverNumber}</Descriptions.Item>
-                        <Descriptions.Item label="Số tiền">{record.amount}</Descriptions.Item>
-                        <Descriptions.Item label="Nội dung">{record.description}</Descriptions.Item>
-                        <Descriptions.Item label="Loại giao dịch">{record.type}</Descriptions.Item>
-                        <Descriptions.Item label="Ngày tạo giao dịch">{new Date(record.createdAt).toLocaleString('en-GB')}</Descriptions.Item>
-                    </Descriptions>
-                ),
-                rowExpandable: record => record.name !== 'Not Expandable',
-            }}
-            pagination={{
-                hideOnSinglePage: true,
-                total: transactionList.length,
-                pageSize,
-                onShowSizeChange,
-                current: currentPage,
-                showQuickJumper: true,
-                onChange: value => setCurrentPage(value),
-            }}
-        />
+        <Content>
+            <Statistic title="TỔNG GIAO DỊCH (VNĐ)" value={total} precision={2} />
+            <Table
+                columns={columns}
+                rowKey="id"
+                dataSource={transactionList}
+                loading={isFetching}
+                scroll={{ x: true }}
+                onChange={handleChange}
+                expandable={{
+                    expandedRowRender: record => (
+                        <Descriptions title="Chi tiết">
+                            <Descriptions.Item label="ID">{record.id}</Descriptions.Item>
+                            <Descriptions.Item label="STK chuyển">{record.accountNumber}</Descriptions.Item>
+                            <Descriptions.Item label="STK nhận">{record.receiverNumber}</Descriptions.Item>
+                            <Descriptions.Item label="Số tiền">{record.amount}</Descriptions.Item>
+                            <Descriptions.Item label="Nội dung">{record.description}</Descriptions.Item>
+                            <Descriptions.Item label="Loại giao dịch">{record.type}</Descriptions.Item>
+                            <Descriptions.Item label="Ngày tạo giao dịch">{new Date(record.createdAt).toLocaleString('en-GB')}</Descriptions.Item>
+                        </Descriptions>
+                    ),
+                    rowExpandable: record => record.name !== 'Not Expandable',
+                }}
+                pagination={{
+                    hideOnSinglePage: true,
+                    total: transactionList.length,
+                    pageSize,
+                    onShowSizeChange,
+                    current: currentPage,
+                    showQuickJumper: true,
+                    onChange: value => setCurrentPage(value),
+                }}
+            />
+        </Content>
     );
 };
 

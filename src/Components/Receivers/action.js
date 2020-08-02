@@ -26,5 +26,18 @@ export const getAllReceiver = (token) =>{
           memoryname: memorizeName
       })
     })
+  }
 
+  export const deleteReceiver = (token, accountNumber) =>{
+    return fetch(API.GET_ALL_RECEIVER, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({
+          accountnumber: accountNumber
+      })
+    })
   }

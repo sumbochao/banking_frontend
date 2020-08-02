@@ -68,7 +68,6 @@ export default function InputForm(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [err, setErr] = useState('');
 
-  console.log(props);
   useEffect(() => {
     if (props.bank === '2') {
       getAllPartners(authTokens.accessToken)

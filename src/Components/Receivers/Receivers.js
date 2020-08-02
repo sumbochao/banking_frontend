@@ -12,7 +12,9 @@ import {
 } from 'antd';
 import { WindowsFilled } from '@ant-design/icons';
 import { useAuth } from '../Routes/Context';
-import { getAllReceiver, editReceiver } from './action';
+import { getAllReceiver, editReceiver,  deleteReceiver} from './action';
+import './Receivers.css';
+
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -25,6 +27,7 @@ const layout = {
     span: 16
   }
 };
+
 
 export default function Receivers() {
   const EditableCell = ({
@@ -63,7 +66,6 @@ export default function Receivers() {
       .then(respone => respone.json())
       .then(res => {
         setReceivers(res.data);
-        console.log(res);
       });
   }, []);
 
@@ -77,6 +79,13 @@ export default function Receivers() {
       ...record
     });
     setEditingKey(record.accountNumber);
+  };
+
+  const handleDelete = accountNumber => {
+    const data = [...receivers];
+    const newData = data.filter(item => item.accountNumber !== accountNumber);
+    setReceivers(newData);
+    deleteReceiver(authTokens.accessToken, accountNumber);
   };
 
   const cancel = () => {
@@ -153,9 +162,14 @@ export default function Receivers() {
             </Popconfirm>
           </span>
         ) : (
+          <>
           <a disabled={editingKey !== ''} onClick={() => edit(record)}>
             Edit
           </a>
+              <Popconfirm title="Chắc chắn xóa?" onConfirm={() => handleDelete(record.accountNumber)}>
+              <a className = "action-delete">Delete</a>
+            </Popconfirm>
+          </>
         );
       }
     }

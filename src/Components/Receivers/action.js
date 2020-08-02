@@ -11,3 +11,19 @@ export const getAllReceiver = (token) =>{
     })
 
   }
+
+  export const editReceiver = (token, accountNumber, type) =>{
+    return fetch(API.GET_ALL_RECEIVER, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({
+          accountnumber: accountNumber,
+          type: type
+      })
+    })
+
+  }

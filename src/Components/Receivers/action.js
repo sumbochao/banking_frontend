@@ -12,7 +12,7 @@ export const getAllReceiver = (token) =>{
 
   }
 
-  export const editReceiver = (token, accountNumber, type) =>{
+  export const editReceiver = (token, accountNumber, type, memorizeName) =>{
     return fetch(API.GET_ALL_RECEIVER, {
       method: 'PUT',
       headers: {
@@ -22,7 +22,8 @@ export const getAllReceiver = (token) =>{
       },
       body: JSON.stringify({
           accountnumber: accountNumber,
-          type: type
+          type: type,
+          memoryname: memorizeName
       })
     })
 

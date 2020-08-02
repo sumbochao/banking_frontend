@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import { WindowsFilled } from '@ant-design/icons';
 import { useAuth } from '../Routes/Context';
-import { getAllReceiver } from './action';
+import { getAllReceiver, editReceiver } from './action';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -42,11 +42,10 @@ export default function Receivers() {
           <Form.Item
             name={dataIndex}
             style={{
-              margin: 0,
+              margin: 0
             }}
-           
           >
-            <Input/>
+            <Input />
           </Form.Item>
         ) : (
           children
@@ -62,10 +61,10 @@ export default function Receivers() {
   useEffect(() => {
     getAllReceiver(authTokens.accessToken)
       .then(respone => respone.json())
-      .then(res =>
-        {setReceivers(res.data)
-        console.log(res);}
-         );
+      .then(res => {
+        setReceivers(res.data);
+        console.log(res);
+      });
   }, []);
 
   const isEditing = record => record.accountNumber === editingKey;
@@ -75,7 +74,7 @@ export default function Receivers() {
       accountNumber: '',
       memorizeName: '',
       title: '',
-      ...record,
+      ...record
     });
     setEditingKey(record.accountNumber);
   };
@@ -88,7 +87,9 @@ export default function Receivers() {
     try {
       const row = await form.validateFields();
       const newData = [...receivers];
-      const index = newData.findIndex(item => accountNumber === item.accountNumber);
+      const index = newData.findIndex(
+        item => accountNumber === item.accountNumber
+      );
 
       if (index > -1) {
         const item = newData[index];
@@ -100,6 +101,13 @@ export default function Receivers() {
         setReceivers(newData);
         setEditingKey('');
       }
+
+      editReceiver(
+        authTokens.accessToken,
+        newData[index].accountNumber,
+        newData[index].type,
+        newData[index].memorizeName
+      );
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
@@ -110,50 +118,47 @@ export default function Receivers() {
       title: 'Số tài khoản',
       dataIndex: 'accountNumber',
       width: '30%',
-      editable: false,
-
+      editable: false
     },
     {
-        title: 'Tên gợi nhớ',
-        dataIndex: 'memorizeName',
-        width: '30%',
-        editable: true,
-
-      },
-      {
-        title: 'Loại ngân hàng',
-        dataIndex: 'type',
-        width: '30%',
-        editable: false,
-
-      },
-      {
-        title: 'Hành động',
-        dataIndex: 'operation',
-        render: (_, record) => {
-          const editable = isEditing(record);
-          return editable ? (
-            <span>
-              <a
-                href="javascript:;"
-                onClick={() => save(record.accountNumber)}
-                style={{
-                  marginRight: 8,
-                }}
-              >
-                Save
-              </a>
-              <Popconfirm title="Bạn muốn hủy?" onConfirm={cancel}>
-                <a>Cancel</a>
-              </Popconfirm>
-            </span>
-          ) : (
-            <a disabled={editingKey !== ''} onClick={() => edit(record)}>
-              Edit
+      title: 'Tên gợi nhớ',
+      dataIndex: 'memorizeName',
+      width: '30%',
+      editable: true
+    },
+    {
+      title: 'Loại ngân hàng',
+      dataIndex: 'type',
+      width: '30%',
+      editable: false
+    },
+    {
+      title: 'Hành động',
+      dataIndex: 'operation',
+      render: (_, record) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <a
+              href="javascript:;"
+              onClick={() => save(record.accountNumber)}
+              style={{
+                marginRight: 8
+              }}
+            >
+              Save
             </a>
-          );
-        },
-      },
+            <Popconfirm title="Bạn muốn hủy?" onConfirm={cancel}>
+              <a>Cancel</a>
+            </Popconfirm>
+          </span>
+        ) : (
+          <a disabled={editingKey !== ''} onClick={() => edit(record)}>
+            Edit
+          </a>
+        );
+      }
+    }
   ];
 
   const mergedColumns = columns.map(col => {
@@ -168,11 +173,11 @@ export default function Receivers() {
         inputType: col.dataIndex === 'age' ? 'number' : 'text',
         dataIndex: col.dataIndex,
         title: col.title,
-        editing: isEditing(record),
-      }),
+        editing: isEditing(record)
+      })
     };
   });
- 
+
   return (
     <Content
       className="receivers"
@@ -189,21 +194,21 @@ export default function Receivers() {
         </Col>
       </Row>
       <Form form={form} component={false}>
-      <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={receivers}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
-      />
-    </Form>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell
+            }
+          }}
+          bordered
+          dataSource={receivers}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: cancel
+          }}
+        />
+      </Form>
     </Content>
   );
 }

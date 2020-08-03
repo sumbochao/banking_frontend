@@ -41,3 +41,19 @@ export const getAllReceiver = (token) =>{
       })
     })
   }
+
+  export const addReceiver = (token, accountNumber, memorizeName, type) =>{
+    return fetch(API.GET_ALL_RECEIVER, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({
+          accountnumber: accountNumber,
+          memoryname: memorizeName,
+          type: type
+      })
+    })
+  }

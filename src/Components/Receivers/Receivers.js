@@ -8,13 +8,22 @@ import {
   Layout,
   Col,
   Row,
-  Typography
+  Typography,
+  Button,
+  Modal,
+  Radio,
+  Result
 } from 'antd';
 import { WindowsFilled } from '@ant-design/icons';
 import { useAuth } from '../Routes/Context';
-import { getAllReceiver, editReceiver,  deleteReceiver} from './action';
+import {
+  getAllReceiver,
+  editReceiver,
+  deleteReceiver,
+  addReceiver
+} from './action';
 import './Receivers.css';
-
+import { value } from 'numeral';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -27,7 +36,6 @@ const layout = {
     span: 16
   }
 };
-
 
 export default function Receivers() {
   const EditableCell = ({
@@ -60,6 +68,64 @@ export default function Receivers() {
   const [receivers, setReceivers] = useState([]);
   const [form] = Form.useForm();
   const [editingKey, setEditingKey] = useState('');
+  const [modelFormVisible, setModelFormVisible] = useState();
+  const [errorModelVisible, setErrorModelVisible] = useState();
+  const [err, setErr] = useState();
+  const [status, setStatus] = useState();
+  const [isLoading, setLoading] = useState();
+  const [dataAdd, setDataAdd] = useState();
+
+  const addButtonClick = () => {
+    setModelFormVisible(true);
+  };
+
+  const onCancleModel = () => {
+    setModelFormVisible(false);
+  };
+
+  const onErrorModel = () => {
+    setErrorModelVisible(false);
+  };
+  const onFinish = async () => {
+    try {
+      setLoading(true)
+      const values = await form.validateFields();
+      const data = [...receivers];
+      data.push(values);
+      setDataAdd(data);
+      addReceiver(
+        authTokens.accessToken,
+        values.accountNumber,
+        values.memorizeName,
+        values.type
+      )
+        .then(respone => respone.json())
+        .then(res => setStatus(res))
+        .catch(err => console.log(err))
+        .finally(() => setLoading(false));
+    } catch (errorInfo) {
+      console.log(errorInfo);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoading === false) {
+      if (status.status === 'fail') {
+        setErr(
+          status.err === 'account number is existed.'
+            ? 'Tài khoản đã tồn tại trong danh sách.'
+            : status.err === 'account number does not exists.'
+            ? 'Không tìm thấy tài khoản.'
+            : status.err
+        );
+        setErrorModelVisible(true);
+      }
+      if (status.status === 'success') {
+        setReceivers(dataAdd);
+        setModelFormVisible(false);
+      }
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     getAllReceiver(authTokens.accessToken)
@@ -163,11 +229,14 @@ export default function Receivers() {
           </span>
         ) : (
           <>
-          <a disabled={editingKey !== ''} onClick={() => edit(record)}>
-            Edit
-          </a>
-              <Popconfirm title="Chắc chắn xóa?" onConfirm={() => handleDelete(record.accountNumber)}>
-              <a className = "action-delete">Delete</a>
+            <a disabled={editingKey !== ''} onClick={() => edit(record)}>
+              Edit
+            </a>
+            <Popconfirm
+              title="Chắc chắn xóa?"
+              onConfirm={() => handleDelete(record.accountNumber)}
+            >
+              <a className="action-delete">Delete</a>
             </Popconfirm>
           </>
         );
@@ -207,6 +276,82 @@ export default function Receivers() {
           </Title>
         </Col>
       </Row>
+      <Button
+        type="primary"
+        danger
+        style={{ marginBottom: 10 }}
+        onClick={addButtonClick}
+      >
+        Thêm mới
+      </Button>
+      <Modal
+        title="Thêm tài khoản mới"
+        visible={modelFormVisible}
+        footer={[
+          <Button onClick={onCancleModel}>
+          Hủy bỏ
+        </Button>,
+          <Button type="primary" onClick={onFinish} loading={isLoading}>
+            Thêm mới
+          </Button>
+        ]}
+      >
+        <Form
+          labelCol={{
+            span: 8
+          }}
+          wrapperCol={{
+            span: 14
+          }}
+          layout="horizontal"
+          form={form}
+        >
+          <Form.Item
+            label="Số tài khoản"
+            name="accountNumber"
+            rules={[{ required: true, message: 'Vui lòng nhập số tài khoản' }]}
+          >
+            <Input style={{ marginTop: 10, marginLeft: 5 }} />
+          </Form.Item>
+          <Form.Item
+            style={{ marginLeft: 10 }}
+            label={
+              <p style={{ fontWeight: 'bold', fontSize: 14, marginTop: 14 }}>
+                Tên gợi nhớ
+              </p>
+            }
+            name="memorizeName"
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Tài khoản thuộc"
+            name="type"
+            rules={[{ required: true, message: 'Vui lòng chọn một' }]}
+          >
+            <Radio.Group style={{ marginTop: 20 }} name="type">
+              <Radio.Button value="NOI BO">Nội bộ</Radio.Button>
+              <Radio.Button value="LIEN NGAN HANG">Liên ngân hàng</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title=""
+        visible={errorModelVisible}
+        footer={[
+          <Button key="danger" onClick={onErrorModel}>
+            Xác nhận
+          </Button>
+        ]}
+      >
+        <Result
+          status="error"
+          title="Thêm tài khoản thất bại."
+          subTitle={err}
+        />
+        ,
+      </Modal>
       <Form form={form} component={false}>
         <Table
           components={{

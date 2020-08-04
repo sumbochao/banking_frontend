@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Col, Typography, Row, Form, Button, Input, InputNumber, Modal } from 'antd';
+import { Layout, Col, Typography, Row, Form, Button, Input } from 'antd';
 import {
     WindowsFilled,
 } from '@ant-design/icons';
@@ -9,7 +9,6 @@ import Swal from 'sweetalert2';
 
 const { Content } = Layout;
 const { Title } = Typography;
-const { Result } = Modal;
 
 const CreateNewCustomer = () => {
 
@@ -121,12 +120,24 @@ const CreateNewCustomer = () => {
                 <Form.Item
                     label="Nhập địa chỉ của bạn : "
                     name="address"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập địa chỉ!',
+                        },
+                    ]}
                 >
                     <Input style={{ marginTop: 15, width: '50%', borderColor: '#fb2609' }} />
                 </Form.Item>
                 <Form.Item
                     label="Số điện thoại : "
                     name="phonenumber"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập SĐT!',
+                        },
+                    ]}
                 >
                     <Input
                         style={{ marginTop: 15, width: '50%', borderColor: '#fb2609' }}

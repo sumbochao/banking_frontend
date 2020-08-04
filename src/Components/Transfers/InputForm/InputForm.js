@@ -261,7 +261,7 @@ export default function InputForm(props) {
             ]}
           >
             <Radio.Group style={{ marginTop: 20 }} name="type_transaction">
-              <Radio.Button value="NOI BO">Chuyển khoảng nội bộ</Radio.Button>
+              <Radio.Button value="NOI BO">Chuyển khoản nội bộ</Radio.Button>
               <Radio.Button value="THANH TOAN NHAC NO">Thanh toán nhắc nợ</Radio.Button>
             </Radio.Group>
           </Form.Item>

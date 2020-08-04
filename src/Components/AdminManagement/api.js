@@ -1,12 +1,14 @@
 import Swal from 'sweetalert2';
 import API from '../../Services/API';
 
-export const getListAdmins = callBack => {
+export const getListAdmins = (token, callBack) => {
   return fetch(API.GET_LIST_ADMIN, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
   })
     .then(response => response.json())
     .then(res => {

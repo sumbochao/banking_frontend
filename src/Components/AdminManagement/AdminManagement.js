@@ -14,6 +14,7 @@ import { ResetPasswordModal } from './ResetPasswordModal';
 
 import { getListAdmins, deleteAdmin } from './api';
 import './AdminManagement.css';
+import { useAuth } from '../Routes/Context';
 
 const AdminManagement = () => {
   const [searchText, setSearchText] = useState('');
@@ -24,6 +25,8 @@ const AdminManagement = () => {
   const [modalPassword, setModalPassword] = useState(false);
   const [oldData, setOldData] = useState(false);
   const [idForPassword, setIdForPassword] = useState(false);
+  const { authTokens } = useAuth();
+
 
   const deleteComplete = res => {
     if (res) {
@@ -48,13 +51,13 @@ const AdminManagement = () => {
   };
   const loadSucceed = res => {
     if (res) {
-      setUserData(res);
+      setUserData(res.data);
     }
   };
 
   useEffect(() => {
-    getListAdmins(loadSucceed);
-  }, []);
+    getListAdmins(authTokens.accessToken, loadSucceed);
+  }, [authTokens.accessToken]);
 
   let searchInput = '';
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -74,37 +77,37 @@ const AdminManagement = () => {
       confirm,
       clearFilters
     }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={node => {
-            searchInput = node;
-          }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: 'block' }}
-        />
-        <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          icon={<SearchOutlined />}
-          size="small"
-          style={{ width: 90, marginRight: 8 }}
-        >
-          Search
+        <div style={{ padding: 8 }}>
+          <Input
+            ref={node => {
+              searchInput = node;
+            }}
+            placeholder={`Search ${dataIndex}`}
+            value={selectedKeys[0]}
+            onChange={e =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            Search
         </Button>
-        <Button
-          onClick={() => handleReset(clearFilters)}
-          size="small"
-          style={{ width: 90 }}
-        >
-          Reset
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
         </Button>
-      </div>
-    ),
+        </div>
+      ),
     filterIcon: filtered => (
       <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
     ),
@@ -127,24 +130,24 @@ const AdminManagement = () => {
           textToHighlight={text.toString()}
         />
       ) : (
-        text
-      )
+          text
+        )
   });
   const columns = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-      width: '10%',
-      fixed: 'left',
-      ...getColumnSearchProps('id')
-    },
+    // {
+    //   title: 'ID',
+    //   dataIndex: 'id',
+    //   key: 'id',
+    //   width: '10%',
+    //   fixed: 'left',
+    //   ...getColumnSearchProps('id')
+    // },
     {
       title: 'Admin Name',
-      dataIndex: 'adminname',
-      key: 'adminname',
+      dataIndex: 'name',
+      key: 'name',
       width: '20%',
-      ...getColumnSearchProps('adminname')
+      ...getColumnSearchProps('name')
     },
     {
       title: 'Email',
@@ -154,11 +157,11 @@ const AdminManagement = () => {
     },
     {
       title: 'Phụ trách',
-      dataIndex: 'type',
-      key: 'type',
-      ...getColumnSearchProps('type')
+      dataIndex: 'ruleAccess',
+      key: 'ruleAccess',
+      align: 'center',
+      ...getColumnSearchProps('ruleAccess')
     },
-
     {
       title: 'Chỉnh sửa',
       key: 'update',
@@ -218,7 +221,7 @@ const AdminManagement = () => {
         oldData={oldData}
       />
       <Table
-        rowKey={i => i.id}
+        rowKey={i => i.email}
         columns={columns}
         dataSource={userData}
         scroll={{ x: true }}

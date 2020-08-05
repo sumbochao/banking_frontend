@@ -71,12 +71,14 @@ export const deleteAdmin = (admin, callBack) => {
     });
 };
 
-export const updateAdmin = (adminInfo, callBack) => {
+export const updateAdmin = (token, adminInfo, callBack) => {
   return fetch(API.UPDATE_ADMIN, {
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify(adminInfo),
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
     }
   })
     .then(response => response.json())
@@ -84,6 +86,7 @@ export const updateAdmin = (adminInfo, callBack) => {
       if (res) {
         callBack(res);
       } else {
+        Swal.fire("Lỗi", res.err, "error");
         callBack(false);
       }
     })
@@ -93,12 +96,17 @@ export const updateAdmin = (adminInfo, callBack) => {
     });
 };
 
-export const resetPassword = ({ id, password }, callBack) => {
+export const resetPassword = (token, email, password, callBack) => {
   return fetch(API.RESET_PASS_ADMIN, {
-    method: 'POST',
-    body: JSON.stringify({ id, password }),
+    method: 'PUT',
+    body: JSON.stringify({
+      email: email,
+      password: password
+    }),
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
     }
   })
     .then(response => response.json())
@@ -106,6 +114,7 @@ export const resetPassword = ({ id, password }, callBack) => {
       if (res) {
         callBack(res);
       } else {
+        Swal.fire("Lỗi", res.err, "error");
         callBack(false);
       }
     })

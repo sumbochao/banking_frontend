@@ -208,6 +208,7 @@ const AdminManagement = () => {
         id={idForPassword}
         visible={modalPassword}
         setVisible={setModalPassword}
+        oldData={oldData}
       />
       <AddNewAccount
         visible={modal}

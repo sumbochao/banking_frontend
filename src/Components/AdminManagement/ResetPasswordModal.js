@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, message } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
-
 import { resetPassword } from './api';
+import { useAuth } from '../Routes/Context';
 
 export const ResetPasswordModal = props => {
-  const { visible, setVisible, id } = props;
+  const { visible, setVisible, id, oldData } = props;
   const [confirmLoading, setConfirm] = useState(false);
   const [form] = Form.useForm();
+  const { authTokens } = useAuth();
+
   const resetComplete = res => {
     if (res) {
       message.success('Cấp lại thành công', 1, setVisible(false));
@@ -20,8 +22,7 @@ export const ResetPasswordModal = props => {
     try {
       const values = await form.validateFields();
       setConfirm(true);
-      console.log(values);
-      resetPassword(values, resetComplete);
+      resetPassword(authTokens.accessToken, oldData.email, values.password, resetComplete);
     } catch (errorInfo) {
       console.log(errorInfo);
     }
@@ -64,7 +65,7 @@ export const ResetPasswordModal = props => {
           <Form.Item
             name="password"
             rules={[
-              { min: 6, required: true, message: 'Password không hợp lệ' }
+              { min: 6, required: true, message: 'Password phải nhiều hơn 6 kí tự!' }
             ]}
           >
             <Input

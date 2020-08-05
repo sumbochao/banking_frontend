@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, Select, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-
 import { updateAdmin } from './api';
-
-const { Option } = Select;
+import { useAuth } from '../Routes/Context';
 
 export const UpdateAdmin = props => {
   const { visible, setVisible, dataControll, oldData } = props;
@@ -12,13 +10,14 @@ export const UpdateAdmin = props => {
   const data = dataControll[0];
   const setData = dataControll[1];
   const [form] = Form.useForm();
+  const { authTokens } = useAuth();
 
-  const addComplete = res => {
+  const updateComplete = res => {
     setConfirm(false);
     if (res) {
       const temp = [...data];
-      const findID = element => element.id === res.admin.id;
-      temp[temp.findIndex(findID)] = res.admin;
+      const findID = element => element.email === res.data.email;
+      temp[temp.findIndex(findID)] = res.data;
       setData(temp);
       message.success('Sửa thành công', 1, setVisible(false));
     } else {
@@ -29,7 +28,7 @@ export const UpdateAdmin = props => {
     try {
       const values = await form.validateFields();
       setConfirm(true);
-      updateAdmin(values, addComplete);
+      updateAdmin(authTokens.accessToken, values, updateComplete);
     } catch (errorInfo) {
       console.log(errorInfo);
     }
@@ -42,9 +41,9 @@ export const UpdateAdmin = props => {
   const onFill = params => {
     form.setFieldsValue({
       id: params.id,
-      adminname: params.adminname,
+      name: params.name,
       email: params.email,
-      type: params.type
+      ruleAccess: params.ruleAccess
     });
   };
 
@@ -86,29 +85,14 @@ export const UpdateAdmin = props => {
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder={oldData.email}
+              disabled
             />
           </Form.Item>
           <Form.Item
-            name="adminname"
-            rules={[{ min: 6, required: true, message: 'Tên không hợp lệ!' }]}
+            name="name"
+            rules={[{ min: 6, required: true, message: 'Họ tên phải hơn 6 kí tự!' }]}
           >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} />
-          </Form.Item>
-          <Form.Item
-            name="type"
-            rules={[{ required: true, message: 'Chọn một vai trò!' }]}
-          >
-            <Select allowClear size="large">
-              <Option value="Admin quản lí bài viết">
-                Admin quản lí bài viết
-              </Option>
-              <Option value="Admin quản lí tài khoản">
-                Admin quản lí tài khoản
-              </Option>
-              <Option value="Admin quản lí công ty">
-                Admin quản lí công ty
-              </Option>
-            </Select>
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder={oldData.name} />
           </Form.Item>
         </Form>
       </Modal>

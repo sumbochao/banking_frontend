@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Form, Input, Select, message } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { createAdmin } from './api';
+import { useAuth } from '../Routes/Context';
 
 const { Option } = Select;
 
@@ -11,11 +12,13 @@ export const AddNewAccount = props => {
   const data = dataControll[0];
   const setData = dataControll[1];
   const [form] = Form.useForm();
+  const { authTokens } = useAuth();
+
   const addComplete = res => {
     setConfirm(false);
-    if (res.email !== undefined) {
+    if (res.data.email !== undefined) {
       const temp = [...data];
-      temp.push(res);
+      temp.push(res.data);
       setData(temp);
       message.success('Thêm thành công', 1, setVisible(false));
     } else {
@@ -26,7 +29,7 @@ export const AddNewAccount = props => {
     try {
       const values = await form.validateFields();
       setConfirm(true);
-      createAdmin(values, addComplete);
+      createAdmin(authTokens.accessToken, values, addComplete);
     } catch (errorInfo) {
       console.log(errorInfo);
     }
@@ -69,7 +72,7 @@ export const AddNewAccount = props => {
             />
           </Form.Item>
           <Form.Item
-            name="adminname"
+            name="name"
             rules={[{ min: 6, required: true, message: 'Tên không hợp lệ!' }]}
           >
             <Input
@@ -88,22 +91,6 @@ export const AddNewAccount = props => {
               size="large"
               prefix={<LockOutlined className="site-form-item-icon" />}
             />
-          </Form.Item>
-          <Form.Item
-            name="type"
-            rules={[{ required: true, message: 'Chọn một vai trò!' }]}
-          >
-            <Select allowClear size="large" placeholder="Loại admin">
-              <Option value="Admin quản lí bài viết">
-                Admin quản lí bài viết
-              </Option>
-              <Option value="Admin quản lí tài khoản">
-                Admin quản lí tài khoản
-              </Option>
-              <Option value="Admin quản lí công ty">
-                Admin quản lí công ty
-              </Option>
-            </Select>
           </Form.Item>
         </Form>
       </Modal>

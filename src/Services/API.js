@@ -35,6 +35,13 @@ const API = {
   CREATE_NEW_SAVE_ACCOUNT: `${URL}/payments/save-account`,
   CREATE_A_CUSTOMER: `${URL}/customers`,
 
+  // admin management
+  GET_LIST_ADMIN: `${URL}/employees`,
+  CREATE_NEW_ADMIN: `${URL}/employees`,
+  DELETE_ADMIN: `${URL}/employees`,
+  UPDATE_ADMIN: `${URL}/employees/update/name`,
+  RESET_PASS_ADMIN: `${URL}/employees/update/password`,
+
 };
 
 export default API;

@@ -25,6 +25,12 @@ import { UserHistory } from '../LichSuNguoiDung';
 import { TransactionHistory } from '../LichSuGiaoDich';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
 
+import { RechargeAccount } from "../NapTien";
+import { CreateSaveAccount } from "../TaoTaiKhoanTietKiem";
+import { CreateNewCustomer } from "../TaoTaiKhoanNguoiDung";
+import { Receivers } from '../Receivers';
+import { TransactionList } from '../DanhSachGiaoDich';
+
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -82,6 +88,11 @@ function App() {
             path="/chuyen-tien"
             render={() => <AdminLayout Child={<Transfers />} />}
           />
+           <PrivateRoute
+            exact
+            path="/danh-sach-nguoi-nhan"
+            render={() => <AdminLayout Child={<Receivers />} />}
+          />
           <PrivateRoute
             exact
             path="/lich-su-nguoi-dung"
@@ -100,7 +111,7 @@ function App() {
           <PrivateRoute
             exact
             path="/nap-tien"
-            render={() => <AdminLayout Child={<PaymentManagement />} />}
+            render={() => <AdminLayout Child={<RechargeAccount />} />}
           />
           <PrivateRoute
             exact
@@ -110,12 +121,22 @@ function App() {
           <PrivateRoute
             exact
             path="/danh-sach-giao-dich"
-            render={() => <AdminLayout Child={<PaymentManagement />} />}
+            render={() => <AdminLayout Child={<TransactionList />} />}
           />
           <PrivateRoute
             exact
             path="/quan-ly-admin"
             render={() => <AdminLayout Child={<AdminManagement />} />}
+          />
+          <PrivateRoute
+            exact
+            path="/tao-tai-khoan-nguoi-dung"
+            render={() => <AdminLayout Child={<CreateNewCustomer />} />}
+          />
+          <PrivateRoute
+            exact
+            path="/tao-tai-khoan-tiet-kiem"
+            render={() => <AdminLayout Child={<CreateSaveAccount />} />}
           />
         </Switch>
       </Router>

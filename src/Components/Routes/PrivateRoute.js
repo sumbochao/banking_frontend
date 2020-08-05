@@ -39,6 +39,7 @@ export const PrivateRoute = ({ component: Component, render, ...rest }) => {
 
   useEffect(() => {
     const autoRefreshToken = setInterval(()=>{
+      console.log('refresh');
       isAuthenticated();
     },1000*60*25);
     return () => clearInterval(autoRefreshToken);

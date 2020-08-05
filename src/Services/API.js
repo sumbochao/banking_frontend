@@ -9,6 +9,7 @@ const API = {
   GET_ALL_RECEIVER: `${URL}/receivers`,
   SEND_OTP: `${URL}/OTP/send`,
   VERIFY_OTP: `${URL}/OTP/verify`,
+  TRANSFER_IN_LOCAL: `${URL}/payments/payment-account/pay`,
 
   // employee
   LOGIN_EMPLOYEE: `${URL}/auth/admin-login`,
@@ -21,15 +22,25 @@ const API = {
   // Transaction history
   // customer
   CUSTOMER_TRANSACTION: `${URL}/customers/history`,
-  // employee one + admin
-
-  // employee all + admin
-
   // employee + admin : one
   TRANSACTION_HISTORY: `${URL}/employees/history/customer`,
-  // admin : all
+  // admin : (foreign one)
+  FOREIGN_ONE: `${URL}/employees/history/foreign/one`,
+  // admin : (foreign all)
+  FOREIGN_ALL: `${URL}/employees/history/foreign/all`,
 
-  // admin (foreign)
+
+  // Payment
+  RECHARGE_ACCOUNT: `${URL}/payments/add-money`,
+  CREATE_NEW_SAVE_ACCOUNT: `${URL}/payments/save-account`,
+  CREATE_A_CUSTOMER: `${URL}/customers`,
+
+  // admin management
+  GET_LIST_ADMIN: `${URL}/employees`,
+  CREATE_NEW_ADMIN: `${URL}/employees`,
+  DELETE_ADMIN: `${URL}/employees`,
+  UPDATE_ADMIN: `${URL}/employees/update/name`,
+  RESET_PASS_ADMIN: `${URL}/employees/update/password`,
 
   // forgot password 
   SEND_MAIL_FORGOT_PASSWORD : `${URL}/forgot/send`,

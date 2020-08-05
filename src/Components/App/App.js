@@ -23,6 +23,7 @@ import Welcome from '../WelCome/Welcome';
 // import { getRefreshToken } from './action';
 import { UserHistory } from '../LichSuNguoiDung';
 import { TransactionHistory } from '../LichSuGiaoDich';
+import ForgotPassword from '../ForgotPassword/ForgotPassword';
 
 
 function App() {
@@ -55,6 +56,11 @@ function App() {
             exact
             path="/login"
             render={() => <Login />}
+          />
+             <PublicRoute
+            exact
+            path="/forgot"
+            render={() => <ForgotPassword />}
           />
           <PublicRoute
             exact

@@ -31,6 +31,11 @@ const API = {
 
   // admin (foreign)
 
+  // forgot password 
+  SEND_MAIL_FORGOT_PASSWORD : `${URL}/forgot/send`,
+  VERIFY_OTP_FORGOT: `${URL}/forgot/verify`,
+  RESET_PASSWORD: `${URL}/forgot/change`,
+
 };
 
 export default API;

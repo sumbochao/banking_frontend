@@ -30,9 +30,6 @@ const Login = (props) => {
     }
    
   };
-  const handleForgotPasswordClick = () =>{
-    message.success("Hệ thống đã gửi mã OTP để quý khách đổi mật khẩu");
-  };
 
   if (authTokens.accessToken) return <Redirect to="/dashboard" />;
   return (
@@ -99,34 +96,35 @@ const Login = (props) => {
                   />
               </Form.Item>
                   <Row justify = "space-between" align="middle">
+                  <Col style={{height: '40px'}}>
                     {!isEmployee ? (
-                      <Col style={{height: '40px'}}>
-                      <Link
-                        to="/forgot"
-                        style={{
-                          fontSize: '15px',
-                          color: '#F55D3E',
-                          fontWeight: 'bold', 
-                        }}
-                        onClick={handleForgotPasswordClick}
-                      >
-                        Quên mật khẩu ?
-                      </Link>
+                        <Link
+                          to="/forgot"
+                          style={{
+                            fontSize: '15px',
+                            color: '#F55D3E',
+                            fontWeight: 'bold', 
+                          }}
+                        >
+                          Quên mật khẩu ?
+                        </Link>
+                      
+                      ) : (' ')}
+                    </Col>
+                    <Col>
+                        <Form.Item>
+                          <Button
+                          className="custom-button"
+                          type="primary"
+                          htmlType="submit"
+                          loading={isLoading}
+                          style={{ float: 'right'}}
+                        >
+                          Đăng nhập
+                          </Button>
+                        </Form.Item>
                       </Col>
-                    ) : (' ')}
-               <Col>
-                  <Form.Item>
-                    <Button
-                    className="custom-button"
-                    type="primary"
-                    htmlType="submit"
-                    loading={isLoading}
-                  >
-                    Đăng nhập
-                    </Button>
-                  </Form.Item>
-                </Col>
-              </Row>
+                  </Row>
             </Form>
           </Col>
         </div>

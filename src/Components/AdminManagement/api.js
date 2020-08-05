@@ -49,12 +49,14 @@ export const createAdmin = (token, adminInfo, callBack) => {
     });
 };
 
-export const deleteAdmin = (admin, callBack) => {
+export const deleteAdmin = (token, email, callBack) => {
   return fetch(API.DELETE_ADMIN, {
-    method: 'POST',
-    body: JSON.stringify(admin),
+    method: 'DELETE',
+    body: JSON.stringify({ email: email }),
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
     }
   })
     .then(response => response.json())
@@ -62,6 +64,7 @@ export const deleteAdmin = (admin, callBack) => {
       if (res) {
         callBack(res);
       } else {
+        Swal.fire('Thông báo', res.err, 'error');
         callBack(false);
       }
     })

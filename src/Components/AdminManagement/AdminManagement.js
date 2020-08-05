@@ -31,14 +31,14 @@ const AdminManagement = () => {
   const deleteComplete = res => {
     if (res) {
       const temp = [...userData];
-      const findID = elementId => elementId.id === res.id;
+      const findID = elementId => elementId.email === res.data.email;
       temp.splice(temp.findIndex(findID), 1);
       setUserData(temp);
       message.success('Xóa thành công');
     } else message.error('Chưa xóa được');
   };
   const handleDelete = record => {
-    deleteAdmin(record, deleteComplete);
+    deleteAdmin(authTokens.accessToken, record, deleteComplete);
   };
   const handleEdit = record => {
     setOldData(record);
@@ -190,8 +190,8 @@ const AdminManagement = () => {
       render: record => (
         <span>
           <Popconfirm
-            title="Sure to delete?"
-            onConfirm={() => handleDelete(record.id)}
+            title="Bạn chắc chắn muôn xóa?"
+            onConfirm={() => handleDelete(record.email)}
           >
             <DeleteFilled />
           </Popconfirm>

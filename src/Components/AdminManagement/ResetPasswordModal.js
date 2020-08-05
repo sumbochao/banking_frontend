@@ -32,15 +32,15 @@ export const ResetPasswordModal = props => {
     setVisible(false);
   };
 
-  const onFill = params => {
-    form.setFieldsValue({
-      id: params
-    });
-  };
+  // const onFill = params => {
+  //   form.setFieldsValue({
+  //     id: params
+  //   });
+  // };
 
-  useEffect(() => {
-    onFill(id);
-  });
+  // useEffect(() => {
+  //   onFill(id);
+  // });
 
   return (
     <div>

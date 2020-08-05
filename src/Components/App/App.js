@@ -23,11 +23,14 @@ import Welcome from '../WelCome/Welcome';
 // import { getRefreshToken } from './action';
 import { UserHistory } from '../LichSuNguoiDung';
 import { TransactionHistory } from '../LichSuGiaoDich';
+import ForgotPassword from '../ForgotPassword/ForgotPassword';
+
 import { RechargeAccount } from "../NapTien";
 import { CreateSaveAccount } from "../TaoTaiKhoanTietKiem";
 import { CreateNewCustomer } from "../TaoTaiKhoanNguoiDung";
 import { Receivers } from '../Receivers';
 import { TransactionList } from '../DanhSachGiaoDich';
+
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -59,6 +62,11 @@ function App() {
             exact
             path="/login"
             render={() => <Login />}
+          />
+             <PublicRoute
+            exact
+            path="/forgot"
+            render={() => <ForgotPassword />}
           />
           <PublicRoute
             exact

@@ -42,6 +42,11 @@ const API = {
   UPDATE_ADMIN: `${URL}/employees/update/name`,
   RESET_PASS_ADMIN: `${URL}/employees/update/password`,
 
+  // forgot password 
+  SEND_MAIL_FORGOT_PASSWORD : `${URL}/forgot/send`,
+  VERIFY_OTP_FORGOT: `${URL}/forgot/verify`,
+  RESET_PASSWORD: `${URL}/forgot/change`,
+
 };
 
 export default API;

@@ -24,12 +24,14 @@ export const getListAdmins = (token, callBack) => {
     });
 };
 
-export const createAdmin = (adminInfo, callBack) => {
+export const createAdmin = (token, adminInfo, callBack) => {
   return fetch(API.CREATE_NEW_ADMIN, {
     method: 'POST',
     body: JSON.stringify(adminInfo),
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
     }
   })
     .then(response => response.json())
@@ -37,6 +39,7 @@ export const createAdmin = (adminInfo, callBack) => {
       if (res) {
         callBack(res);
       } else {
+        Swal.fire("Lỗi", res.err, "error");
         callBack(false);
       }
     })

@@ -35,6 +35,7 @@ const API = {
   CREATE_NEW_SAVE_ACCOUNT: `${URL}/payments/save-account`,
   CREATE_A_CUSTOMER: `${URL}/customers`,
   GET_LIST_ADMIN: `${URL}/employees`,
+  CREATE_NEW_ADMIN: `${URL}/employees`,
 
 };
 

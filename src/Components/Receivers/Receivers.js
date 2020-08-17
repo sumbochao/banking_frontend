@@ -364,7 +364,7 @@ export default function Receivers() {
           columns={mergedColumns}
           rowClassName="editable-row"
           pagination={{
-            onChange: cancel
+            pageSize: 10
           }}
         />
       </Form>

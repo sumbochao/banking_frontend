@@ -22,10 +22,9 @@ import {
 } from 'antd';
 
 import '../Transfers.css';
+import { addReceiver } from '../../Receivers/action';
 
-const { Content } = Layout;
 const { Option } = Select;
-const { TabPane } = Tabs;
 const { TextArea } = Input;
 
 const initialState = {
@@ -35,6 +34,7 @@ const initialState = {
   type_fee: '',
   description: '',
   type_transaction: '',
+  is_save: '',
 };
 
 function reducer(state, action) {
@@ -47,7 +47,8 @@ function reducer(state, action) {
         amount: action.amount,
         type_fee: action.type_fee,
         description: action.description,
-        type_transaction: action.type_transaction
+        type_transaction: action.type_transaction,
+        is_save: action.is_save,
       };
     default:
       throw new Error();
@@ -107,7 +108,8 @@ export default function InputForm(props) {
           to_number: stk,
           amount: val.amount,
           type_fee: val.type_fee,
-          description: val.description
+          description: val.description,
+          is_save: val.is_save
         });
       } else {
         dispatch({
@@ -115,7 +117,8 @@ export default function InputForm(props) {
           to_number: stk,
           amount: val.amount,
           description: val.description,
-          type_transaction: val.type_transaction
+          type_transaction: val.type_transaction,
+          is_save: val.is_save
         });
       }
     }
@@ -192,20 +195,23 @@ export default function InputForm(props) {
       if (props.bank === '2') {
         if (state.partner === 3) {
           if (status.status === 1) {
-            return setSuccessVisible(true);
+            addReceiver(authTokens.accessToken, state.to_number, "", "LIEN NGAN HANG");
+            setSuccessVisible(true);
           } else {
-            return setFailVisible(true);
+            setFailVisible(true);
           }
         } else {
           if (status.data.success === false) {
-            return setFailVisible(true);
+            setFailVisible(true);
           } else {
-            return setSuccessVisible(true);
+            addReceiver(authTokens.accessToken, state.to_number, "", "LIEN NGAN HANG");
+            setSuccessVisible(true);
           }
         }
       } else {
         if (status.status === 'success') {
-          return setSuccessVisible(true);
+          addReceiver(authTokens.accessToken, state.to_number, "", "NOI BO")
+          setSuccessVisible(true);
         } else {
           setErr((status.err === "balance is not enoungh.") ? "Tài khoản không đủ" : (status.err === "sender and receiver must be different." ? "Tài khoản nhận phải khác tài khoản của bạn" : status.err))
           setFailVisible(true);
@@ -214,12 +220,15 @@ export default function InputForm(props) {
     }
   }, [isTransaction]);
 
-  if (type === '2') {
-    getAllReceivers(authTokens.accessToken)
-      .then(respone => respone.json())
-      .then(res => setReceivers(res.data))
-      .catch(err => console.log(err));
-  }
+  useEffect(() => {
+    if (type === '2') {
+      getAllReceivers(authTokens.accessToken)
+        .then(respone => respone.json())
+        .then(res => setReceivers(res.data))
+        .catch(err => console.log(err));
+    }
+  }, [type])
+  
   return (
     <>
       <Form
@@ -275,11 +284,10 @@ export default function InputForm(props) {
         >
           <Select
             name="type_receiver"
-            defaultValue='0'
+            defaultValue='Cách nhập số tài khoản'
             onChange={value => setType(value)}
             style={{ marginTop: 20 }}
           >
-            <Option value="0">Cách nhập số tài khoản</Option>
             <Option value="1">Nhập trực tiếp</Option>
             <Option value="2">Chọn từ danh sách</Option>
           </Select>
@@ -314,6 +322,18 @@ export default function InputForm(props) {
         ) : (
           <></>
         )}
+         <Form.Item
+            label="Lưu lại số tài khoản"
+            name="is_save"
+            rules={[
+              { required: true, message: 'Vui lòng chọn một' }
+            ]}
+          >
+            <Radio.Group style={{ marginTop: 20 }} name="is_save">
+              <Radio.Button value="0">Lưu</Radio.Button>
+              <Radio.Button value="1">Không lưu</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
         <Form.Item
           label="Số tiền"
           name="amount"

@@ -195,7 +195,9 @@ export default function InputForm(props) {
       if (props.bank === '2') {
         if (state.partner === 3) {
           if (status.status === 1) {
-            addReceiver(authTokens.accessToken, state.to_number, "", "LIEN NGAN HANG");
+            if(state.is_save === '0'){
+              addReceiver(authTokens.accessToken, state.to_number, "", "LIEN NGAN HANG");
+            }
             setSuccessVisible(true);
           } else {
             setFailVisible(true);
@@ -204,13 +206,17 @@ export default function InputForm(props) {
           if (status.data.success === false) {
             setFailVisible(true);
           } else {
-            addReceiver(authTokens.accessToken, state.to_number, "", "LIEN NGAN HANG");
+            if(state.is_save === '0'){
+              addReceiver(authTokens.accessToken, state.to_number, "", "LIEN NGAN HANG");
+            }
             setSuccessVisible(true);
           }
         }
       } else {
         if (status.status === 'success') {
-          addReceiver(authTokens.accessToken, state.to_number, "", "NOI BO")
+          if(state.is_save === '0'){
+            addReceiver(authTokens.accessToken, state.to_number, "", "NOI BO");
+          }
           setSuccessVisible(true);
         } else {
           setErr((status.err === "balance is not enoungh.") ? "Tài khoản không đủ" : (status.err === "sender and receiver must be different." ? "Tài khoản nhận phải khác tài khoản của bạn" : status.err))
@@ -293,6 +299,7 @@ export default function InputForm(props) {
           </Select>
         </Form.Item>
         {type === '1' ? (
+          <>
           <Form.Item
             label="Nhập số tài khoản"
             name="to_number"
@@ -300,6 +307,19 @@ export default function InputForm(props) {
           >
             <Input name="to_number" style={{ marginTop: 20 }}></Input>
           </Form.Item>
+          <Form.Item
+            label="Lưu lại số tài khoản"
+            name="is_save"
+            rules={[
+              { required: true, message: 'Vui lòng chọn một' }
+            ]}
+          >
+            <Radio.Group style={{ marginTop: 20 }} name="is_save">
+              <Radio.Button value="0">Lưu</Radio.Button>
+              <Radio.Button value="1">Không lưu</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+          </>
         ) : type === '2' ? (
           <Form.Item
             label="Chọn số tài khoản"
@@ -322,18 +342,6 @@ export default function InputForm(props) {
         ) : (
           <></>
         )}
-         <Form.Item
-            label="Lưu lại số tài khoản"
-            name="is_save"
-            rules={[
-              { required: true, message: 'Vui lòng chọn một' }
-            ]}
-          >
-            <Radio.Group style={{ marginTop: 20 }} name="is_save">
-              <Radio.Button value="0">Lưu</Radio.Button>
-              <Radio.Button value="1">Không lưu</Radio.Button>
-            </Radio.Group>
-          </Form.Item>
         <Form.Item
           label="Số tiền"
           name="amount"

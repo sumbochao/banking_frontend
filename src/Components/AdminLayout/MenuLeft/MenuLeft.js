@@ -140,12 +140,12 @@ const MenuLeft = () => {
         defaultSelectedKeys={['8']}
         selectedKeys={[key]}
       >
-        <Menu.Item key="8">
+        {/* <Menu.Item key="8">
           <Link to="/dashboard">
             <DashboardOutlined />
             <span>Dashboard</span>
           </Link>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item key="20">
           <Link to="/tao-tai-khoan-nguoi-dung">
             <UserAddOutlined />
@@ -184,12 +184,12 @@ const MenuLeft = () => {
         defaultSelectedKeys={['9']}
         selectedKeys={[key]}
       >
-        <Menu.Item key="8">
+        {/* <Menu.Item key="8">
           <Link to="/dashboard">
             <DashboardOutlined />
             <span>Dashboard</span>
           </Link>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item key="9">
           <Link to="/danh-sach-giao-dich">
             <AuditOutlined />

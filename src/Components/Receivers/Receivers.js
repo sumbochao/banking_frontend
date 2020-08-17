@@ -74,6 +74,7 @@ export default function Receivers() {
   const [status, setStatus] = useState();
   const [isLoading, setLoading] = useState();
   const [dataAdd, setDataAdd] = useState();
+  const [name, setName] = useState('');
 
   const addButtonClick = () => {
     setModelFormVisible(true);
@@ -88,15 +89,16 @@ export default function Receivers() {
   };
   const onFinish = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const values = await form.validateFields();
       const data = [...receivers];
       data.push(values);
       setDataAdd(data);
+      setName(values.memorizeName || "");
       addReceiver(
         authTokens.accessToken,
         values.accountNumber,
-        values.memorizeName,
+        values.memorizeName || "",
         values.type
       )
         .then(respone => respone.json())
@@ -121,8 +123,17 @@ export default function Receivers() {
         setErrorModelVisible(true);
       }
       if (status.status === 'success') {
-        setReceivers(dataAdd);
         setModelFormVisible(false);
+        console.log(name);
+        if (name === "") {
+          getAllReceiver(authTokens.accessToken)
+            .then(respone => respone.json())
+            .then(res => {
+              setReceivers(res.data);
+            });
+        }else{
+          setReceivers(dataAdd);
+        }
       }
     }
   }, [isLoading]);
@@ -288,9 +299,7 @@ export default function Receivers() {
         title="Thêm tài khoản mới"
         visible={modelFormVisible}
         footer={[
-          <Button onClick={onCancleModel}>
-          Hủy bỏ
-        </Button>,
+          <Button onClick={onCancleModel}>Hủy bỏ</Button>,
           <Button type="primary" onClick={onFinish} loading={isLoading}>
             Thêm mới
           </Button>
@@ -322,7 +331,7 @@ export default function Receivers() {
             }
             name="memorizeName"
           >
-            <Input />
+            <Input/>
           </Form.Item>
           <Form.Item
             label="Tài khoản thuộc"

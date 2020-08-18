@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input, Button, Popconfirm, message } from 'antd';
+import { Table, Input, Button, Popconfirm, message, Layout, Typography, Row, Col } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { DeleteFilled, SearchOutlined } from '@ant-design/icons';
 import { AddNewDebtReminder } from './AddNewDebReminder';
@@ -7,6 +7,10 @@ import { getListDebt, deleteReminder } from './action';
 import './QuanLiNhacNo.css';
 import { useAuth } from '../Routes/Context';
 import Swal from 'sweetalert2';
+import { WindowsFilled, } from '@ant-design/icons';
+
+const { Content } = Layout;
+const { Title } = Typography;
 
 const DebtReminder = () => {
     const [searchText, setSearchText] = useState('');
@@ -84,14 +88,14 @@ const DebtReminder = () => {
                         style={{ width: 90, marginRight: 8 }}
                     >
                         Search
-        </Button>
+                    </Button>
                     <Button
                         onClick={() => handleReset(clearFilters)}
                         size="small"
                         style={{ width: 90 }}
                     >
                         Reset
-        </Button>
+                    </Button>
                 </div>
             ),
         filterIcon: filtered => (
@@ -182,10 +186,24 @@ const DebtReminder = () => {
         }
     ];
     return (
-        <div className="DebtReminder">
+        <Content
+            className="payment-management"
+            style={{
+                padding: 20,
+                borderRadius: 10,
+            }}
+        >
+            <Row>
+                <Col span={18}>
+                    <Title level={3}>
+                        <WindowsFilled /> QUẢN LÍ NHẮC NỢ
+                    </Title>
+                </Col>
+            </Row>
+
             <Button type="primary" onClick={() => setModal(!modal)}>
                 Thêm mới
-      </Button>
+            </Button>
             <AddNewDebtReminder
                 visible={modal}
                 setVisible={setModal}
@@ -197,7 +215,7 @@ const DebtReminder = () => {
                 dataSource={debtData}
                 scroll={{ x: true }}
             />
-        </div>
+        </Content >
     );
 };
 

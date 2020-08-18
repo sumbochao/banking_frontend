@@ -60,11 +60,11 @@ const UserHistory = () => {
                 </Col>
             </Row>
             <Tabs style={{ width: '100%', backgroundColor: '#FFFFFF', padding: '16px' }} defaultActiveKey="1">
-                <TabPane tab="Giao dịch nhận tiền" key="1">
-                    {<ReceiverTransaction receiverTransactionArray={receiverTransaction} />}
-                </TabPane>
-                <TabPane tab="Giao dịch chuyển tiền" key="2">
+                <TabPane tab="Giao dịch chuyển tiền" key="1">
                     {<PaymentTransaction paymentTransactionArray={paymentTransaction} />}
+                </TabPane>
+                <TabPane tab="Giao dịch nhận tiền" key="2">
+                    {<ReceiverTransaction receiverTransactionArray={receiverTransaction} />}
                 </TabPane>
                 <TabPane tab="Giao dịch thanh toán nhắc nợ" key="3">
                     {<DebtReminderPaymentTransaction debtReminderPaymentTransactionArray={debtReminderPaymentTransaction} />}

@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Table, Input, Button, Popconfirm, message } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { DeleteFilled, SearchOutlined } from '@ant-design/icons';
-import { AddNewDebtReminder } from './AddNewDebReminder';
-import { getListDebt, deleteReminder } from './action';
-import './QuanLiNhacNo.css';
+import { getListDebt, deleteReminder } from '../QuanLiNhacNo/action';
+import './ViewDebtBeReminder.css';
 import { useAuth } from '../Routes/Context';
 import Swal from 'sweetalert2';
 
-const DebtReminder = () => {
+const ViewDebtBeReminder = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setsearchedColumn] = useState('');
     const [debtData, setDebtData] = useState(false);
@@ -37,7 +36,7 @@ const DebtReminder = () => {
 
     const loadSucceed = res => {
         if (res) {
-            setDebtData(res.data.listDebt);
+            setDebtData(res.data.listDebtReminder);
         }
     };
 
@@ -183,14 +182,7 @@ const DebtReminder = () => {
     ];
     return (
         <div className="DebtReminder">
-            <Button type="primary" onClick={() => setModal(!modal)}>
-                Thêm mới
-      </Button>
-            <AddNewDebtReminder
-                visible={modal}
-                setVisible={setModal}
-                dataControll={[debtData, setDebtData]}
-            />
+
             <Table
                 rowKey={i => i.id}
                 columns={columns}
@@ -201,4 +193,4 @@ const DebtReminder = () => {
     );
 };
 
-export default DebtReminder;
+export default ViewDebtBeReminder;

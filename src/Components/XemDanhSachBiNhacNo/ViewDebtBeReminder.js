@@ -131,14 +131,14 @@ const ViewDebtBeReminder = () => {
             ...getColumnSearchProps('id')
         },
         {
-            title: 'Chủ nợ',
+            title: 'Tôi',
             dataIndex: 'accountNumber',
             key: 'accountNumber',
             width: '15%',
             ...getColumnSearchProps('accountNumber')
         },
         {
-            title: 'Người nợ',
+            title: 'Người tôi nợ',
             dataIndex: 'debtReminderAccountNumber',
             key: 'debtReminderAccountNumber',
             width: '15%',

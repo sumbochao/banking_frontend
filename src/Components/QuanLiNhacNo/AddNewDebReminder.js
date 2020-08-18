@@ -12,6 +12,22 @@ export const AddNewDebtReminder = props => {
   const [form] = Form.useForm();
   const { authTokens } = useAuth();
 
+  const transErrorMessage = inp => {
+    if (inp === "debt account not found.") {
+      return "Thông tìm thấy tài khoản ghi nợ. Chắc chắn rằng bạn nhập đúng STK.";
+    }
+
+    if (inp === "an unknown error occurred when create debt reminder.") {
+      return "Một lỗi bất ngờ đã xảy ra khi thêm mới người nhắc nợ. Có thể do mạng internet bị chậm hoặc mất. Vui lòng thử lại sau ít phút! (Lỗi do kết nối đến cơ sở dữ liệu)";
+    }
+
+    if (inp === "you have reminder this person.") {
+      return "Người này đã có trong danh sách nợ.";
+    }
+
+    return inp;
+  };
+
   const addComplete = res => {
     setConfirm(false);
     if (res) {
@@ -21,7 +37,9 @@ export const AddNewDebtReminder = props => {
         setData(temp);
         message.success('Thêm thành công', 1, setVisible(false));
       }
-      else (message.error(res.err));
+      else {
+        message.error(transErrorMessage(res.err));
+      }
     } else {
       message.error('Chưa thêm được');
     }

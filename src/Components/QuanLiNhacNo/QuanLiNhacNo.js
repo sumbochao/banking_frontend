@@ -8,9 +8,9 @@ import {
     SyncOutlined
 } from '@ant-design/icons';
 
-import { AddNewAccount } from './AddNewAccount';
+import { AddNewAccount } from './AddNewDebReminder';
 
-import { getListAdmins, deleteAdmin } from './action';
+import { getListDebt, deleteAdmin } from './action';
 import './QuanLiNhacNo.css';
 import { useAuth } from '../Routes/Context';
 
@@ -38,23 +38,15 @@ const DebtReminder = () => {
     const handleDelete = record => {
         deleteAdmin(authTokens.accessToken, record, deleteComplete);
     };
-    const handleEdit = record => {
-        setOldData(record);
-        setModalEdit(true);
-    };
 
-    const handleResetPassword = record => {
-        setModalPassword(true);
-        setIdForPassword(record);
-    };
     const loadSucceed = res => {
         if (res) {
-            setUserData(res.data);
+            setUserData(res.data.listDebt);
         }
     };
 
     useEffect(() => {
-        getListAdmins(authTokens.accessToken, loadSucceed);
+        getListDebt(authTokens.accessToken, loadSucceed);
     }, [authTokens.accessToken]);
 
     let searchInput = '';
@@ -132,55 +124,50 @@ const DebtReminder = () => {
                 )
     });
     const columns = [
-        // {
-        //   title: 'ID',
-        //   dataIndex: 'id',
-        //   key: 'id',
-        //   width: '10%',
-        //   fixed: 'left',
-        //   ...getColumnSearchProps('id')
-        // },
         {
-            title: 'Admin Name',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            width: '10%',
+            fixed: 'left',
+            ...getColumnSearchProps('id')
+        },
+        {
+            title: 'Chủ nợ',
+            dataIndex: 'accountNumber',
+            key: 'accountNumber',
+            width: '15%',
+            ...getColumnSearchProps('accountNumber')
+        },
+        {
+            title: 'Người nợ',
+            dataIndex: 'debtReminderAccountNumber',
+            key: 'debtReminderAccountNumber',
+            width: '15%',
+            ...getColumnSearchProps('debtReminderAccountNumber')
+        },
+        {
+            title: 'Số tiền nợ',
+            dataIndex: 'amount',
+            key: 'amount',
+            align: 'left',
+            width: '10%',
+            ...getColumnSearchProps('amount')
+        },
+        {
+            title: 'Lời nhắn',
+            dataIndex: 'description',
+            key: 'description',
+            align: 'left',
+            ...getColumnSearchProps('description')
+        },
+        {
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            key: 'status',
+            align: 'center',
             width: '20%',
-            ...getColumnSearchProps('name')
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-            ...getColumnSearchProps('email')
-        },
-        {
-            title: 'Phụ trách',
-            dataIndex: 'ruleAccess',
-            key: 'ruleAccess',
-            align: 'center',
-            ...getColumnSearchProps('ruleAccess')
-        },
-        {
-            title: 'Chỉnh sửa',
-            key: 'update',
-            align: 'center',
-            render: record => (
-                <span>
-                    <EditFilled
-                        onClick={() => {
-                            handleEdit(record);
-                        }}
-                    />
-                </span>
-            )
-        },
-        {
-            title: 'Cấp lại mật khẩu',
-            align: 'center',
-            key: 'password',
-            render: record => (
-                <SyncOutlined onClick={() => handleResetPassword(record)} />
-            )
+            ...getColumnSearchProps('status')
         },
         {
             title: 'Xóa',
@@ -194,7 +181,8 @@ const DebtReminder = () => {
                         <DeleteFilled />
                     </Popconfirm>
                 </span>
-            )
+            ),
+            width: '5%',
         }
     ];
     return (
@@ -208,7 +196,7 @@ const DebtReminder = () => {
                 dataControll={[userData, setUserData]}
             />
             <Table
-                rowKey={i => i.email}
+                rowKey={i => i.id}
                 columns={columns}
                 dataSource={userData}
                 scroll={{ x: true }}

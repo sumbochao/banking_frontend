@@ -1,8 +1,8 @@
 import Swal from 'sweetalert2';
 import API from '../../Services/API';
 
-export const getListAdmins = (token, callBack) => {
-  return fetch(API.GET_LIST_ADMIN, {
+export const getListDebt = (token, callBack) => {
+  return fetch(API.GET_ALL_DEBT_REMINDER, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -65,59 +65,6 @@ export const deleteAdmin = (token, email, callBack) => {
         callBack(res);
       } else {
         Swal.fire('Thông báo', res.err, 'error');
-        callBack(false);
-      }
-    })
-    .catch(error => {
-      Swal.fire('Thông báo', error.message, 'error');
-      callBack(false);
-    });
-};
-
-export const updateAdmin = (token, adminInfo, callBack) => {
-  return fetch(API.UPDATE_ADMIN, {
-    method: 'PUT',
-    body: JSON.stringify(adminInfo),
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  })
-    .then(response => response.json())
-    .then(res => {
-      if (res) {
-        callBack(res);
-      } else {
-        Swal.fire("Lỗi", res.err, "error");
-        callBack(false);
-      }
-    })
-    .catch(error => {
-      Swal.fire('Thông báo', error.message, 'error');
-      callBack(false);
-    });
-};
-
-export const resetPassword = (token, email, password, callBack) => {
-  return fetch(API.RESET_PASS_ADMIN, {
-    method: 'PUT',
-    body: JSON.stringify({
-      email: email,
-      password: password
-    }),
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  })
-    .then(response => response.json())
-    .then(res => {
-      if (res) {
-        callBack(res);
-      } else {
-        Swal.fire("Lỗi", res.err, "error");
         callBack(false);
       }
     })

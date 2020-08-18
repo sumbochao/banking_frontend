@@ -193,7 +193,7 @@ const BeDebtReminderPaymentTransaction = props => {
             key: 'createdAt',
             width: 150,
             sorter: (a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt),
-            defaultSortOrder: 'ascend',
+            defaultSortOrder: 'descend',
             render: text => {
                 const d = new Date(text);
                 return d.toLocaleString('en-GB');

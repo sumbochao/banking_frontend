@@ -112,7 +112,6 @@ export default function InputForm(props) {
 
   const clickSubmitForm = async val => {
     if (type === '2') {
-      setPartnerBankName(data[partnerId - 1].bankingName);
       const account_temp = receivers.filter(item => item.accountNumber === stk);
       if(props.bank === '2'){
         if(partnerId !== account_temp[0].bankId){
@@ -126,6 +125,7 @@ export default function InputForm(props) {
       setModelVisible(true);
       sendCustomerOTP(authTokens.accessToken);
       if (props.bank === '2') {
+        setPartnerBankName(data[partnerId - 1].bankingName);
         dispatch({
           type: 'GET_DATA',
           partner: val.partner,
@@ -411,6 +411,9 @@ export default function InputForm(props) {
             }
             setSuccessVisible(true);
           } else {
+            setErr(
+              status.msg === 'soTien could not be smaller 50000' ? 'Số tiền chuyển phải hơn 50000VND' : status.msg
+            );
             setFailVisible(true);
           }
         } else if (status.data.success === false) {
@@ -440,6 +443,7 @@ export default function InputForm(props) {
               ? 'Tài khoản nhận phải khác tài khoản của bạn'
               : status.err
           );
+          setFailVisible(true);
         }
       }
     }

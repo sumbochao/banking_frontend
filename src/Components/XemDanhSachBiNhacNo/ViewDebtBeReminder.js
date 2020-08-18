@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input, Button, Popconfirm, message } from 'antd';
+import { Table, Input, Button, Popconfirm, message, Layout, Typography, Row, Col } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { DeleteFilled, SearchOutlined } from '@ant-design/icons';
 import { getListDebt, deleteReminder } from '../QuanLiNhacNo/action';
 import './ViewDebtBeReminder.css';
 import { useAuth } from '../Routes/Context';
 import Swal from 'sweetalert2';
+import { WindowsFilled, } from '@ant-design/icons';
+
+const { Content } = Layout;
+const { Title } = Typography;
 
 const ViewDebtBeReminder = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setsearchedColumn] = useState('');
     const [debtData, setDebtData] = useState(false);
-    const [modal, setModal] = useState(false);
     const { authTokens } = useAuth();
 
 
@@ -181,7 +184,20 @@ const ViewDebtBeReminder = () => {
         }
     ];
     return (
-        <div className="DebtReminder">
+        <Content
+            className="payment-management"
+            style={{
+                padding: 20,
+                borderRadius: 10,
+            }}
+        >
+            <Row>
+                <Col span={18}>
+                    <Title level={3}>
+                        <WindowsFilled /> XEM DANH SÁCH BỊ NHẮC NỢ
+                </Title>
+                </Col>
+            </Row>
 
             <Table
                 rowKey={i => i.id}
@@ -189,7 +205,7 @@ const ViewDebtBeReminder = () => {
                 dataSource={debtData}
                 scroll={{ x: true }}
             />
-        </div>
+        </Content >
     );
 };
 

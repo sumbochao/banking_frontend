@@ -46,6 +46,7 @@ const AdminManagement = () => {
   };
 
   const handleResetPassword = record => {
+    setOldData(record);
     setModalPassword(true);
     setIdForPassword(record);
   };

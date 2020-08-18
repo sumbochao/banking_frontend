@@ -161,6 +161,9 @@ export default function InputForm(props) {
             title: 'Không tìm thấy tài khoản'
           });
         } else {
+          setAccountNameState(accountName)
+          setModelVisible(true);
+          sendCustomerOTP(authTokens.accessToken);
           dispatch({
             type: 'GET_DATA',
             to_number: val.to_number,

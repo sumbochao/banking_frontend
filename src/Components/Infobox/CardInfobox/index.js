@@ -24,7 +24,7 @@ const CardInfobox = ({
    return (
       <section className="module infobox card-infobox">
          <header>
-            <CardLogos type="visa" />
+            <CardLogos type={accountName === 'Tài khoản thanh toán'? "visa": 'save'} />
             <CardDetails number={number} name={name} expiresMonth={expiresMonth}/>
          </header>
 

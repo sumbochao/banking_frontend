@@ -28,15 +28,6 @@ import {
   Card,
   Spin
 } from 'antd';
-import {
-  getAllPartners,
-  transferToPartner,
-  getAllReceivers,
-  sendCustomerOTP,
-  verifyCustomerOTP,
-  transferInLocal
-} from '../action';
-import { useAuth } from '../../Routes/Context';
 
 import '../Transfers.css';
 import { addReceiver } from '../../Receivers/action';
@@ -121,7 +112,6 @@ export default function InputForm(props) {
       setAccountNameState(account_temp[0].memorizeName);
       setModelVisible(true);
       sendCustomerOTP(authTokens.accessToken);
-    }else{
       if (props.bank === '2') {
         dispatch({
           type: 'GET_DATA',
@@ -366,6 +356,7 @@ export default function InputForm(props) {
   const onTypeFeeModel = () => {
     setTypeFeeVisible(false);
   };
+
   useEffect(() => {
     if (isTransaction === false) {
       if (props.bank === '2') {
@@ -384,18 +375,17 @@ export default function InputForm(props) {
             setFailVisible(true);
           }
         } else if (status.data.success === false) {
-            setFailVisible(true);
-          } else {
-            if (state.is_save === '0') {
-              addReceiver(
-                authTokens.accessToken,
-                state.to_number,
-                '',
-                'LIEN NGAN HANG'
-              );
-            }
-            setSuccessVisible(true);
+          setFailVisible(true);
+        } else {
+          if (state.is_save === '0') {
+            addReceiver(
+              authTokens.accessToken,
+              state.to_number,
+              '',
+              'LIEN NGAN HANG'
+            );
           }
+          setSuccessVisible(true);
         }
       } else {
         if (status.status === 'success') {
@@ -411,15 +401,8 @@ export default function InputForm(props) {
               ? 'Tài khoản nhận phải khác tài khoản của bạn'
               : status.err
           );
-      } else if (status.status === 'success') {
-          if(state.is_save === '0'){
-            addReceiver(authTokens.accessToken, state.to_number, "", "NOI BO");
-          }
-          setSuccessVisible(true);
-        } else {
-          setErr((status.err === "balance is not enoungh.") ? "Tài khoản không đủ" : (status.err === "sender and receiver must be different." ? "Tài khoản nhận phải khác tài khoản của bạn" : status.err));
-          setFailVisible(true);
         }
+      }
     }
   }, [isTransaction]);
 
@@ -432,7 +415,6 @@ export default function InputForm(props) {
     }
   }, [type]);
 
-  
   return (
     <>
       {isTransaction ? <Spin tip="Đang xử lý giao dịch..."></Spin> : <></>}
@@ -454,10 +436,7 @@ export default function InputForm(props) {
             rules={[{ required: true, message: 'Vui lòng chọn ngân hàng' }]}
           >
             {isLoading ? (
-              <Select
-                defaultValue="Chọn ngân hàng"
-                style={{ marginTop: 20 }}
-               />
+              <Select defaultValue="Chọn ngân hàng" style={{ marginTop: 20 }} />
             ) : (
               <Select
                 name="partner"
@@ -524,7 +503,7 @@ export default function InputForm(props) {
               type="primary"
               onClick={checkAccountNumber}
               loading={loadingCheckButton}
-              style={{ marginLeft: 222 }}
+              style={{ marginLeft: 320 }}
             >
               Kiểm tra
             </Button>
@@ -537,7 +516,7 @@ export default function InputForm(props) {
                 <Radio.Button value="0">Lưu</Radio.Button>
                 <Radio.Button value="1">Không lưu</Radio.Button>
               </Radio.Group>
-            </Form.Item>        
+            </Form.Item>
           </>
         ) : type === '2' ? (
           <Form.Item
@@ -573,11 +552,7 @@ export default function InputForm(props) {
           name="description"
           rules={[{ required: true, message: 'Vui lòng nhập nội dung' }]}
         >
-          <TextArea
-            rows={4}
-            name="description"
-            style={{ marginTop: 20 }}
-           />
+          <TextArea rows={4} name="description" style={{ marginTop: 20 }} />
         </Form.Item>
         {props.bank === '2' ? (
           <Form.Item
@@ -656,7 +631,7 @@ export default function InputForm(props) {
               type="number"
               placeholder="Nhập mã OTP được gửi qua email"
               style={{ marginTop: 20 }}
-             />
+            />
           </Form.Item>
           {verify === 'fail' ? (
             <p style={{ color: 'red' }}>OTP không chính xác hoặc hết hạn</p>

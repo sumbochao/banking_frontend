@@ -10,6 +10,7 @@ const API = {
   SEND_OTP: `${URL}/OTP/send`,
   VERIFY_OTP: `${URL}/OTP/verify`,
   TRANSFER_IN_LOCAL: `${URL}/payments/payment-account/pay`,
+  GET_LOCAL_ACC_INFO: `${URL}/infor/local`,
 
   // employee
   LOGIN_EMPLOYEE: `${URL}/auth/admin-login`,

@@ -97,3 +97,17 @@ export const getAccountInfo = (token, partner_id, account_number) => {
     })
   })
 }
+
+export const getLocalAccountInfo = (token, account_number) => {
+  return fetch(API.GET_LOCAL_ACC_INFO, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({
+      accountnumber: account_number,
+    })
+  })
+}

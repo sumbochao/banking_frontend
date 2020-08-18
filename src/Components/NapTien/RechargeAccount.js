@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import { Layout, Col, Typography, Row, Form, Button, Input, InputNumber } from 'antd';
 import {

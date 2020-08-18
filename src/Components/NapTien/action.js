@@ -12,7 +12,7 @@ export const addMoneyForCustomer = (token, accNo, amount) => {
         },
         body: JSON.stringify({
             accountnumber: accNo,
-            amount: amount
+            amount
         })
-    })
+    });
 };

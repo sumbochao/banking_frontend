@@ -203,19 +203,25 @@ export default function Receivers() {
     {
       title: 'Số tài khoản',
       dataIndex: 'accountNumber',
-      width: '30%',
+      width: '20%',
       editable: false
     },
     {
       title: 'Tên gợi nhớ',
       dataIndex: 'memorizeName',
-      width: '30%',
+      width: '20%',
       editable: true
+    },
+    {
+      title: 'Tên ngân hàng',
+      dataIndex: 'bankName',
+      width: '20%',
+      editable: false
     },
     {
       title: 'Loại ngân hàng',
       dataIndex: 'type',
-      width: '30%',
+      width: '20%',
       editable: false
     },
     {
@@ -232,22 +238,22 @@ export default function Receivers() {
                 marginRight: 8
               }}
             >
-              Save
+              Lưu
             </a>
             <Popconfirm title="Bạn muốn hủy?" onConfirm={cancel}>
-              <a>Cancel</a>
+              <a>Hủy</a>
             </Popconfirm>
           </span>
         ) : (
           <>
             <a disabled={editingKey !== ''} onClick={() => edit(record)}>
-              Edit
+              Sửa
             </a>
             <Popconfirm
               title="Chắc chắn xóa?"
               onConfirm={() => handleDelete(record.accountNumber)}
             >
-              <a className="action-delete">Delete</a>
+              <a className="action-delete">Xóa</a>
             </Popconfirm>
           </>
         );

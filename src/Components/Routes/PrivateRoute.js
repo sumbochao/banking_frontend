@@ -36,9 +36,10 @@ export const PrivateRoute = ({ component: Component, render, ...rest }) => {
             icon: 'error',
             title: 'Lỗi rồi ...',
             text: 'Hết phiên đăng nhập, vui lòng đăng nhập lại để tiếp tục',
+          }).then(() => {
+            setAuthTokens(false);
+            localStorage.removeItem('tokens');
           });
-          setAuthTokens(false);
-          localStorage.removeItem('tokens');
         }
       }  
     };

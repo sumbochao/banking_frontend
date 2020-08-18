@@ -121,7 +121,7 @@ const MenuLeft = () => {
         <Menu.Item key="22">
           <Link to="/xem-danh-sach-bi-nhac-no">
             <NodeIndexOutlined />
-            <span>Xem danh sách nợ</span>
+            <span>Xem danh sách đang nợ</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="5">

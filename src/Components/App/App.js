@@ -30,6 +30,7 @@ import { CreateSaveAccount } from "../TaoTaiKhoanTietKiem";
 import { CreateNewCustomer } from "../TaoTaiKhoanNguoiDung";
 import { Receivers } from '../Receivers';
 import { TransactionList } from '../DanhSachGiaoDich';
+import DebtReminder from '../QuanLiNhacNo/QuanLiNhacNo';
 
 
 function App() {
@@ -63,7 +64,7 @@ function App() {
             path="/login"
             render={() => <Login />}
           />
-             <PublicRoute
+          <PublicRoute
             exact
             path="/forgot"
             render={() => <ForgotPassword />}
@@ -88,7 +89,7 @@ function App() {
             path="/chuyen-tien"
             render={() => <AdminLayout Child={<Transfers />} />}
           />
-           <PrivateRoute
+          <PrivateRoute
             exact
             path="/danh-sach-nguoi-nhan"
             render={() => <AdminLayout Child={<Receivers />} />}
@@ -101,7 +102,7 @@ function App() {
           <PrivateRoute
             exact
             path="/nhac-no"
-            render={() => <AdminLayout Child={<AdminManagement />} />}
+            render={() => <AdminLayout Child={<DebtReminder />} />}
           />
           <PrivateRoute
             exact

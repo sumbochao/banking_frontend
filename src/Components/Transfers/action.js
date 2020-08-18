@@ -82,5 +82,18 @@ export const transferInLocal = (token, to_number, amount, description, type) =>{
       type: String(type)
     })
   })
+}
 
+export const getAccountInfo = (token, partner_id, account_number) => {
+  return fetch(`${URL}/partner/info/${Number(partner_id)}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({
+      stk: account_number,
+    })
+  })
 }

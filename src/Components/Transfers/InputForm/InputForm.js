@@ -6,7 +6,8 @@ import {
   getAllReceivers,
   sendCustomerOTP,
   verifyCustomerOTP,
-  transferInLocal
+  transferInLocal,
+  getAccountInfo
 } from '../action';
 import { useAuth } from '../../Routes/Context';
 import {
@@ -18,11 +19,15 @@ import {
   Layout,
   Tabs,
   Modal,
-  Result
+  Result,
+  Card,
+  Spin
 } from 'antd';
 
 import '../Transfers.css';
 import { addReceiver } from '../../Receivers/action';
+import Swal from 'sweetalert2';
+import { el, tr } from 'date-fns/locale';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -34,7 +39,7 @@ const initialState = {
   type_fee: '',
   description: '',
   type_transaction: '',
-  is_save: '',
+  is_save: ''
 };
 
 function reducer(state, action) {
@@ -48,7 +53,7 @@ function reducer(state, action) {
         type_fee: action.type_fee,
         description: action.description,
         type_transaction: action.type_transaction,
-        is_save: action.is_save,
+        is_save: action.is_save
       };
     default:
       throw new Error();
@@ -71,6 +76,13 @@ export default function InputForm(props) {
   const [verify, setVerify] = useState('none');
   const [state, dispatch] = useReducer(reducer, initialState);
   const [err, setErr] = useState('');
+  const [accountNameState, setAccountNameState] = useState();
+  const [partnerBankName, setPartnerBankName] = useState();
+  const [stk, setStk] = useState('');
+  const [partnerId, setPartnerId] = useState(0);
+  const [loadingCheckButton, setLoadingCheckButton] = useState(false);
+  const [loadingCheckButton2, setLoadingCheckButton2] = useState();
+  var accountName;
 
   useEffect(() => {
     if (props.bank === '2') {
@@ -88,24 +100,18 @@ export default function InputForm(props) {
     }
   }, []);
 
-  const clickSubmitForm = val => {
-    if(type === '0')
-    {
-      setTypeFeeVisible(true)
-    }else{
-    setModelVisible(true);
-    sendCustomerOTP(authTokens.accessToken);
-    let stk = '';
-      if (type === '1') {
-        stk = val.to_number;
-      } else {
-        stk = val.to_number_2;
-      }
+  const clickSubmitForm = async val => {
+    setPartnerBankName(data[partnerId - 1].bankingName);
+    if (type === '2') {
+      const account_temp = receivers.filter(item => item.accountNumber === stk);
+      setAccountNameState(account_temp[0].memorizeName);
+      setModelVisible(true);
+      sendCustomerOTP(authTokens.accessToken);
       if (props.bank === '2') {
         dispatch({
           type: 'GET_DATA',
           partner: val.partner,
-          to_number: stk,
+          to_number: val.to_number_2,
           amount: val.amount,
           type_fee: val.type_fee,
           description: val.description,
@@ -114,12 +120,94 @@ export default function InputForm(props) {
       } else {
         dispatch({
           type: 'GET_DATA',
-          to_number: stk,
+          to_number: val.to_number_2,
           amount: val.amount,
           description: val.description,
           type_transaction: val.type_transaction,
           is_save: val.is_save
         });
+      }
+    } else {
+      if (partnerId === 2) {
+        setLoadingCheckButton2(true);
+        await getAccountInfo(authTokens.accessToken, partnerId, stk)
+          .then(respone => respone.json())
+          .then(res => {
+            accountName = res.data.name;
+            setAccountNameState(res.data.name);
+          })
+          .catch(err => console.log(err))
+          .finally(() => setLoadingCheckButton2(false));
+        if (accountName === undefined) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Không tìm thấy tài khoản'
+          });
+        } else {
+          setModelVisible(true);
+          sendCustomerOTP(authTokens.accessToken);
+          if (props.bank === '2') {
+            dispatch({
+              type: 'GET_DATA',
+              partner: val.partner,
+              to_number: val.to_number,
+              amount: val.amount,
+              type_fee: val.type_fee,
+              description: val.description,
+              is_save: val.is_save
+            });
+          } else {
+            dispatch({
+              type: 'GET_DATA',
+              to_number: val.to_number,
+              amount: val.amount,
+              description: val.description,
+              type_transaction: val.type_transaction,
+              is_save: val.is_save
+            });
+          }
+        }
+      } else {
+        if (partnerId === 3) {
+          setLoadingCheckButton2(true);
+          await getAccountInfo(authTokens.accessToken, partnerId, stk)
+            .then(respone => respone.json())
+            .then(res => {
+              accountName = res.ten;
+              setAccountNameState(res.ten);
+            })
+            .catch(err => console.log(err))
+            .finally(() => setLoadingCheckButton2(false));
+          if (accountName === undefined) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Không tìm thấy tài khoản'
+            });
+          } else {
+            setModelVisible(true);
+            sendCustomerOTP(authTokens.accessToken);
+            if (props.bank === '2') {
+              dispatch({
+                type: 'GET_DATA',
+                partner: val.partner,
+                to_number: val.to_number,
+                amount: val.amount,
+                type_fee: val.type_fee,
+                description: val.description,
+                is_save: val.is_save
+              });
+            } else {
+              dispatch({
+                type: 'GET_DATA',
+                to_number: val.to_number,
+                amount: val.amount,
+                description: val.description,
+                type_transaction: val.type_transaction,
+                is_save: val.is_save
+              });
+            }
+          }
+        }
       }
     }
   };
@@ -174,6 +262,79 @@ export default function InputForm(props) {
     }
   }, [verify]);
 
+  function handleInputChange(e) {
+    setStk(e.target.value);
+  }
+
+  const checkAccountNumber = async () => {
+    if (props.bank === '2') {
+      if (partnerId === 0) {
+        Swal.fire('Bạn cần phải chọn ngân hàng');
+      } else {
+        if (stk === '' || stk === undefined) {
+          Swal.fire('Bạn phải nhập số tài khoản');
+        } else {
+          if (partnerId === 2) {
+            setLoadingCheckButton(true);
+            await getAccountInfo(authTokens.accessToken, partnerId, stk)
+              .then(respone => respone.json())
+              .then(res => {
+                accountName = res.data.name;
+                setAccountNameState(res.data.name);
+              })
+              .catch(err => console.log(err))
+              .finally(() => setLoadingCheckButton(false));
+            if (accountName === undefined) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Không tìm thấy tài khoản'
+              });
+            } else {
+              setPartnerBankName(data[partnerId - 1].bankingName);
+              Swal.fire(
+                accountName,
+                'Số tài khoản: ' +
+                  stk +
+                  ' - ' +
+                  'Ngân hàng: ' +
+                  data[partnerId - 1].bankingName,
+                'success'
+              );
+            }
+          } else {
+            if (partnerId === 3) {
+              setLoadingCheckButton(true);
+              await getAccountInfo(authTokens.accessToken, partnerId, stk)
+                .then(respone => respone.json())
+                .then(res => {
+                  accountName = res.ten;
+                  setAccountNameState(res.ten);
+                })
+                .catch(err => console.log(err))
+                .finally(() => setLoadingCheckButton(false));
+              if (accountName === undefined) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Không tìm thấy tài khoản'
+                });
+              } else {
+                setPartnerBankName(data[partnerId - 1].bankingName);
+                Swal.fire(
+                  accountName,
+                  'Số tài khoản: ' +
+                    stk +
+                    ' - ' +
+                    'Ngân hàng: ' +
+                    data[partnerId - 1].bankingName,
+                  'success'
+                );
+              }
+            }
+          }
+        }
+      }
+    }
+  };
   const onOkModel = () => {
     sendCustomerOTP(authTokens.accessToken);
   };
@@ -195,8 +356,13 @@ export default function InputForm(props) {
       if (props.bank === '2') {
         if (state.partner === 3) {
           if (status.status === 1) {
-            if(state.is_save === '0'){
-              addReceiver(authTokens.accessToken, state.to_number, "", "LIEN NGAN HANG");
+            if (state.is_save === '0') {
+              addReceiver(
+                authTokens.accessToken,
+                state.to_number,
+                '',
+                'LIEN NGAN HANG'
+              );
             }
             setSuccessVisible(true);
           } else {
@@ -206,20 +372,31 @@ export default function InputForm(props) {
           if (status.data.success === false) {
             setFailVisible(true);
           } else {
-            if(state.is_save === '0'){
-              addReceiver(authTokens.accessToken, state.to_number, "", "LIEN NGAN HANG");
+            if (state.is_save === '0') {
+              addReceiver(
+                authTokens.accessToken,
+                state.to_number,
+                '',
+                'LIEN NGAN HANG'
+              );
             }
             setSuccessVisible(true);
           }
         }
       } else {
         if (status.status === 'success') {
-          if(state.is_save === '0'){
-            addReceiver(authTokens.accessToken, state.to_number, "", "NOI BO");
+          if (state.is_save === '0') {
+            addReceiver(authTokens.accessToken, state.to_number, '', 'NOI BO');
           }
           setSuccessVisible(true);
         } else {
-          setErr((status.err === "balance is not enoungh.") ? "Tài khoản không đủ" : (status.err === "sender and receiver must be different." ? "Tài khoản nhận phải khác tài khoản của bạn" : status.err))
+          setErr(
+            status.err === 'balance is not enoungh.'
+              ? 'Tài khoản không đủ'
+              : status.err === 'sender and receiver must be different.'
+              ? 'Tài khoản nhận phải khác tài khoản của bạn'
+              : status.err
+          );
           setFailVisible(true);
         }
       }
@@ -233,10 +410,11 @@ export default function InputForm(props) {
         .then(res => setReceivers(res.data))
         .catch(err => console.log(err));
     }
-  }, [type])
-  
+  }, [type]);
+
   return (
     <>
+      {isTransaction ? <Spin tip="Đang xử lý giao dịch..."></Spin> : <></>}
       <Form
         name="basic"
         onFinish={clickSubmitForm}
@@ -260,7 +438,12 @@ export default function InputForm(props) {
                 style={{ marginTop: 20 }}
               ></Select>
             ) : (
-              <Select name="partner" defaultValue="1" style={{ marginTop: 20 }}>
+              <Select
+                name="partner"
+                defaultValue="1"
+                style={{ marginTop: 20 }}
+                onChange={value => setPartnerId(value)}
+              >
                 {data.map(item => {
                   return <Option value={item.id}>{item.bankingName}</Option>;
                 })}
@@ -277,7 +460,9 @@ export default function InputForm(props) {
           >
             <Radio.Group style={{ marginTop: 20 }} name="type_transaction">
               <Radio.Button value="NOI BO">Chuyển khoản nội bộ</Radio.Button>
-              <Radio.Button value="THANH TOAN NHAC NO">Thanh toán nhắc nợ</Radio.Button>
+              <Radio.Button value="THANH TOAN NHAC NO">
+                Thanh toán nhắc nợ
+              </Radio.Button>
             </Radio.Group>
           </Form.Item>
         )}
@@ -290,7 +475,7 @@ export default function InputForm(props) {
         >
           <Select
             name="type_receiver"
-            defaultValue='Cách nhập số tài khoản'
+            defaultValue="Cách nhập số tài khoản"
             onChange={value => setType(value)}
             style={{ marginTop: 20 }}
           >
@@ -300,25 +485,38 @@ export default function InputForm(props) {
         </Form.Item>
         {type === '1' ? (
           <>
-          <Form.Item
-            label="Nhập số tài khoản"
-            name="to_number"
-            rules={[{ required: true, message: 'Vui lòng nhập số tài khoản' }]}
-          >
-            <Input name="to_number" style={{ marginTop: 20 }}></Input>
-          </Form.Item>
-          <Form.Item
-            label="Lưu lại số tài khoản"
-            name="is_save"
-            rules={[
-              { required: true, message: 'Vui lòng chọn một' }
-            ]}
-          >
-            <Radio.Group style={{ marginTop: 20 }} name="is_save">
-              <Radio.Button value="0">Lưu</Radio.Button>
-              <Radio.Button value="1">Không lưu</Radio.Button>
-            </Radio.Group>
-          </Form.Item>
+            <Form.Item
+              label="Nhập số tài khoản"
+              name="to_number"
+              rules={[
+                { required: true, message: 'Vui lòng nhập số tài khoản' }
+              ]}
+            >
+              <Input
+                name="to_number"
+                style={{ marginTop: 20 }}
+                value={stk}
+                onChange={handleInputChange}
+              ></Input>
+            </Form.Item>
+            <Button
+              type="primary"
+              onClick={checkAccountNumber}
+              loading={loadingCheckButton}
+              style={{ marginLeft: 222 }}
+            >
+              Kiểm tra
+            </Button>
+            <Form.Item
+              label="Lưu lại số tài khoản"
+              name="is_save"
+              rules={[{ required: true, message: 'Vui lòng chọn một' }]}
+            >
+              <Radio.Group style={{ marginTop: 20 }} name="is_save">
+                <Radio.Button value="0">Lưu</Radio.Button>
+                <Radio.Button value="1">Không lưu</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
           </>
         ) : type === '2' ? (
           <Form.Item
@@ -326,7 +524,7 @@ export default function InputForm(props) {
             name="to_number_2"
             rules={[{ required: true, message: 'Vui lòng chọn số tài khoản' }]}
           >
-            <Select style={{ marginTop: 20 }}>
+            <Select style={{ marginTop: 20 }} onSelect={value => setStk(value)}>
               {receivers.map(item => {
                 return (
                   <Option value={item.accountNumber} className="select-stk">
@@ -383,7 +581,11 @@ export default function InputForm(props) {
             push: 5
           }}
         >
-          <Button type="primary" htmlType="submit" loading={isTransaction}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loadingCheckButton2}
+          >
             Chuyển tiền
           </Button>
         </Form.Item>
@@ -408,6 +610,21 @@ export default function InputForm(props) {
           }}
           layout="horizontal"
         >
+          <Card
+            title="Thông tin giao dịch"
+            bordered={false}
+            style={{ width: 300 }}
+          >
+            <p>Người nhận: {accountNameState}</p>
+            <p>Số tài khoản: {state.to_number}</p>
+            <p>Ngân hàng: {partnerBankName}</p>
+            <p>Số tiền: {state.amount}</p>
+            <p>Nội dung: {state.description}</p>
+            <p>
+              Bên trả phí:{' '}
+              {state.type_fee === '1' ? 'Người gửi trả' : 'Người nhận trả'}
+            </p>
+          </Card>
           <Form.Item
             label="Nhập mã OTP"
             name="otp"
@@ -457,7 +674,12 @@ export default function InputForm(props) {
           </Button>
         ]}
       >
-        <Result status="error" title="Giao dịch thất bại. Kiểm tra lại." subTitle = {err}/>,
+        <Result
+          status="error"
+          title="Giao dịch thất bại. Kiểm tra lại."
+          subTitle={err}
+        />
+        ,
       </Modal>
       <Modal
         title=""
@@ -468,7 +690,7 @@ export default function InputForm(props) {
           </Button>
         ]}
       >
-        <Result status="error" title="Vui lòng chọn cách nhập số tài khoản."/>,
+        <Result status="error" title="Vui lòng chọn cách nhập số tài khoản." />,
       </Modal>
     </>
   );

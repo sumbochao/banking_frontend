@@ -27,7 +27,7 @@ const cookies = new Cookies();
 store.subscribe(
     throttle(() => {
         if (store.getState().isLogin === false) {
-            cookies.remove('token');
+            cookies.remove('tokens');
             removeState();
         } else {
             // store necessary reducer in local storage

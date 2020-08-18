@@ -1,13 +1,15 @@
 /* eslint-disable no-console */
-import React, { useState } from 'react';
-// import jwtDecode  from 'jwt-decode';
-// import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect
 } from 'react-router-dom';
+// import { message } from 'antd';
+import jwtDecode  from 'jwt-decode';
+import Swal from 'sweetalert2';
+// import { getRefreshToken } from "./action";
 import { Login } from '../Login';
 import { AuthContext } from '../Routes/Context';
 import { AdminLayout } from '../AdminLayout';
@@ -35,18 +37,38 @@ import DebtReminder from '../QuanLiNhacNo/QuanLiNhacNo';
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
-  // const [isRefresh, setRefresh ] = useState(false);
   if (localStorage.getItem('tokens') && authTokens === '') {
     try {
+      console.log('ev1');
       setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
     } catch {
-      console.log();
+      console.log('err');
     }
   }
   const setTokens = data => {
     localStorage.setItem('tokens', JSON.stringify(data));
     setAuthTokens(data);
   };
+  
+  useEffect(()=>{
+    const validateAccessToken = () =>{
+      console.log('validateAccessToken');
+      const accessTokenX = authTokens?.accessToken;
+      if(accessTokenX && jwtDecode(accessTokenX).exp < Date.now() / 1000){
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi rồi ...',
+          text: 'Hết phiên đăng nhập, vui lòng đăng nhập lại để tiếp tục',
+          confirmButtonColor: '#eb5757',
+          confirmButtonText: 'Đồng Ý'
+        }).then(() => {
+          setAuthTokens(false);
+         localStorage.removeItem('tokens');
+        });
+      }
+    };
+    validateAccessToken();
+  },[]);
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <Router>

@@ -16,6 +16,7 @@ export const ResetPasswordModal = props => {
     } else {
       message.error('Cấp lại thất bại');
     }
+    setConfirm(false);
   };
 
   const onFinish = async () => {

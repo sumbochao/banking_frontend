@@ -22,7 +22,10 @@ const AccountSummary = props => {
 
          <section className="account-summary-total">
             <span style={{color: '#000000', fontSize: 20}}>Số dư</span>
-            <strong>{props.balance}{" VND"}</strong>
+            <strong>{Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'VND',
+                    }).format(props.balance)}</strong>
          </section>
       </section>
    );

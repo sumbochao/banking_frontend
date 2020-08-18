@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Table, Input, Button, Popconfirm, message, Layout, Typography, Row, Col } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { DeleteFilled, SearchOutlined } from '@ant-design/icons';
-import { AddNewDebtReminder } from './AddNewDebReminder';
-import { getListDebt, deleteReminder } from './action';
-import './QuanLiNhacNo.css';
+import { getListDebt, deleteReminder } from '../QuanLiNhacNo/action';
+import './ViewDebtBeReminder.css';
 import { useAuth } from '../Routes/Context';
 import Swal from 'sweetalert2';
 import { WindowsFilled, } from '@ant-design/icons';
@@ -12,11 +11,10 @@ import { WindowsFilled, } from '@ant-design/icons';
 const { Content } = Layout;
 const { Title } = Typography;
 
-const DebtReminder = () => {
+const ViewDebtBeReminder = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setsearchedColumn] = useState('');
     const [debtData, setDebtData] = useState(false);
-    const [modal, setModal] = useState(false);
     const { authTokens } = useAuth();
 
 
@@ -41,7 +39,7 @@ const DebtReminder = () => {
 
     const loadSucceed = res => {
         if (res) {
-            setDebtData(res.data.listDebt);
+            setDebtData(res.data.listDebtReminder);
         }
     };
 
@@ -88,14 +86,14 @@ const DebtReminder = () => {
                         style={{ width: 90, marginRight: 8 }}
                     >
                         Search
-                    </Button>
+        </Button>
                     <Button
                         onClick={() => handleReset(clearFilters)}
                         size="small"
                         style={{ width: 90 }}
                     >
                         Reset
-                    </Button>
+        </Button>
                 </div>
             ),
         filterIcon: filtered => (
@@ -196,19 +194,11 @@ const DebtReminder = () => {
             <Row>
                 <Col span={18}>
                     <Title level={3}>
-                        <WindowsFilled /> QUẢN LÍ NHẮC NỢ
-                    </Title>
+                        <WindowsFilled /> XEM DANH SÁCH BỊ NHẮC NỢ
+                </Title>
                 </Col>
             </Row>
 
-            <Button type="primary" onClick={() => setModal(!modal)}>
-                Thêm mới
-            </Button>
-            <AddNewDebtReminder
-                visible={modal}
-                setVisible={setModal}
-                dataControll={[debtData, setDebtData]}
-            />
             <Table
                 rowKey={i => i.id}
                 columns={columns}
@@ -219,4 +209,4 @@ const DebtReminder = () => {
     );
 };
 
-export default DebtReminder;
+export default ViewDebtBeReminder;

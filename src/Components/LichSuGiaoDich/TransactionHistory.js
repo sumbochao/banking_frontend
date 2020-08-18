@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Col, Typography, Row, Tabs, Form, Select, Button, Input } from 'antd';
+import { Layout, Col, Typography, Row, Tabs, Form, Button, Input } from 'antd';
 import {
     WindowsFilled,
 } from '@ant-design/icons';

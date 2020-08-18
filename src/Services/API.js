@@ -43,9 +43,14 @@ const API = {
   RESET_PASS_ADMIN: `${URL}/employees/update/password`,
 
   // forgot password 
-  SEND_MAIL_FORGOT_PASSWORD : `${URL}/forgot/send`,
+  SEND_MAIL_FORGOT_PASSWORD: `${URL}/forgot/send`,
   VERIFY_OTP_FORGOT: `${URL}/forgot/verify`,
   RESET_PASSWORD: `${URL}/forgot/change`,
+
+  // debt reminder
+  CREATE_NEW_DEBT_REMINDER: `${URL}/debt-reminders/create`,
+  GET_ALL_DEBT_REMINDER: `${URL}/debt-reminders/view`,
+  DELETE_DEBT_REMINDER: `${URL}/debt-reminders/delete-debt`,
 
 };
 

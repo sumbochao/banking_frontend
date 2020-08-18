@@ -24,13 +24,13 @@ import Welcome from '../WelCome/Welcome';
 import { UserHistory } from '../LichSuNguoiDung';
 import { TransactionHistory } from '../LichSuGiaoDich';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
-
 import { RechargeAccount } from "../NapTien";
 import { CreateSaveAccount } from "../TaoTaiKhoanTietKiem";
 import { CreateNewCustomer } from "../TaoTaiKhoanNguoiDung";
 import { Receivers } from '../Receivers';
 import { TransactionList } from '../DanhSachGiaoDich';
 import DebtReminder from '../QuanLiNhacNo/QuanLiNhacNo';
+import ViewDebtBeReminder from '../XemDanhSachBiNhacNo/ViewDebtBeReminder';
 
 
 function App() {
@@ -103,6 +103,11 @@ function App() {
             exact
             path="/nhac-no"
             render={() => <AdminLayout Child={<DebtReminder />} />}
+          />
+          <PrivateRoute
+            exact
+            path="/xem-danh-sach-bi-nhac-no"
+            render={() => <AdminLayout Child={<ViewDebtBeReminder />} />}
           />
           <PrivateRoute
             exact

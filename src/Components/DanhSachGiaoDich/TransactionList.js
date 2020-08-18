@@ -52,11 +52,11 @@ const TransactionList = () => {
     }
 
     const researchForeginBankClick = values => {
-        // Swal.fire("Thông báo", "Value = " + values.datepicker, "info");
         setIsLoading(true);
-        // console.log(values.datepicker[0].format("YYYY-MM-DD HH:mm:ss").toString());
-        const from = values.datepicker[0].format("YYYY-MM-DD HH:mm:ss").toString();
-        const to = values.datepicker[1].format("YYYY-MM-DD HH:mm:ss").toString();
+        // const from = values.datepicker[0].format("YYYY-MM-DD HH:mm:ss").toString();
+        // const to = values.datepicker[1].format("YYYY-MM-DD HH:mm:ss").toString();
+        const from = values.datepicker[0].format("YYYY-MM-DD").toString();
+        const to = values.datepicker[1].format("YYYY-MM-DD").toString();
         type === "0" ?
             getForeignTransactionAll(authTokens.accessToken, from, to)
                 .then(res => res.json())

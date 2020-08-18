@@ -50,7 +50,7 @@ const API = {
   // debt reminder
   CREATE_NEW_DEBT_REMINDER: `${URL}/debt-reminders/create`,
   GET_ALL_DEBT_REMINDER: `${URL}/debt-reminders/view`,
-  DELETE_DEBT_REMINDER: `${URL}/forgot/delete-debt`,
+  DELETE_DEBT_REMINDER: `${URL}/debt-reminders/delete-debt`,
 
 };
 

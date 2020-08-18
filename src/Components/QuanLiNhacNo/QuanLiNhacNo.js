@@ -1,42 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Input, Button, Popconfirm, message } from 'antd';
 import Highlighter from 'react-highlight-words';
-import {
-    DeleteFilled,
-    SearchOutlined,
-    EditFilled,
-    SyncOutlined
-} from '@ant-design/icons';
-
+import { DeleteFilled, SearchOutlined } from '@ant-design/icons';
 import { AddNewAccount } from './AddNewDebReminder';
-
-import { getListDebt, deleteAdmin } from './action';
+import { getListDebt, deleteReminder } from './action';
 import './QuanLiNhacNo.css';
 import { useAuth } from '../Routes/Context';
+import Swal from 'sweetalert2';
 
 const DebtReminder = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setsearchedColumn] = useState('');
     const [userData, setUserData] = useState(false);
     const [modal, setModal] = useState(false);
-    const [modalEdit, setModalEdit] = useState(false);
-    const [modalPassword, setModalPassword] = useState(false);
-    const [oldData, setOldData] = useState(false);
-    const [idForPassword, setIdForPassword] = useState(false);
     const { authTokens } = useAuth();
 
 
     const deleteComplete = res => {
         if (res) {
-            const temp = [...userData];
-            const findID = elementId => elementId.email === res.data.email;
-            temp.splice(temp.findIndex(findID), 1);
-            setUserData(temp);
-            message.success('Xóa thành công');
+            if (res.status === "success") {
+                const temp = [...userData];
+                const findID = elementId => elementId.id === res.data.id;
+                temp.splice(temp.findIndex(findID), 1);
+                setUserData(temp);
+                message.success('Xóa thành công');
+            }
+            else {
+                Swal.fire("Lỗi", res.err, "error");
+            }
         } else message.error('Chưa xóa được');
     };
+
     const handleDelete = record => {
-        deleteAdmin(authTokens.accessToken, record, deleteComplete);
+        deleteReminder(authTokens.accessToken, record, deleteComplete);
     };
 
     const loadSucceed = res => {
@@ -47,7 +43,7 @@ const DebtReminder = () => {
 
     useEffect(() => {
         getListDebt(authTokens.accessToken, loadSucceed);
-    }, [authTokens.accessToken]);
+    }, []);
 
     let searchInput = '';
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -128,7 +124,7 @@ const DebtReminder = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
-            width: '10%',
+            width: '5%',
             fixed: 'left',
             ...getColumnSearchProps('id')
         },
@@ -176,7 +172,7 @@ const DebtReminder = () => {
                 <span>
                     <Popconfirm
                         title="Bạn chắc chắn muôn xóa?"
-                        onConfirm={() => handleDelete(record.email)}
+                        onConfirm={() => handleDelete(record.id)}
                     >
                         <DeleteFilled />
                     </Popconfirm>

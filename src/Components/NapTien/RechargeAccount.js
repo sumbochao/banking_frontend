@@ -3,9 +3,9 @@ import { Layout, Col, Typography, Row, Form, Button, Input, InputNumber } from '
 import {
     WindowsFilled,
 } from '@ant-design/icons';
+import Swal from 'sweetalert2';
 import { useAuth } from '../Routes/Context';
 import { addMoneyForCustomer } from "./action";
-import Swal from 'sweetalert2';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -44,7 +44,7 @@ const RechargeAccount = () => {
         }
 
         return inp;
-    }
+    };
 
     const addMoneyClick = values => {
         // Swal.fire("Thông báo", "Value = " + values.account, "info");
@@ -59,9 +59,9 @@ const RechargeAccount = () => {
             .catch(err => console.log("addMoneyForCustomer Err: ", err.message))
             .finally(
                 setIsLoading(false)
-            )
+            );
 
-    }
+    };
 
     useEffect(() => {
 
@@ -115,7 +115,7 @@ const RechargeAccount = () => {
                         defaultValue={100000}
                         min={50000}
                         max={10000000000}
-                        formatter={value => `${value}`.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} //https://blog.abelotech.com/posts/number-currency-formatting-javascript/
+                        formatter={value => `${value}`.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} // https://blog.abelotech.com/posts/number-currency-formatting-javascript/
                     />
                 </Form.Item>
                 <Form.Item {...tailLayout}>
@@ -125,7 +125,7 @@ const RechargeAccount = () => {
                 </Form.Item>
             </Form>
         </Content>
-    )
-}
+    );
+};
 
 export default RechargeAccount;

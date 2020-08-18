@@ -8,7 +8,7 @@ import './style.scss';
 
 import cardChipImg from './card-chip.png';
 import visaImg from './visa-logo.png';
-import mastercardImg from './visa-logo.png';
+// import mastercardImg from './save-account.png';
 
 const CardLogos = props => {
    const cardType = props.type;
@@ -16,7 +16,12 @@ const CardLogos = props => {
    return (
       <section className="card-logos">
          <img src={cardChipImg} alt="Credit card chip" />
-         <img src={cardType === 'visa' ? visaImg : mastercardImg} alt="Credit card logo" />
+         {
+            cardType === 'visa' ? (<img src={visaImg} alt="Credit card logo" />):(
+               <div/>
+            )
+         }
+         
       </section>
    );
 };

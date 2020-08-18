@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, message } from 'antd';
+import { Modal, Form, Input, message, InputNumber } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { createAdmin } from './action';
+import { createDebtReminder } from './action';
 import { useAuth } from '../Routes/Context';
 
-export const AddNewAccount = props => {
+export const AddNewDebtReminder = props => {
   const { visible, setVisible, dataControll } = props;
   const [confirmLoading, setConfirm] = useState(false);
   const data = dataControll[0];
@@ -14,11 +14,14 @@ export const AddNewAccount = props => {
 
   const addComplete = res => {
     setConfirm(false);
-    if (res.data.email !== undefined) {
-      const temp = [...data];
-      temp.push(res.data);
-      setData(temp);
-      message.success('Thêm thành công', 1, setVisible(false));
+    if (res) {
+      if (res.status === "success") {
+        const temp = [...data];
+        temp.push(res.data);
+        setData(temp);
+        message.success('Thêm thành công', 1, setVisible(false));
+      }
+      else (message.error(res.err));
     } else {
       message.error('Chưa thêm được');
     }
@@ -27,7 +30,7 @@ export const AddNewAccount = props => {
     try {
       const values = await form.validateFields();
       setConfirm(true);
-      createAdmin(authTokens.accessToken, values, addComplete);
+      createDebtReminder(authTokens.accessToken, values, addComplete);
     } catch (errorInfo) {
       console.log(errorInfo);
     }
@@ -41,7 +44,7 @@ export const AddNewAccount = props => {
     <div>
       <Modal
         getContainer={false}
-        title="Thêm admin mới"
+        title="Thêm người mới"
         visible={visible}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
@@ -55,39 +58,44 @@ export const AddNewAccount = props => {
           style={{ border: 'none' }}
         >
           <Form.Item
-            name="email"
+            name="debtaccount"
             rules={[
               {
-                type: 'email',
                 required: true,
-                message: 'Email không hợp lệ!'
+                message: 'STK không được bỏ trống!'
               }
             ]}
           >
             <Input
-              placeholder="email"
+              placeholder="số tài khoản"
               prefix={<UserOutlined className="site-form-item-icon" />}
             />
           </Form.Item>
           <Form.Item
-            name="name"
-            rules={[{ min: 6, required: true, message: 'Tên không hợp lệ!' }]}
-          >
-            <Input
-              placeholder="Tên admin"
-              prefix={<UserOutlined className="site-form-item-icon" />}
-            />
-          </Form.Item>
-          <Form.Item
-            name="password"
+            name="amount"
             rules={[
-              { min: 6, required: true, message: 'Password không hợp lệ' }
+              {
+                required: true,
+                message: 'Số tiền không được bỏ trống!'
+              }
             ]}
           >
-            <Input.Password
-              placeholder="Mật khẩu"
-              size="large"
-              prefix={<LockOutlined className="site-form-item-icon" />}
+            <InputNumber
+              min={0}
+              placeholder="số tiền"
+            />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            rules={[
+              {
+                required: true,
+                message: 'Không được bỏ trống!'
+              }
+            ]}
+          >
+            <Input
+              placeholder="mô tả"
             />
           </Form.Item>
         </Form>

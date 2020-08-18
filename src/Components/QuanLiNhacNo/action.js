@@ -24,10 +24,10 @@ export const getListDebt = (token, callBack) => {
         });
 };
 
-export const createAdmin = (token, adminInfo, callBack) => {
-    return fetch(API.CREATE_NEW_ADMIN, {
+export const createDebtReminder = (token, debtInfo, callBack) => {
+    return fetch(API.CREATE_NEW_DEBT_REMINDER, {
         method: 'POST',
-        body: JSON.stringify(adminInfo),
+        body: JSON.stringify(debtInfo),
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',

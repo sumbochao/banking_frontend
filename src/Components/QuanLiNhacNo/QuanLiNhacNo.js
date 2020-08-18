@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Input, Button, Popconfirm, message } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { DeleteFilled, SearchOutlined } from '@ant-design/icons';
-import { AddNewAccount } from './AddNewDebReminder';
+import { AddNewDebtReminder } from './AddNewDebReminder';
 import { getListDebt, deleteReminder } from './action';
 import './QuanLiNhacNo.css';
 import { useAuth } from '../Routes/Context';
@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 const DebtReminder = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setsearchedColumn] = useState('');
-    const [userData, setUserData] = useState(false);
+    const [debtData, setDebtData] = useState(false);
     const [modal, setModal] = useState(false);
     const { authTokens } = useAuth();
 
@@ -19,10 +19,10 @@ const DebtReminder = () => {
     const deleteComplete = res => {
         if (res) {
             if (res.status === "success") {
-                const temp = [...userData];
+                const temp = [...debtData];
                 const findID = elementId => elementId.id === res.data.id;
                 temp.splice(temp.findIndex(findID), 1);
-                setUserData(temp);
+                setDebtData(temp);
                 message.success('Xóa thành công');
             }
             else {
@@ -37,7 +37,7 @@ const DebtReminder = () => {
 
     const loadSucceed = res => {
         if (res) {
-            setUserData(res.data.listDebt);
+            setDebtData(res.data.listDebt);
         }
     };
 
@@ -186,15 +186,15 @@ const DebtReminder = () => {
             <Button type="primary" onClick={() => setModal(!modal)}>
                 Thêm mới
       </Button>
-            <AddNewAccount
+            <AddNewDebtReminder
                 visible={modal}
                 setVisible={setModal}
-                dataControll={[userData, setUserData]}
+                dataControll={[debtData, setDebtData]}
             />
             <Table
                 rowKey={i => i.id}
                 columns={columns}
-                dataSource={userData}
+                dataSource={debtData}
                 scroll={{ x: true }}
             />
         </div>

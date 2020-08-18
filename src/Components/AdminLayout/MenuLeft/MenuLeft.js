@@ -76,6 +76,9 @@ const MenuLeft = () => {
       case '/tao-tai-khoan-tiet-kiem':
         setKey('21');
         break;
+      case '/xem-danh-sach-bi-nhac-no':
+        setKey('22');
+        break;
       default:
         setKey('1');
     }
@@ -112,7 +115,13 @@ const MenuLeft = () => {
         <Menu.Item key="4">
           <Link to="/nhac-no">
             <NodeIndexOutlined />
-            <span>Quản Lý nhắc nợ</span>
+            <span>Quản lý nhắc nợ</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="22">
+          <Link to="/xem-danh-sach-bi-nhac-no">
+            <NodeIndexOutlined />
+            <span>Xem danh sách nợ</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="5">

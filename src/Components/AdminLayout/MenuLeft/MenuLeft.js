@@ -11,10 +11,10 @@ import {
   TransactionOutlined,
   TeamOutlined,
   UserAddOutlined,
-  DashboardOutlined,
   ContainerOutlined,
   UserSwitchOutlined
 } from '@ant-design/icons';
+import './MenuLeft.css';
 
 const MenuLeft = () => {
   const menu = JSON.parse(localStorage.getItem('tokens')).type;

@@ -1,11 +1,11 @@
 @import '~antd/dist/antd.css';
 
-.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+/* .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
 	background: transparent;
 }
 
 .ant-menu {
-    background-color: #f55d3e;
     margin-top: 50px;
     height: 100vh;
-}
+    font-weight: bold;
+} */

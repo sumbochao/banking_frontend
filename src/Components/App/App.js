@@ -16,7 +16,7 @@ import { AdminLayout } from '../AdminLayout';
 import { Dashboard } from '../Dashboard';
 import { AdminManagement } from '../AdminManagement';
 import { PrivateRoute } from '../Routes/PrivateRoute';
-import { PaymentManagement } from '../PaymentManagement';
+// import { PaymentManagement } from '../PaymentManagement';
 import { Transfers } from '../Transfers';
 import './App.css';
 import './app.scss';
@@ -33,6 +33,7 @@ import { Receivers } from '../Receivers';
 import { TransactionList } from '../DanhSachGiaoDich';
 import DebtReminder from '../QuanLiNhacNo/QuanLiNhacNo';
 import ViewDebtBeReminder from '../XemDanhSachBiNhacNo/ViewDebtBeReminder';
+import Profile from '../Profile/Profile';
 
 
 function App() {
@@ -134,7 +135,7 @@ function App() {
           <PrivateRoute
             exact
             path="/ho-so"
-            render={() => <AdminLayout Child={<PaymentManagement />} />}
+            render={() => <AdminLayout Child={<Profile />} />}
           />
           <PrivateRoute
             exact

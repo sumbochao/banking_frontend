@@ -16,6 +16,7 @@ export const PrivateRoute = ({ component: Component, render, ...rest }) => {
   const { authTokens, setAuthTokens } = useAuth();
   
   const cbNewAccessToken =(res) =>{
+    // console.log(Date(Date.now()).toString());
     if(res){
       setAuthTokens({accessToken: res.accessToken,refreshToken: authTokens?.refreshToken, userData:authTokens?.userData,type: authTokens?.type});
       localStorage.setItem('tokens', JSON.stringify({accessToken: res.accessToken,refreshToken: authTokens?.refreshToken, userData:authTokens?.userData,type: authTokens?.type}));
@@ -25,7 +26,6 @@ export const PrivateRoute = ({ component: Component, render, ...rest }) => {
     }
   };
   const isAuthenticated = () => {
-    console.log('isAuthenticated');
     const tokenX = JSON.parse(localStorage.getItem('tokens'));
       if(tokenX){
         const refreshTokenX = tokenX?.refreshToken;
@@ -45,9 +45,8 @@ export const PrivateRoute = ({ component: Component, render, ...rest }) => {
     };
   useEffect(() => {
     const autoRefreshToken = setInterval(()=>{
-      console.log('refresh');
       isAuthenticated();
-    },1000*60*25);
+    },1000*60*20);
     return () => clearInterval(autoRefreshToken); 
   }, []);
   return (

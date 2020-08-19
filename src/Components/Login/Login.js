@@ -1,21 +1,29 @@
 import React, { useState } from 'react';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import {  Col, Form, Input, Button, message, Row } from 'antd';
+import { useDispatch } from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useAuth } from '../Routes/Context';
 
 import './Login.css';
 import { login, loginEmployee } from './action';
+import {loginX} from '../../Reducers/Actions/authAction';
+
 
 // eslint-disable-next-line no-unused-vars
 const Login = (props) => {
   const [isLoading, setLoading] = useState(false);
   const {isEmployee} = props;
   const { authTokens,setAuthTokens } = useAuth();
+
+  const dispatch = useDispatch();
+
   const loginFinish = res => {
     if (res.accessToken) {
-      setAuthTokens(res); 
+      setAuthTokens(res);
+      const action = loginX(res.userData);
+      dispatch(action); 
     } else {
       message.error('Sai mật khẩu');
       setLoading(false);

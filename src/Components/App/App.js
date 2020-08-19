@@ -9,6 +9,7 @@ import {
 // import { message } from 'antd';
 import jwtDecode  from 'jwt-decode';
 import Swal from 'sweetalert2';
+import { Provider as StoreProvider } from 'react-redux';
 // import { getRefreshToken } from "./action";
 import { Login } from '../Login';
 import { AuthContext } from '../Routes/Context';
@@ -34,13 +35,13 @@ import { TransactionList } from '../DanhSachGiaoDich';
 import DebtReminder from '../QuanLiNhacNo/QuanLiNhacNo';
 import ViewDebtBeReminder from '../XemDanhSachBiNhacNo/ViewDebtBeReminder';
 import Profile from '../Profile/Profile';
+import store from '../../Store/store';
 
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
   if (localStorage.getItem('tokens') && authTokens === '') {
     try {
-      console.log('ev1');
       setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
     } catch {
       console.log('err');
@@ -71,6 +72,7 @@ function App() {
     validateAccessToken();
   },[]);
   return (
+    <StoreProvider store={store}>
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <Router>
         <Switch>
@@ -170,6 +172,7 @@ function App() {
         </Switch>
       </Router>
     </AuthContext.Provider>
+  </StoreProvider>
   );
 }
 

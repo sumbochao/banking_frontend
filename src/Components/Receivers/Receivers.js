@@ -94,11 +94,11 @@ export default function Receivers() {
       const data = [...receivers];
       data.push(values);
       setDataAdd(data);
-      setName(values.memorizeName || "");
+      setName(values.memorizeName || '');
       addReceiver(
         authTokens.accessToken,
         values.accountNumber,
-        values.memorizeName || "",
+        values.memorizeName || '',
         values.type
       )
         .then(respone => respone.json())
@@ -125,13 +125,13 @@ export default function Receivers() {
       if (status.status === 'success') {
         setModelFormVisible(false);
         console.log(name);
-        if (name === "") {
+        if (name === '') {
           getAllReceiver(authTokens.accessToken)
             .then(respone => respone.json())
             .then(res => {
               setReceivers(res.data);
             });
-        }else{
+        } else {
           setReceivers(dataAdd);
         }
       }
@@ -180,20 +180,33 @@ export default function Receivers() {
       if (index > -1) {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
-        setReceivers(newData);
         setEditingKey('');
       } else {
         newData.push(row);
-        setReceivers(newData);
         setEditingKey('');
       }
 
-      editReceiver(
-        authTokens.accessToken,
-        newData[index].accountNumber,
-        newData[index].type,
-        newData[index].memorizeName
-      );
+      if (newData[index].memorizeName === '' || newData[index].memorizeName === undefined) {
+        await editReceiver(
+          authTokens.accessToken,
+          newData[index].accountNumber,
+          newData[index].type,
+          newData[index].memorizeName
+        ); 
+        getAllReceiver(authTokens.accessToken)
+          .then(respone => respone.json())
+          .then(res => {
+            setReceivers(res.data);
+          });
+      } else {
+        setReceivers(newData);
+        editReceiver(
+          authTokens.accessToken,
+          newData[index].accountNumber,
+          newData[index].type,
+          newData[index].memorizeName
+        );
+      }
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
@@ -337,7 +350,7 @@ export default function Receivers() {
             }
             name="memorizeName"
           >
-            <Input/>
+            <Input />
           </Form.Item>
           <Form.Item
             label="Tài khoản thuộc"

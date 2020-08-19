@@ -123,6 +123,7 @@ export default function InputForm(props) {
       }
       setAccountNameState(account_temp[0].memorizeName);
       setModelVisible(true);
+      setVerify('null');
       sendCustomerOTP(authTokens.accessToken);
       if (props.bank === '2') {
         setPartnerBankName(data[partnerId - 1].bankingName);
@@ -163,6 +164,7 @@ export default function InputForm(props) {
         } else {
           setAccountNameState(accountName)
           setModelVisible(true);
+          setVerify('null');
           sendCustomerOTP(authTokens.accessToken);
           dispatch({
             type: 'GET_DATA',
@@ -192,6 +194,7 @@ export default function InputForm(props) {
             });
           } else {
             setModelVisible(true);
+            setVerify('null');
             sendCustomerOTP(authTokens.accessToken);
             dispatch({
               type: 'GET_DATA',
@@ -221,6 +224,7 @@ export default function InputForm(props) {
               });
             } else {
               setModelVisible(true);
+              setVerify('null');
               sendCustomerOTP(authTokens.accessToken);
               dispatch({
                 type: 'GET_DATA',
@@ -244,7 +248,7 @@ export default function InputForm(props) {
       .then(res => {
         setVerify(res.status);
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
   };
 
   useEffect(() => {
@@ -476,7 +480,7 @@ export default function InputForm(props) {
 
   return (
     <>
-      {isTransaction ? <Spin tip="Đang xử lý giao dịch..."></Spin> : <></>}
+      {isTransaction ? <Spin size = "large" tip="Đang xử lý giao dịch..."></Spin> : <></>}
       <Form
         name="basic"
         onFinish={clickSubmitForm}

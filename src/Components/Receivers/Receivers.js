@@ -309,7 +309,7 @@ export default function Receivers() {
       <Button
         type="primary"
         danger
-        style={{ marginBottom: 10 }}
+        style={{ backgroundColor: '#F55D3E', fontWeight: 'bold', marginBottom: 10 }}
         onClick={addButtonClick}
       >
         Thêm mới
@@ -319,7 +319,8 @@ export default function Receivers() {
         visible={modelFormVisible}
         footer={[
           <Button onClick={onCancleModel}>Hủy bỏ</Button>,
-          <Button type="primary" onClick={onFinish} loading={isLoading}>
+          <Button type="primary" danger onClick={onFinish} loading={isLoading}         style={{ backgroundColor: '#F55D3E', fontWeight: 'bold' }}
+          >
             Thêm mới
           </Button>
         ]}
@@ -350,7 +351,7 @@ export default function Receivers() {
             }
             name="memorizeName"
           >
-            <Input />
+            <Input style={{marginTop: 15}}/>
           </Form.Item>
           <Form.Item
             label="Tài khoản thuộc"

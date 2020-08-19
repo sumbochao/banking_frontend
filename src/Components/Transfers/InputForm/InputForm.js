@@ -27,13 +27,16 @@ import {
   Modal,
   Result,
   Card,
-  Spin
+  Spin,
+  Col,
+  Row
 } from 'antd';
 
 import '../Transfers.css';
 import { addReceiver } from '../../Receivers/action';
 import Swal from 'sweetalert2';
 import { el, tr } from 'date-fns/locale';
+import { set } from 'numeral';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -106,15 +109,13 @@ export default function InputForm(props) {
     }
   }, []);
 
-  useEffect(() => {
-    
-  }, [stk])
+  useEffect(() => {}, [stk]);
 
   const clickSubmitForm = async val => {
     if (type === '2') {
       const account_temp = receivers.filter(item => item.accountNumber === stk);
-      if(props.bank === '2'){
-        if(partnerId !== account_temp[0].bankId){
+      if (props.bank === '2') {
+        if (partnerId !== account_temp[0].bankId) {
           return Swal.fire({
             icon: 'error',
             title: 'Tài khoản và ngân hàng không khớp'
@@ -162,7 +163,7 @@ export default function InputForm(props) {
             title: 'Không tìm thấy tài khoản'
           });
         } else {
-          setAccountNameState(accountName)
+          setAccountNameState(accountName);
           setModelVisible(true);
           setVerify('null');
           sendCustomerOTP(authTokens.accessToken);
@@ -243,12 +244,13 @@ export default function InputForm(props) {
   };
 
   const clickVerifyOTP = val => {
+    setVerify('null');
     verifyCustomerOTP(authTokens.accessToken, val.otp)
       .then(respone => respone.json())
       .then(res => {
         setVerify(res.status);
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
   };
 
   useEffect(() => {
@@ -416,7 +418,9 @@ export default function InputForm(props) {
             setSuccessVisible(true);
           } else {
             setErr(
-              status.msg === 'soTien could not be smaller 50000' ? 'Số tiền chuyển phải hơn 50000VND' : status.msg
+              status.msg === 'soTien could not be smaller 50000'
+                ? 'Số tiền chuyển phải hơn 50000VND'
+                : status.msg
             );
             setFailVisible(true);
           }
@@ -480,7 +484,11 @@ export default function InputForm(props) {
 
   return (
     <>
-      {isTransaction ? <Spin size = "large" tip="Đang xử lý giao dịch..."></Spin> : <></>}
+      {isTransaction ? (
+        <Spin size="large" tip="Đang xử lý giao dịch..."></Spin>
+      ) : (
+        <></>
+      )}
       <Form
         name="basic"
         onFinish={clickSubmitForm}
@@ -562,14 +570,19 @@ export default function InputForm(props) {
                 onChange={handleInputChange}
               ></Input>
             </Form.Item>
-            <Button
-              type="primary"
-              onClick={checkAccountNumber}
-              loading={loadingCheckButton}
-              style={{ marginLeft: 320 }}
-            >
-              Kiểm tra
-            </Button>
+            <Row>
+              <Col span={18} push={5}>
+                <Button
+                  type="primary"
+                  danger
+                  onClick={checkAccountNumber}
+                  loading={loadingCheckButton}
+                  style={{ backgroundColor: '#F55D3E', fontWeight: 'bold' }}
+                >
+                  Kiểm tra
+                </Button>
+              </Col>
+            </Row>
             <Form.Item
               label="Lưu lại số tài khoản"
               name="is_save"
@@ -648,7 +661,9 @@ export default function InputForm(props) {
           <Button
             type="primary"
             htmlType="submit"
+            danger
             loading={loadingCheckButton2}
+            style={{ backgroundColor: '#F55D3E', fontWeight: 'bold' }}
           >
             Chuyển tiền
           </Button>
@@ -716,7 +731,13 @@ export default function InputForm(props) {
               push: 6
             }}
           >
-            <Button type="primary" htmlType="submit" loading={isTransaction}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              danger
+              loading={isTransaction}
+              style={{ backgroundColor: '#F55D3E', fontWeight: 'bold' }}
+            >
               Xác nhận
             </Button>
           </Form.Item>
@@ -726,7 +747,11 @@ export default function InputForm(props) {
         title=""
         visible={successVisible}
         footer={[
-          <Button key="success" onClick={onSuccesModel}>
+          <Button
+            type="primary"
+            onClick={onSuccesModel}
+            style={{ backgroundColor: '#52C41A', fontWeight: 'bold' , borderColor: '#fff'}}
+          >
             Xác nhận
           </Button>
         ]}
@@ -737,7 +762,12 @@ export default function InputForm(props) {
         title=""
         visible={failVisible}
         footer={[
-          <Button key="danger" onClick={onFailModel}>
+          <Button
+            type="primary"
+            onClick={onFailModel}
+            danger
+            style={{ backgroundColor: '#F55D3E', fontWeight: 'bold' }}
+          >
             Xác nhận
           </Button>
         ]}
@@ -753,7 +783,12 @@ export default function InputForm(props) {
         title=""
         visible={typeFeeVisible}
         footer={[
-          <Button key="danger" onClick={onTypeFeeModel}>
+          <Button
+            type="primary"
+            onClick={onTypeFeeModel}
+            danger
+            style={{ backgroundColor: '#F55D3E', fontWeight: 'bold' }}
+          >
             Xác nhận
           </Button>
         ]}

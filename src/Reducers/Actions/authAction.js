@@ -13,3 +13,15 @@ export const refreshToken = (token) => {
     }
   });
 };
+
+export const loginX = (data) => {
+  return {
+    type: 'LOGIN_SUCCESS',
+    user: data,
+  };
+};
+export const logoutX = () => {
+  return {
+    type: 'LOGIN_SUCCESS',
+  };
+};

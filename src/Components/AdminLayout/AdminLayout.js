@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Layout, Avatar, Menu, Dropdown } from 'antd';
+import { useDispatch } from 'react-redux';
 import {
   UserOutlined,
   MenuUnfoldOutlined,
@@ -11,15 +12,19 @@ import {
 import './AdminLayout.css';
 import { MenuLeft } from './MenuLeft';
 import { useAuth } from '../Routes/Context';
+import { logoutX } from '../../Reducers/Actions/authAction';
 
 const { Header, Sider } = Layout;
 
 const AdminLayout = props => {
   const { Child } = props;
   const { setAuthTokens } = useAuth();
+  const dispatch = useDispatch();
   const logOut = () => {
     setAuthTokens(false);
     localStorage.removeItem('tokens');
+    const action = logoutX();
+    dispatch(action); 
   };
 
   const menu = (

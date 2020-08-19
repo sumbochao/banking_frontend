@@ -4,6 +4,7 @@ import {
   BankOutlined
 } from '@ant-design/icons';
 import { useMediaQuery } from 'react-responsive';
+// import { useSelector } from 'react-redux';
 import CardInfobox from '../../Infobox/CardInfobox';
 import { getAllAccount } from './action';
 import { useAuth } from '../../Routes/Context';
@@ -14,6 +15,8 @@ const DashboardCustomer = () => {
   const [saveAccount, setSaveAccount] = useState([]);
   const [name, setName ] = useState("");
   const { Title } = Typography;
+  // const loggingIn = useSelector(state => state.auth.isLogin);
+  // const userData =useSelector(state => state.auth.user);
   const getComplete = (res)=>{
     if(res){
       setName(res.name);
